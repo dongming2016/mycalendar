@@ -1,17 +1,22 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <day-template :labels="fcLabel" :header="fcHeader"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DayTemplate from './components/DayTemplate.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    DayTemplate
+  },
+  data () {
+    return {
+      fcHeader: {time: '节次', eventName: '日程'},
+      fcLabel: ['第一节', '第二节', '第三节', '第四节', '第五节', '第六节', '第七节']
+    }
   }
 }
 </script>
