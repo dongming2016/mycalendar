@@ -1,6 +1,7 @@
 export default {
   bind: function (el, binding) {
     let element = el
+    const isPlaceable = binding.isPlaceable
     element.onmousedown = function (event) {
     // Prevent default dragging of selected content
       event.preventDefault()
@@ -17,6 +18,10 @@ export default {
       }
 
       document.onmouseup = function (event) {
+        if (!isPlaceable) {
+          element.style.left = startX + 'px'
+          element.style.top = startY + 'px'
+        }
         document.onmousemove = null
         document.onmouseup = null
       }
