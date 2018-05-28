@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <day-template :labels="options.labels" :header="fcHeader" :events="events"/> -->
+    <day-template :labels="options.labels" :header="fcHeader" :date="currdate" :events="events" :isLabelShow="true" ref="child"/>
     <MonthTemplate :events="events" :options="options"/>
     <WeekTemplate :events="events" :options="options"/>
   </div>
@@ -12,6 +12,7 @@ import MonthTemplate from './components/MonthTemplate.vue'
 import Event from './model/Event'
 import Label from './model/Label'
 import WeekTemplate from './components/WeekTemplate'
+import moment from 'moment'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -40,11 +41,13 @@ export default {
     WeekTemplate
   },
   data () {
+    console.log(moment())
     return {
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
       events: [new Event(1, '2018-05-28', '第二节', '语文/张丽萍'), new Event(0, '2018-05-29', '第一节', '语文/张丽萍'), new Event(2, '2018-05-30', '第一节', '语文/张丽萍'), new Event(3, '2018-05-24', '第一节', '语文/张丽萍'),
-        new Event(3, '2018-05-29', '第一节', '', false), new Event(5, '2018-05-30', '第六节', '', false)]
+        new Event(3, '2018-05-29', '第一节', '', false), new Event(5, '2018-05-30', '第六节', '', false)],
+      currdate: moment('2018-05-30')
     }
   }
 }

@@ -36,7 +36,7 @@ export default Vue.extend({
         let isEventExist = false
         // 如果当前时间有事件，则将事件添加到事件列表中，否则创建一个空的事件
         for (let i = 0; i < events.length; i++) {
-          if (events[i].getId() === element.id) {
+          if (events[i].getId() === element.id && events[i].getCurrDate().isSame(this.date)) {
             eventList.push(events[i])
             isEventExist = true
             break
@@ -115,7 +115,6 @@ export default Vue.extend({
     position: absolute;
   }
   .event-not-allowed {
-    width: 100%;
     height: 100%;
     background: #eee;
     cursor: not-allowed;
@@ -131,6 +130,9 @@ export default Vue.extend({
   }
   .fc-row:last-child > .fc-cell {
     border-bottom: 1px solid #eee;
+  }
+  .fc-row > .fc-cell:last-child {
+    border-right: 1px solid #eee;
   }
   .fc-cell > div {
     display: inline-block;
