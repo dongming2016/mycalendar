@@ -2,7 +2,7 @@ import moment from 'moment'
 
 export default class DailyEvent {
   /**
-   * 当前天可能不在当前日历视图的月中
+   * 一天的事件，当前天可能不在当前日历视图的月中，可能存在某段事件不能安排课程
    * @param {*当前月} currentMonth
    * @param {*当前日期} date
    * @param {*当前事件} events

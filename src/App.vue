@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <day-template :labels="options.labels" :header="fcHeader" :events="events"/>
+    <!-- <day-template :labels="options.labels" :header="fcHeader" :events="events"/> -->
     <MonthTemplate :events="events" :options="options"/>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
     return {
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
-      events: [new Event(0, '2018-05-24', '第一节', '语文/张丽萍'), new Event(1, '2018-05-24', '第一节', '语文/张丽萍'), new Event(2, '2018-05-24', '第一节', '语文/张丽萍'), new Event(3, '2018-05-24', '第一节', '语文/张丽萍')]
+      events: [new Event(1, '2018-05-25', '第二节', '语文/张丽萍'), new Event(0, '2018-05-24', '第一节', '语文/张丽萍'), new Event(2, '2018-05-24', '第一节', '语文/张丽萍'), new Event(3, '2018-05-24', '第一节', '语文/张丽萍'), new Event(0, '2018-05-25', '第一节', '', false)]
     }
   }
 }

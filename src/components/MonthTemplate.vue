@@ -3,17 +3,20 @@
     <!-- body display date day -->
     <div class="fc-body">
       <div class="fc-head">
-        <strong :key="dayIndex" v-for="dayIndex in 7">{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
+        <div :key="dayIndex" v-for="dayIndex in 7" class="fc-head-content">
+          <strong>{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
+        </div>
       </div>
       <div class="fc-table">
         <div class="fc-row" v-for="(week, index) in getCalendar" :key="index">
           <div class="fc-cell" v-for="(day, index2) in week" :key="index2" :class="{'not-current': !day.isCurrentMonth()}">
             <p>{{day.getDayOfMonth()}}</p>
-            <DayTemplate :events="day.getEvents()" :labels="options.labels"/>
+            <DayTemplate :events="day.getEvents()" :date="day.getDate()" :labels="options.labels"  @addEvent="addEvent" ref="child"/>
           </div>
         </div>
       </div>
     </div>
+    <div v-dragable="addEvent" style="position:absolute;">I'm draggable </div>
   </div>
 </template>
 
@@ -22,6 +25,9 @@ import moment from 'moment'
 import DailyEvent from '../model/DailyEvent'
 import { dateUtil } from '../util/dateUtil'
 import DayTemplate from './DayTemplate'
+import alertBox from './alertbox'
+import { positionUtil } from '../util/positionUtil'
+import Event from '../model/Event'
 
 export default {
   props: {
@@ -49,14 +55,26 @@ export default {
     },
     options: {
       type: Object
+    },
+    eventName: {
+      type: String
     }
   },
   components: {
-    DayTemplate
+    DayTemplate,
+    alertBox
   },
   data () {
     return {
-      currentMonth: moment().startOf('month')
+      currentMonth: moment().startOf('month'),
+      alertbox: {
+        title: {
+          show: true,
+          content: '添加课程'
+        },
+        showAlertbox: false
+      },
+      isPalceable: true
     }
   },
   computed: {
@@ -65,6 +83,22 @@ export default {
     }
   },
   methods: {
+    addEvent (rect, content) {
+      // 判断中间点是否在当前元素中
+      const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
+      const children = this.$refs.child
+      for (let i = 0; i < children.length; i++) {
+        if (positionUtil.isPointInRect(middlePoint, children[i].$el.getBoundingClientRect())) {
+          const grandChildren = children[i].$refs.fcCell
+          for (let j = 0; j < grandChildren.length; j++) {
+            if (positionUtil.isPointInRect(middlePoint, grandChildren[j].getBoundingClientRect())) {
+              this.events.push(new Event(j, children[i].date, children[i].labels[j], content))
+              console.log(this.events)
+            }
+          }
+        }
+      }
+    },
     calCalendar () {
       const startDay = dateUtil.getMonthViewStartDate(this.currentMonth, this.startDay)
       const calendar = []
@@ -87,7 +121,6 @@ export default {
         }
         calendar.push(week)
       }
-      console.log(calendar)
       return calendar
     }
   },
@@ -103,20 +136,43 @@ export default {
 </script>
 
 <style scoped>
+  .fc-table {
+    display: inline-block;
+  }
+  .fc-head {
+    display: flex;
+  }
+  .fc-head-content {
+    display: inline-block;
+    min-width: 200px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+  }
+  .fc-head-content:last-child {
+    border-right: 1px solid #ddd;
+  }
   .fc-row {
-    display: block;
+    display: flex;
   }
   .fc-cell {
     display: inline-block;
-    width: 120px;
+    min-width: 200px;
     min-height: 120px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+  }
+  .fc-row > .fc-cell:last-child {
+    border-right: 1px solid #ddd;
+  }
+  .fc-row:last-child > .fc-cell {
+    border-bottom: 1px solid #ddd;
   }
   .fc-cell p {
     text-align: right;
-    margin-top: 8px;
-    margin-right: 8px;
+    margin: 8px 8px 8px 0;
   }
   .not-current {
     background: #eee;
+    cursor: not-allowed;
   }
 </style>
