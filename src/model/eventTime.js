@@ -7,4 +7,8 @@ export default class EventTime {
     this.time = time
     this.isIdle = isIdle
   }
+
+  isSame (eventTime) {
+    return this.currDate.isSame(eventTime.currDate) && this.time === eventTime.time
+  }
 }

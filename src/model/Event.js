@@ -25,11 +25,23 @@ export default class Event {
     return this.eventTime.currDate
   }
 
+  setCurrDate (currDate) {
+    this.eventTime.currDate = currDate
+  }
+
   getTime () {
     return this.eventTime.time
   }
 
+  setTime (time) {
+    this.eventTime.time = time
+  }
+
   getContent () {
     return this.content
+  }
+
+  isSame (event) {
+    return this.eventTime.isSame(event.eventTime)
   }
 }

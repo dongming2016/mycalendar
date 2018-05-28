@@ -1,27 +1,30 @@
 <template>
+<div>
+  <div v-dragable="addEvent" style="position:absolute;">I'm draggable </div>
   <div class="fc-table">
+    <div class="fc-head">
+      <div :key="dayIndex" v-for="dayIndex in 7" class="fc-head-content">
+        <strong>{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
+      </div>
+    </div>
     <!-- body display date day -->
     <div class="fc-body">
-      <div class="fc-head">
-        <div :key="dayIndex" v-for="dayIndex in 7" class="fc-head-content">
-          <strong>{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
-        </div>
-      </div>
       <div class="fc-table">
         <div class="fc-row" v-for="(week, index) in getCalendar" :key="index">
-          <div class="fc-cell" v-for="(day, index2) in week" :key="index2" :class="{'not-current': !day.isCurrentMonth()}">
+          <div class="fc-cell" v-for="(day, index2) in week" :key="index2" :class="{'not-current event-not-allowed': !day.isCurrentMonth()}">
             <p>{{day.getDayOfMonth()}}</p>
-            <DayTemplate :events="day.getEvents()" :date="day.getDate()" :labels="options.labels"  @addEvent="addEvent" ref="child"/>
+            <DayTemplate :events="day.getEvents()" :date="day.getDate()" :labels="options.labels" ref="child" :class="{'event-not-allowed': !day.isCurrentMonth()}"/>
           </div>
         </div>
       </div>
     </div>
-    <div v-dragable="addEvent" style="position:absolute;">I'm draggable </div>
   </div>
+</div>
 </template>
 
 <script>
 import moment from 'moment'
+import tableHeader from './tableHeader'
 import DailyEvent from '../model/DailyEvent'
 import { dateUtil } from '../util/dateUtil'
 import DayTemplate from './DayTemplate'
@@ -62,7 +65,8 @@ export default {
   },
   components: {
     DayTemplate,
-    alertBox
+    alertBox,
+    tableHeader
   },
   data () {
     return {
@@ -90,10 +94,10 @@ export default {
       for (let i = 0; i < children.length; i++) {
         if (positionUtil.isPointInRect(middlePoint, children[i].$el.getBoundingClientRect())) {
           const grandChildren = children[i].$refs.fcCell
+          console.log(grandChildren)
           for (let j = 0; j < grandChildren.length; j++) {
             if (positionUtil.isPointInRect(middlePoint, grandChildren[j].getBoundingClientRect())) {
               this.events.push(new Event(j, children[i].date, children[i].labels[j], content))
-              console.log(this.events)
             }
           }
         }
@@ -174,5 +178,12 @@ export default {
   .not-current {
     background: #eee;
     cursor: not-allowed;
+  }
+  .event-not-allowed {
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    cursor: not-allowed;
+    z-index: 1;
   }
 </style>
