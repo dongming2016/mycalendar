@@ -146,6 +146,7 @@ export default {
     calcWeekOption () {
       const weekOption = []
       const startDay = moment(this.currentWeek).add(1, 'day')
+      this.weekDays = []
       for (let i = 0; i < 7; i++) {
         this.weekDays.push(moment(startDay))
         const dailyEvent = new DailyEvent(this.currentMonth, startDay)

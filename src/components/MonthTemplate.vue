@@ -68,14 +68,10 @@ export default {
         return 1
       }
     },
+    currentMonth: moment().startOf('month'),
     options: {
       type: Object
-    },
-    eventName: {
-      type: String
-    },
-    notArranged: Object,
-    moveEventCallback: Function
+    }
   },
   components: {
     DayTemplate,
@@ -83,7 +79,6 @@ export default {
   },
   data () {
     return {
-      currentMonth: moment().startOf('month'),
       alertbox: {
         title: {
           show: true,
