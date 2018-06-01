@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { EventUtil } from '../util/EventUtil'
 
 export default class DailyEvent {
   /**
@@ -13,6 +14,8 @@ export default class DailyEvent {
     this.events = events
   }
 
+  static labels
+
   isCurrentMonth () {
     return this.date.isSame(this.currentMonth, 'month')
   }
@@ -23,6 +26,10 @@ export default class DailyEvent {
 
   getDate () {
     return this.date
+  }
+
+  getAllEvents () {
+    return EventUtil.handleEvents(DailyEvent.labels, this.events, this.date)
   }
 
   getDayOfMonth () {

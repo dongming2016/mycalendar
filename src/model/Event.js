@@ -1,16 +1,16 @@
 import EventTime from './eventTime'
-
 export default class Event {
   /**
    * 事件模型
-   * @param {*} id
+   * @param {*事件id以日期'2018-05-30_'+第几个课编号形'1'式呈现} id
    * @param {*当前日期} currDate
    * @param {*当前事件发生在一天中的时间，如第一节} time
    * @param {*事件内容} content
    */
   constructor (id, currDate, time, content = '', isIdle = true) {
-    this.eventTime = new EventTime(id, currDate, time, isIdle)
+    this.eventTime = new EventTime(currDate, time, isIdle)
     this.content = content
+    this.id = this.eventTime.currDate.calendar() + '_' + id
   }
 
   isAllowed () {
@@ -18,7 +18,7 @@ export default class Event {
   }
 
   getId () {
-    return this.eventTime.id
+    return this.id
   }
 
   getCurrDate () {

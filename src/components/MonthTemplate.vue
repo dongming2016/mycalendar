@@ -1,6 +1,5 @@
 <template>
 <div>
-  <div v-dragable="addEvent" style="position:absolute;">I'm draggable </div>
   <div class="fc-table">
     <div class="fc-head">
       <div :key="dayIndex" v-for="dayIndex in 7" class="fc-head-content">
@@ -11,9 +10,13 @@
     <div class="fc-body">
       <div class="fc-table">
         <div class="fc-row" v-for="(week, index) in getCalendar" :key="index">
-          <div class="fc-cell" v-for="(day, index2) in week" :key="index2" :class="{'not-current event-not-allowed': !day.isCurrentMonth()}">
+          <div class="fc-cell" v-for="(day, index2) in week" :key="index2" :class="{'not-current event-not-allowed': !day.isCurrentMonth()}" ref="fcDay">
             <p>{{day.getDayOfMonth()}}</p>
-            <DayTemplate :events="day.getEvents()" :date="day.getDate()" :labels="options.labels" ref="child" :class="{'event-not-allowed': !day.isCurrentMonth()}"/>
+            <div style="position:relative;" :key="item.id" v-for="item of day.events" class="fc-child-cell">
+              <div :key="index" v-for="(item2, index) in item.events" :class="{'event-not-allowed': !item2.isAllowed() || !day.isCurrentMonth()}" ref="fcCell" class="fc-event-container">
+                <div v-dragable="{callback: moveEvent, args: {id: item2.id}}" class="fc-event-dragable">{{item2.content}}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -24,13 +27,22 @@
 
 <script>
 import moment from 'moment'
-import tableHeader from './tableHeader'
 import DailyEvent from '../model/DailyEvent'
 import { dateUtil } from '../util/dateUtil'
 import DayTemplate from './DayTemplate'
-import alertBox from './alertbox'
 import { positionUtil } from '../util/positionUtil'
 import Event from '../model/Event'
+import { EventUtil } from '../util/EventUtil'
+import EventList from './EventList'
+
+/**
+ * 设置日期格式
+ */
+moment.locale('zh', {
+  calendar: {
+    sameDay: 'YYYY-MM-DD'
+  }
+})
 
 export default {
   props: {
@@ -61,12 +73,13 @@ export default {
     },
     eventName: {
       type: String
-    }
+    },
+    notArranged: Object,
+    moveEventCallback: Function
   },
   components: {
     DayTemplate,
-    alertBox,
-    tableHeader
+    EventList
   },
   data () {
     return {
@@ -78,7 +91,8 @@ export default {
         },
         showAlertbox: false
       },
-      isPalceable: true
+      isPalceable: true,
+      monthDays: []
     }
   },
   computed: {
@@ -103,7 +117,43 @@ export default {
         }
       }
     },
+    moveEvent ([rect, content], option) {
+      const moveId = option.id
+      const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
+      const children = this.$refs.fcCell
+      let newEvent = null
+      let isAllowed = false
+      const labels = this.options.labels
+      const labelNum = this.options.labels.length
+      for (let i = 0; i < children.length; i++) {
+        if (positionUtil.isPointInRect(middlePoint, children[i].getBoundingClientRect())) {
+          if (children[i].className.indexOf('event-not-allowed') < 0) {
+            const j = i % labelNum
+            const move2Day = this.monthDays[Math.floor(i / labelNum)]
+            newEvent = new Event(j, move2Day, labels[j].name, content)
+            isAllowed = true
+          }
+          break
+        }
+      }
+      const events = this.events
+      let index = -1
+      if (isAllowed) {
+        for (let i = 0; i < this.events.length; i++) {
+          if (this.events[i].getId() === moveId) {
+            index = i
+            break
+          }
+        }
+        if (index > -1) {
+          events.splice(index, 1)
+        }
+        events.push(newEvent)
+      }
+      return [ isAllowed ]
+    },
     calCalendar () {
+      DailyEvent.labels = this.labels
       const startDay = dateUtil.getMonthViewStartDate(this.currentMonth, this.startDay)
       const calendar = []
       // 一个月最多6周
@@ -111,15 +161,18 @@ export default {
         const week = []
         // 一个星期7天
         for (let j = 0; j < 7; j++) {
+          this.monthDays.push(moment(startDay))
           const dailyEvent = new DailyEvent(this.currentMonth, startDay)
+          const currDayEvent = []
           // 获取当前天的事件，暂时只关注天,当前天是当前月时，对事件列表进行过滤，并将事件存放在dailyEvent的事件列表中
           if (dailyEvent.isCurrentMonth()) {
             this.events.forEach(element => {
               if (element.getCurrDate().isSame(dailyEvent.getDate())) {
-                dailyEvent.pushEvent(element)
+                currDayEvent.push(element)
               }
             })
           }
+          dailyEvent.events = EventUtil.handleEvents(this.options.labels, currDayEvent, dailyEvent.getDate())
           week.push(dailyEvent)
           startDay.add(1, 'day')
         }
@@ -161,7 +214,6 @@ export default {
   .fc-cell {
     display: inline-block;
     min-width: 200px;
-    min-height: 120px;
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
   }
@@ -185,5 +237,20 @@ export default {
     background: #eee;
     cursor: not-allowed;
     z-index: 1;
+  }
+  .fc-child-cell {
+    height: 22px;
+    border-top: 1px solid #eee;
+    border-left: none;
+    border-right: none;
+  }
+  .fc-event-dragable {
+    position: relative;
+  }
+  .event-not-allowed {
+    background: #eee;
+  }
+  .fc-event-container {
+    height: 22px;
   }
 </style>

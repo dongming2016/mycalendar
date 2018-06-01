@@ -1,4 +1,4 @@
-import { isFunction } from '../util/util'
+import { isFunction, isArray } from '../util/util'
 
 // 最小移动偏差
 const MIN_DELTA_X = 15
@@ -7,12 +7,14 @@ const MIN_DELTA_Y = 15
 export default {
   bind: function (el, binding) {
     let element = el
+    const elLeft = element.style.left
+    const elTop = element.style.top
     element.onmousedown = function (event) {
     // Prevent default dragging of selected content
       event.preventDefault()
       // record the mouse to the border of the element
-      let startX = event.pageX - element.offsetLeft
-      let startY = event.pageY - element.offsetTop
+      let startX = event.pageX
+      let startY = event.pageY
 
       document.onmousemove = function (event) {
         let left = event.pageX - startX
@@ -31,17 +33,19 @@ export default {
           document.onmouseup = null
           return
         }
-        const isPlaceable = binding.value
-        let result = false
-        if (isFunction(isPlaceable)) {
-          result = isPlaceable.call({}, element.getBoundingClientRect(), element.innerHTML)
+        const value = binding.value
+        const callback = value.callback
+        const args = value.args
+        let result = [ element.getBoundingClientRect(), element.innerHTML ]
+        if (isFunction(callback)) {
+          callback.call({}, result, args)
+        } else if (isArray(callback)) {
+          for (let i = 0; i < callback.length; i++) {
+            result = callback[i].call({}, result, args[i])
+          }
         }
-        if (!result) {
-          element.style.left = '0px'
-          element.style.top = '0px'
-        } else {
-          element.innerHTML = ''
-        }
+        element.style.left = elLeft
+        element.style.top = elTop
         document.onmousemove = null
         document.onmouseup = null
       }
