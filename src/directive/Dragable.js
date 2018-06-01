@@ -9,6 +9,7 @@ export default {
     let element = el
     const elLeft = element.style.left
     const elTop = element.style.top
+    const value = binding.value
     element.onmousedown = function (event) {
     // Prevent default dragging of selected content
       event.preventDefault()
@@ -19,6 +20,17 @@ export default {
       document.onmousemove = function (event) {
         let left = event.pageX - startX
         let top = event.pageY - startY
+        // 移动时的毁掉函数
+        const callback = value.moveCallback
+        const args = value.moveArgs
+        let result = [ element.getBoundingClientRect() ]
+        if (isFunction(callback)) {
+          callback.call({}, result, args)
+        } else if (isArray(callback)) {
+          for (let i = 0; i < callback.length; i++) {
+            result = callback[i].call({}, result, args[i])
+          }
+        }
         element.style.left = left + 'px'
         element.style.top = top + 'px'
       }
@@ -33,7 +45,6 @@ export default {
           document.onmouseup = null
           return
         }
-        const value = binding.value
         const callback = value.callback
         const args = value.args
         let result = [ element.getBoundingClientRect(), element.innerHTML ]

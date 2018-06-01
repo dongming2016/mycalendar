@@ -7,6 +7,14 @@
           <strong>{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
         </div>
       </div>
+      <div class="fc-head">
+        <div class="fc-head-content" style="display:inline-block;">
+          <strong>日期</strong>
+        </div>
+         <div :key="index" v-for="(weekDay, index) in weekDays" class="fc-head-content" style="display:inline-block;">
+          <strong>{{ weekDay | dateFilter('YYYY-MM-DD') }}</strong>
+        </div>
+      </div>
       <div class="fc-body">
         <div class="fc-week-cell">
           <div v-for="(label, index) in options.labels" :key="index" class="fc-child-cell">{{label.name}}</div>
@@ -161,6 +169,9 @@ export default {
       firstDay = parseInt(firstDay)
       const localMoment = moment().locale(locale)
       return localMoment.localeData().weekdays()[(weekday + firstDay) % 7]
+    },
+    dateFilter (date, format) {
+      return date.calendar()
     }
   }
 }

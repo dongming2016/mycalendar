@@ -1,8 +1,10 @@
 import { isPlainObject, isString } from '../util/util'
 import Event from '../model/Event'
+import moment from 'moment'
 
 export const EventUtil = {
   handleEvents (labels, events, currDate) {
+    currDate = moment(currDate)
     const dayEvents = []
     labels.forEach(element => {
       let name = ''
