@@ -41,6 +41,10 @@ import EventList from './EventList'
 moment.locale('zh', {
   calendar: {
     sameDay: 'YYYY-MM-DD'
+  },
+  week: {
+    // 星期一为星期的第一天
+    dow: 1
   }
 })
 
@@ -103,7 +107,6 @@ export default {
       for (let i = 0; i < children.length; i++) {
         if (positionUtil.isPointInRect(middlePoint, children[i].$el.getBoundingClientRect())) {
           const grandChildren = children[i].$refs.fcCell
-          console.log(grandChildren)
           for (let j = 0; j < grandChildren.length; j++) {
             if (positionUtil.isPointInRect(middlePoint, grandChildren[j].getBoundingClientRect())) {
               this.events.push(new Event(j, children[i].date, children[i].labels[j], content))

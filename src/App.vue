@@ -1,28 +1,51 @@
 <template>
   <div id="app">
-    <div>
-      <BaseSetting/>
-    </div>
-    <div class="click-option">
-      <button @click="showIndex = 0">按月</button>
-      <button @click="showIndex = 1">按周</button>
-      <button @click="showIndex = 2">按日</button>
-    </div>
-    <div class="my-date">
-      <el-date-picker
-        v-model="currentdate"
-        @change="changeDate"
-        type="date"
-        placeholder="选择日期">
-      </el-date-picker>
-    </div>
-    <div class="my-date">
-      <span>第</span><input type="number" v-model="week" min="1" max="40" size="2" @change="getData"><span>周</span>
-    </div>
-    <EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list"/>
-    <day-template :labels="options.labels" :header="fcHeader" :date="currentdate" :events="events" :isLabelShow="true" v-show="showIndex==2" ref="Day"/>
-    <MonthTemplate :events="events" :options="options" :date="currdate" :currentMonth="currentMonth" :moveEventCallback="moveEvent"  v-show="showIndex==0" ref="Month"/>
-    <WeekTemplate :events="events" :options="options" :currentWeek="currentWeek" v-show="showIndex==1" :notArranged="notArranged"  ref="Week"/>
+    <el-row :gutter="20">
+      <el-col :span="4">
+        <BaseSetting/>
+        <NoCourseSetting/>
+        <GradeNoSchedule/>
+        <TeacherNoSchedule/>
+        <PublicCourse/>
+        <research-setting/>
+        <class-setting/>
+      </el-col>
+      <el-col :span="16">
+        <div class="settings">
+          <div class="choose-phase">
+            <span>选择学段：</span>
+            <el-radio v-model="phase" label="1">小学</el-radio>
+            <el-radio v-model="phase" label="2">初中</el-radio>
+            <el-radio v-model="phase" label="3">高中</el-radio>
+          </div>
+          <div class="change-view">
+            <span>查看方式：</span>
+            <el-radio v-model="viewMethod" label="1">按班级查看</el-radio>
+            <el-radio v-model="viewMethod" label="2">按老师查看</el-radio>
+          </div>
+        </div>
+        <div class="click-option">
+          <button @click="showIndex = 0">按月</button>
+          <button @click="showIndex = 1">按周</button>
+          <button @click="showIndex = 2">按日</button>
+        </div>
+        <div class="my-date">
+          <el-date-picker
+            v-model="currentdate"
+            @change="changeDate"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
+        <div class="my-date">
+          <span>第</span><input type="number" v-model="week" min="1" max="40" size="2" @change="getData"><span>周</span>
+        </div>
+        <day-template :labels="options.labels" :header="fcHeader" :date="currentdate" :events="events" :isLabelShow="true" v-show="showIndex==2" ref="Day"/>
+        <MonthTemplate :events="events" :options="options" :date="currdate" :currentMonth="currentMonth" :moveEventCallback="moveEvent"  v-show="showIndex==0" ref="Month"/>
+        <WeekTemplate :events="events" :options="options" :currentWeek="currentWeek" v-show="showIndex==1" :notArranged="notArranged"  ref="Week"/>
+      </el-col>
+      <el-col :span="4"><EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list"/></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -36,6 +59,12 @@ import moment from 'moment'
 import NotArrangedEvent from './model/NotArrangedEvent'
 import EventList from './components/EventList'
 import BaseSetting from './components/BaseSetting'
+import NoCourseSetting from './components/NoCourseSetting'
+import GradeNoSchedule from './components/GradeNoSchedule'
+import TeacherNoSchedule from './components/TeacherNoSchedule'
+import PublicCourse from './components/publicCourse'
+import ResearchSetting from './components/researchSetting'
+import ClassSetting from './components/classSetting'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -63,7 +92,13 @@ export default {
     MonthTemplate,
     WeekTemplate,
     EventList,
-    BaseSetting
+    BaseSetting,
+    NoCourseSetting,
+    GradeNoSchedule,
+    TeacherNoSchedule,
+    PublicCourse,
+    ResearchSetting,
+    ClassSetting
   },
   data () {
     return {
@@ -77,7 +112,10 @@ export default {
       week: 1,
       currentdate: moment(),
       currentWeek: moment().startOf('week'),
-      currentMonth: moment().startOf('month')
+      currentMonth: moment().startOf('month'),
+      phase: '1',
+      // viewMethod 查看方式，1表示按班级，2便是按老师
+      viewMethod: '1'
     }
   },
   computed: {
@@ -139,5 +177,8 @@ export default {
 }
 .click-option {
   display: inline-block;
+}
+.choose-phase {
+  margin-bottom: 8px;
 }
 </style>

@@ -4,7 +4,10 @@
     <div :key="index" v-for="(item, index) in getBody" class="fc-row">
       <div v-show="isLabelShow" class="fc-cell">{{item.label.name}}</div>
       <div style="position:relative;" :key="index" v-for="(item2, index) in item.events" :class="{'event-not-allowed': !item2.isAllowed()}"
-        ref="fcCell" class="fc-cell"><div v-dragable="{callback: moveEvent, args: item2.getId()}"  class="fc-event-dragable">{{item2.content}}</div>
+        ref="fcCell" class="fc-cell"><div v-dragable="{callback: moveEvent, args: item2.getId()}"  class="fc-event-dragable">
+          <!-- todo:删除，编辑功能未实现 -->
+          {{item2.content}}
+        </div>
       </div>
       </div>
   </div>

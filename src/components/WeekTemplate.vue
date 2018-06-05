@@ -7,7 +7,7 @@
           <strong>{{ (dayIndex - 1) | localeWeekDay(firstDay, locale) }}</strong>
         </div>
       </div>
-      <div class="fc-head">
+      <div class="fc-head" v-show="isDateShow">
         <div class="fc-head-content" style="display:inline-block;">
           <strong>日期</strong>
         </div>
@@ -75,6 +75,11 @@ export default {
     currentWeek: {
       default () {
         return moment().startOf('week')
+      }
+    },
+    isDateShow: {
+      default () {
+        return false
       }
     }
   },
@@ -145,7 +150,7 @@ export default {
     },
     calcWeekOption () {
       const weekOption = []
-      const startDay = moment(this.currentWeek).add(1, 'day')
+      const startDay = moment(this.currentWeek)
       this.weekDays = []
       for (let i = 0; i < 7; i++) {
         this.weekDays.push(moment(startDay))
