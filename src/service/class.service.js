@@ -12,5 +12,12 @@ export const ClassService = {
       }
       classes.push(grade)
     }
+  },
+  /**
+   * 根据班级的id获取班级的简要信息
+   * @param {*} classId
+   */
+  getClassBriefInfo (classId) {
+    return []
   }
 }

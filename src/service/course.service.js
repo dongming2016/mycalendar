@@ -15,8 +15,24 @@ export const CourseService = {
     classes[0].showClass = true
     return classes
   },
+  getGrades () {
+    return grades
+  },
   getCourses () {
     // classes中存放选择的班级的id
     return [{id: 0, name: '大扫除', day: 0, classTime: 2, classes: []}, {id: 1, name: '大扫除1', day: 1, classTime: 3, classes: []}]
+  },
+  getGradeCourses () {
+    return []
+  },
+  getAllCourses () {
+    return []
+  },
+  getSchoolYear () {
+    return [ { schoolYear: '2017-2018学年', isCurrentYear: true, terms: [ { name: '第二学期', isCurrent: true }, { name: '第一学期', isCurrent: false } ] } ]
+  },
+  getTermSetting () {
+    return [ { name: '第一学期', time: ['2017-09-01', '2018-01-31'] },
+      { name: '第二学期', time: ['2017-09-01', '2018-01-31'] } ]
   }
 }

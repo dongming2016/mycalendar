@@ -37,6 +37,7 @@ import DailyEvent from '../model/DailyEvent'
 import { positionUtil } from '../util/positionUtil'
 import Event from '../model/Event'
 import { EventUtil } from '../util/EventUtil'
+import Label from '../model/Label'
 
 export default {
   props: {
@@ -64,7 +65,21 @@ export default {
       }
     },
     options: {
-      type: Object
+      type: Object,
+      default () {
+        return {
+          labels: [
+            new Label(0, '第一节', true),
+            new Label(1, '第二节', true),
+            new Label(2, '第三节', true),
+            new Label(3, '第四节', true),
+            new Label(4, '第五节', true),
+            new Label(5, '第六节', true),
+            new Label(6, '第七节', true),
+            new Label(7, '第八节', true)
+          ]
+        }
+      }
     },
     notArranged: {
       type: Array

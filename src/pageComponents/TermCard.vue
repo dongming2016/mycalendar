@@ -1,0 +1,122 @@
+<template>
+  <div style="margin:auto;">
+    <el-card class="term-card">
+      <div slot="header" class="clearfix term-card-header">
+        <span>{{option.schoolYear}}</span>
+        <YearSetting v-if="option.isCurrentYear" class="year-setting"/>
+      </div>
+      <div v-if="option.terms.length > 0" class="term-container" v-for="(term, index) in option.terms" :key="index">
+        <div class="term-item">
+          <div class="term-item-name">{{term.name}}</div>
+          <div class="view-buttons">
+            <el-button type="text" class="term-setting-item" @click="viewOptionalCourse">选课信息详情</el-button>
+          </div>
+        </div>
+        <div class="operation-buttons">
+          <div v-if="term.isCurrent">
+            <div>
+              <el-button type="text" @click="setGrades">年级班级设置</el-button>
+              <!-- <GradeCourseSetting class="term-setting-item"/> -->
+              <!-- <ClassSetting class="term-setting-item"/> -->
+              <!-- <OptionalCourse class="term-setting-item"/> -->
+              <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item">选课基本设置</el-button>
+              <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">课程设置</el-button>
+              <el-button type="text" @click="arrangeCourse">排课</el-button>
+            </div>
+          </div>
+          <div v-else>
+            <!-- 非当前学期则可以克隆 -->
+            <el-button type="text" @click="clone">克隆</el-button>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <!-- 有学年没有学期，是系统异常，需要联系系统管理员 -->
+        <span class="el-icon-warning bg-danger">系统异常，当前无学期，请联系系统管理员。</span>
+      </div>
+    </el-card>
+  </div>
+</template>
+
+<script>
+import GradeCourseSetting from './GradeCourseSetting'
+import YearSetting from './YearSetting'
+import ClassSetting from './ClassSetting'
+import OptionalCourse from './OptionalSetting/OptionalCourse'
+export default {
+  props: {
+    option: {
+      default () {
+        // 学年，学年下面的学期
+        return { schoolYear: '', terms: [] }
+      }
+    }
+  },
+  data () {
+    return {
+      classSettingVisible: false,
+      termSetting: []
+    }
+  },
+  methods: {
+    clone () {
+    },
+    arrangeCourse () {
+      this.$router.push({ name: 'ArrangeCourse' })
+    },
+    viewOptionalCourse () {
+      this.$router.push({ name: 'viewCourseSelected' })
+    },
+    setOptionalCourse (termId) {
+      this.$emit('setOption', { termId: this.termId, componentName: 'optional-course' })
+    },
+    setGrades (termId) {
+      this.$emit('setOption', { termId: this.termId, componentName: 'GradeCourseSetting' })
+    },
+    optionalBaseSetting () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'OptionalBaseSetting' })
+    }
+  },
+  components: {
+    GradeCourseSetting,
+    YearSetting,
+    ClassSetting,
+    OptionalCourse
+  }
+}
+</script>
+
+<style scoped>
+.year-setting {
+  float: right;
+  padding: 3px 0;
+}
+.term-card {
+  width: 100%;
+}
+.term-card-header,
+.term-item {
+  text-align: left;
+}
+.term-item-name,
+.view-buttons {
+  display: inline-block;
+  margin-right: 10px;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+.term-setting-item {
+  display: inline-block;
+  margin-right: 8px;
+  text-align: center;
+}
+.operation-buttons {
+  text-align: right;
+}
+</style>
