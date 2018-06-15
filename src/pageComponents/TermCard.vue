@@ -24,6 +24,7 @@
               <!-- <ClassSetting class="term-setting-item"/> -->
               <!-- <OptionalCourse class="term-setting-item"/> -->
               <el-button type="text" @click="standard"  class="term-setting-item">国标/校本课程设置</el-button>
+              <el-button type="text" @click="teacherGroup"  class="term-setting-item">教学组设置</el-button>
               <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item">选课基本设置</el-button>
               <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">课程设置</el-button>
               <el-button type="text" @click="arrangeCourse">排课</el-button>
@@ -89,8 +90,10 @@ export default {
     },
     viewPlan () {
       this.$emit('setOption', { termId: this.termId, componentName: 'TeachPlan' })
+    },
+    teacherGroup () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'TeacherGroup' })
     }
-
   },
   components: {
     GradeCourseSetting,

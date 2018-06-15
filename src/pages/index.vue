@@ -23,6 +23,7 @@ import OptionalBaseSetting from '../pageComponents/OptionalSetting/OptionalBaseS
 import ClassSchedule from '../pageComponents/schedule/ClassSchedule'
 import StandardSchool from '../pageComponents/classSetting/StandardSchool'
 import TeachPlan from '../pageComponents/schedule/TeachingPlan'
+import TeacherGroup from '../pageComponents/teacher/TeacherGroup'
 export default {
   data () {
     return {
@@ -49,7 +50,8 @@ export default {
     OptionalBaseSetting,
     ClassSchedule,
     StandardSchool,
-    TeachPlan
+    TeachPlan,
+    TeacherGroup
   },
   mounted () {
     this.options = CourseService.getSchoolYear()

@@ -45,7 +45,7 @@
           <el-table-column
             label="操作">
             <template slot-scope="props">
-              <el-button type="primary" size="mini">编辑</el-button>
+              <el-button v-if="props.row.typeId!==0" type="primary" size="mini">编辑</el-button>
               <el-button type="primary" size="mini">删除</el-button>
             </template>
           </el-table-column>
@@ -83,12 +83,12 @@ export default {
       courseVisible: false,
       schoolCourseVisible: false,
       course:
-         [{name: '语文', type: '必修', id: 1},
-           {name: '数学', type: '必修', id: 2},
-           {name: '英语', type: '必修', id: 3},
-           {name: '数字技术', type: '选修', id: 1},
-           {name: '数字技术1', type: '选修', id: 2},
-           {name: '数字技术2', type: '选修', id: 3}],
+         [{typeId: 0, name: '语文', type: '必修', id: 1},
+           {typeId: 0, name: '数学', type: '必修', id: 2},
+           {typeId: 0, name: '英语', type: '必修', id: 3},
+           {typeId: 1, name: '数字技术', type: '选修', id: 1},
+           {typeId: 1, name: '数字技术1', type: '选修', id: 2},
+           {typeId: 1, name: '数字技术2', type: '选修', id: 3}],
       checkAll: false,
       checkedCities: ['上海', '北京'],
       cities: cityOptions,
