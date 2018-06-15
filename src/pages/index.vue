@@ -20,6 +20,9 @@ import { CourseService } from '../service/course.service'
 import OptionalCourse from '../pageComponents/OptionalSetting/OptionalCourse'
 import GradeCourseSetting from '../pageComponents/GradeCourseSetting'
 import OptionalBaseSetting from '../pageComponents/OptionalSetting/OptionalBaseSetting'
+import ClassSchedule from '../pageComponents/schedule/ClassSchedule'
+import StandardSchool from '../pageComponents/classSetting/StandardSchool'
+import TeachPlan from '../pageComponents/schedule/TeachingPlan'
 export default {
   data () {
     return {
@@ -43,7 +46,10 @@ export default {
     TermCard,
     OptionalCourse,
     GradeCourseSetting,
-    OptionalBaseSetting
+    OptionalBaseSetting,
+    ClassSchedule,
+    StandardSchool,
+    TeachPlan
   },
   mounted () {
     this.options = CourseService.getSchoolYear()

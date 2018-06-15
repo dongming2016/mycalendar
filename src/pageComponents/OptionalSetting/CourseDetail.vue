@@ -192,7 +192,7 @@
                                 </el-tab-pane>
 
                                 <el-tab-pane
-                                  label="课程安排"
+                                  label="教学内容"
                                   name="second"
                                 >
 
@@ -371,11 +371,11 @@ export default {
       },
 
       {
-        label: '设备及场地',
+        label: '场地',
 
         type: 'text',
 
-        placeholder: '请输入设备及场地',
+        placeholder: '请输入场地',
 
         value: ''
       },

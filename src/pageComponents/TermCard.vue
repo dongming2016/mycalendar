@@ -9,8 +9,12 @@
         <div class="term-item">
           <div class="term-item-name">{{term.name}}</div>
           <div class="view-buttons">
-            <el-button type="text" class="term-setting-item" @click="viewOptionalCourse">选课信息详情</el-button>
+            <el-button type="text" class="term-setting-item" @click="viewSchedule">查看课表</el-button>
+            <el-button type="text" class="term-setting-item" @click="viewPlan">查看教学计划</el-button>
           </div>
+          <!-- <div class="view-buttons">
+            <el-button type="text" class="term-setting-item" @click="viewOptionalCourse">选课信息详情</el-button>
+          </div> -->
         </div>
         <div class="operation-buttons">
           <div v-if="term.isCurrent">
@@ -19,6 +23,7 @@
               <!-- <GradeCourseSetting class="term-setting-item"/> -->
               <!-- <ClassSetting class="term-setting-item"/> -->
               <!-- <OptionalCourse class="term-setting-item"/> -->
+              <el-button type="text" @click="standard"  class="term-setting-item">国标/校本课程设置</el-button>
               <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item">选课基本设置</el-button>
               <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">课程设置</el-button>
               <el-button type="text" @click="arrangeCourse">排课</el-button>
@@ -75,7 +80,17 @@ export default {
     },
     optionalBaseSetting () {
       this.$emit('setOption', { termId: this.termId, componentName: 'OptionalBaseSetting' })
+    },
+    viewSchedule () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'ClassSchedule' })
+    },
+    standard () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'StandardSchool' })
+    },
+    viewPlan () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'TeachPlan' })
     }
+
   },
   components: {
     GradeCourseSetting,

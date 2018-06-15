@@ -19,6 +19,7 @@
       <div :style="{'display:flex': showClassInfo}">
         <div class="class-container" :class="{'class-list': showClassInfo }">
           <el-table
+          border
           :data="classOption">
             <el-table-column
             prop="className"
@@ -71,6 +72,126 @@
             </template>
             </el-table-column>
             <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
+            prop="chinese"
+            label="语文"
+            >
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.chinese">
+                <el-option
+                  v-for="item1 in teachers.chinese.options"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value">
+                </el-option>
+              </el-select>
+            </template>
+            </el-table-column>
+            <el-table-column
             prop="site"
             fixed="right"
             label="教学场地"
@@ -87,9 +208,15 @@
             </el-table-column>
           </el-table>
         </div>
-        <div v-show="showClassInfo" :class="{'class-info': showClassInfo }">
+        <!-- <div v-show="showClassInfo" :class="{'class-info': showClassInfo }"> -->
+         <el-dialog title="班级基本信息" :visible.sync="showClassInfo">
           <class-info :classId="classId"/>
-        </div>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" plain @click="showClassInfo = false">确定</el-button>
+            <el-button plain @click="showClassInfo = false">取消</el-button>
+          </div>
+         </el-dialog>
+        <!-- </div> -->
       </div>
       <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" plain @click="saveClassSetting">确定</el-button>

@@ -21,10 +21,12 @@
     </el-table-column>
     <el-table-column
       label="课程名称"
+      sortable
       prop="className">
     </el-table-column>
     <el-table-column
       label="任课教师"
+      sortable
       prop="teacherName">
     </el-table-column>
         <el-table-column
@@ -34,13 +36,9 @@
       label="班级限选人数"
       prop="studentsNum"/>
     <el-table-column
-      label="已选人数"
-      prop="selectedNumber"
-     />
-    <el-table-column
       label="操作" width="350">
       <template slot-scope="props">
-        <el-button type="primary" size="mini" v-if="currentTime > startTime && currentTime < endTime" @click="slectCourse(props.row.id, props.row.className)">选课</el-button>
+        <el-button type="primary" size="mini" @click="slectCourse(props.row.id, props.row.className)">选课</el-button>
         <el-button type="primary" size="mini"  @click="showCourseDetail(props.row.id)">
           查看课程信息
         </el-button>
@@ -83,7 +81,7 @@
     <el-tab-pane
     label="课程选课情况"
     name="third">
-      <CourseStudentsInfo/>
+      <CourseStudentsInfo :isStudent="isStudent"/>
    </el-tab-pane>
     </el-tabs>
   </div>
@@ -99,8 +97,9 @@ export default {
       searchKey: '',
       currentTime: new Date().getMilliseconds(),
       startTime: new Date('2018-03-04').getMilliseconds(),
-      endTime: new Date('2018-04-05').getMilliseconds(),
+      endTime: new Date('2018-07-05').getMilliseconds(),
       activeName: 'first',
+      isStudent: false,
       optionalCourseData: [
         {
           id: 1,

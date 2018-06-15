@@ -60,7 +60,6 @@ export default {
 </script>
 <style scoped>
 .setting-item {
-  display: inline-block;
   margin-left: 12px;
 }
 </style>

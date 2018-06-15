@@ -11,14 +11,10 @@
           border
           @expand-change="expandRow"
           style="width: 100%">
-          <el-table-column
+          <!-- <el-table-column
           type="expand"
-          >
-            <div>理科</div>
-            <ClassSetting />
-            <div>文科</div>
-            <ClassSetting />
-          </el-table-column>
+          > -->
+          <!-- </el-table-column> -->
           <el-table-column
             prop="name"
             label="年级"
@@ -39,6 +35,7 @@
             prop="courses"
             label="选修课程">
             <template slot-scope="scope">
+              <el-checkbox class="course-item">全选</el-checkbox>
               <el-checkbox-group v-model="scope.row.courses" @change="handleCheckedCitiesChange">
                 <div v-for="(course, index) in allCourses.optional" :key="index" class="course-item">
                   <el-checkbox :label="course.id">{{course.name}}</el-checkbox>
@@ -46,13 +43,50 @@
               </el-checkbox-group>
             </template>
           </el-table-column>
+          <el-table-column
+            prop="courses"
+            label="操作">
+            <template slot-scope="scope">
+              <el-button type="primary" @click="classVisible=true">班级设置</el-button>
+              <el-button type="primary">课程课时设置</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
+    <el-dialog title="班级设置" :visible.sync="classVisible">
+      <div>
+        <div style="display:inline-block;">理科</div>
+          <div style="display:inline-block;">
+            <div class="course-item">
+              <el-checkbox v-for="(course, index) in allCourses.standard" :key="index"  :label="course.id">{{course.name}}</el-checkbox>
+            </div>
+            <div class="course-item">
+              <el-checkbox v-for="(course, index) in allCourses.optional" :key="index" :label="course.id">{{course.name}}</el-checkbox>
+            </div>
+          </div>
+          <div  style="display:inline-block;float:right;margin-right: 16px;">
+            <el-button type="text" size="mini">创建班级</el-button>
+          </div>
+          <ClassSetting />
+          <div style="margin-top:10px;display:inline-block;">文科</div>
+          <div style="display:inline-block;">
+            <div class="course-item">
+              <el-checkbox v-for="(course, index) in allCourses.standard" :key="index" :label="course.id">{{course.name}}</el-checkbox>
+            </div>
+            <div class="course-item">
+              <el-checkbox v-for="(course, index) in allCourses.optional" :key="index" :label="course.id">{{course.name}}</el-checkbox>
+            </div>
+          </div>
+          <div  style="display:inline-block;float:right;margin-right: 16px;">
+            <el-button type="text" size="mini">创建班级</el-button>
+          </div>
+          <ClassSetting />
+      </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" plain @click="saveGradeSetting">确定</el-button>
+        <el-button type="primary" plain @click="classVisible = false">确定</el-button>
         <el-button plain @click="gradeSettingVisible = false">取消</el-button>
       </div>
-    <!-- </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -62,6 +96,7 @@ import ClassSetting from './ClassSetting'
 export default {
   data () {
     return {
+      classVisible: false,
       gradeSettingVisible: false,
       gradeOption: [ { name: '一年级', courses: [ 1, 2 ] } ],
       allCourses: { standard: [ { id: 1, name: '语文', isChecked: true }, { id: 2, name: '数学', isChecked: true } ],

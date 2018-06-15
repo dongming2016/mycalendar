@@ -4,7 +4,48 @@
     <!-- <el-dialog title="选修课程管理" :visible.sync="optionalSettingVisible" class="optional-course"> -->
     <!-- <div>学科/类别设置</div> -->
     <div>
-      <el-button  type="primary" @click="isEditShow=true" class="add-button">添加课程</el-button>
+      <el-button  type="primary" @click="addCourse" class="add-button">增加课程</el-button>
+      <div style="text-align: center;">
+        <div class="search-condition">
+          <span>课程编号</span>
+          <el-input placeholder="按课程编号查询" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div class="search-condition">
+          <span>课程名称</span>
+          <el-input placeholder="按课程查询" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div class="search-condition">
+          <span>老师姓名</span>
+          <el-input placeholder="按老师姓名查询" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div class="search-condition">
+          <span>课程类别</span>
+          <el-select placeholder="按类别查询" style="width:60%;margin-left:8px;"  v-model="category.value">
+            <el-option
+              v-for="item1 in category.options"
+              :key="item1.value"
+              :label="item1.label"
+              :value="item1.value"
+            >
+
+              </el-option>
+          </el-select>
+        </div>
+        <div class="search-condition">
+          <span>学科名称</span>
+          <el-select placeholder="按学科名称查询" style="width:60%;margin-left:8px;"  v-model="courses.value">
+            <el-option
+              v-for="item1 in courses.options"
+              :key="item1.value"
+              :label="item1.label"
+              :value="item1.value"
+            >
+
+              </el-option>
+          </el-select>
+        </div>
+        <div style="margin-left: 20px;display:inline-block;"><el-button type="primary">查询</el-button></div>
+      </div>
       <!-- <el-dialog title="选课基本设置" :visible.sync="isSettingShow" style="text-align: center"> -->
 
       <!-- </el-dialog> -->
@@ -13,7 +54,7 @@
           <OptionalCourseTable :isEditable="true" :viewCallBack="showEditCourse"/>
         </el-col> -->
         <!-- <el-col :span="24" v-if="!isEditShow"> -->
-          <OptionalCourseTable :viewCallBack="showEditCourse" v-on:viewCourse="viewCourse"/>
+          <OptionalCourseTable :viewCallBack="showEditCourse" :editCallback="showEditCourse" v-on:viewCourse="viewCourse"/>
         <!-- </el-col>
         <el-col :span="12" v-show="isEditShow"> -->
           <!-- 编辑或添加课程 -->
@@ -51,7 +92,15 @@ export default {
       endTime: '',
       editTitle: '添加课程',
       courseTime: 10,
-      stundentsNum: 30
+      stundentsNum: 30,
+      category: {
+        value: '全选',
+        options: [{value: 0, label: '全选'}, {value: 1, label: '学科'}, {value: 2, label: '课程'}]
+      },
+      courses: {
+        value: '全选',
+        options: [{value: 0, label: '全选'}, {value: 1, label: '数学'}, {value: 2, label: '语文'}]
+      }
     }
   },
   methods: {
@@ -62,11 +111,11 @@ export default {
     viewCourse () {
       console.log('hello')
       this.isEditShow = true
-      this.editTitle = '查看选课信息'
+      this.editTitle = '查看课程信息'
     },
     showEditCourse (id) {
       this.isEditShow = true
-      this.editTitle = '编辑选课信息'
+      this.editTitle = '编辑课程信息'
     },
     okCallback (option) {
       this.isEditShow = false
@@ -74,6 +123,10 @@ export default {
     },
     hideEdit (isEditShow) {
       this.isEditShow = isEditShow
+    },
+    addCourse () {
+      this.isEditShow = true
+      this.editTitle = '添加课程'
     }
   },
   components: {
@@ -101,5 +154,12 @@ export default {
 }
 .optional-course .el-dialog {
   min-width: 1280px;
+}
+.search-condition {
+  width: 350px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 30px;
 }
 </style>

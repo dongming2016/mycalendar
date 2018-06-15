@@ -18,6 +18,18 @@ const getNoScheduleByTeacherId = (teacherId, gradeId = 0) => {
   return courses
 }
 
+export const getLabels = () => {
+  return [
+    new Label(0, '第一节', true),
+    new Label(1, '第二节', true),
+    new Label(2, '第三节', true),
+    new Label(3, '第四节', true),
+    new Label(4, '第五节', true),
+    new Label(5, '第六节', true),
+    new Label(6, '第七节', true),
+    new Label(7, '第八节', true)
+  ]
+}
 // @todo 从后台获取设置信息
 export const NoScheduleService = {
   // 需要穿学校，学段id

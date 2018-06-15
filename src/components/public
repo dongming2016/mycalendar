@@ -1,0 +1,44 @@
+<el-row :gutter="16">
+        <el-col :span="2">
+          <div>公共活动列表</div>
+          <div class="course-list">
+            <div v-if="courses.length > 0" v-for="(course, index) in courses" :key="course.id" class="course-item"
+              :class="{'teacher-active': index===activeIndex}" @click="switchCourse(index, teacher.id)">
+              <div>{{course.name}}</div>
+            </div>
+            <div v-if="courses.length == 0">
+              暂时无公共活动，请添加公共活动。
+            </div>
+            <el-button type="primary" icon="el-icon-plus" size="small"></el-button>
+          </div>
+        </el-col>
+        <el-col :span="18">
+          <WeekTemplate :events="events" :options="{ labels }" :isDateShow="false"  ref="Week"/>
+        </el-col>
+        <el-col :span="4">
+          <div>选择年级或班级</div>
+          <div>
+            <div v-if="grades.length>0">
+              <div class="all-grade">
+                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+              </div>
+              <div class="public-grade">
+                <div v-for="(grade, index) in grades" :key="index">
+                  <div @click="foldClasses(grade)" :class="{'el-icon-caret-right': !grade.showClass, 'el-icon-caret-bottom': grade.showClass}">
+                    <el-checkbox :label="grade.id" v-model="grade.isChecked" :indeterminate="grade.isIndeterminate" class="public-grade-item">
+                      <div>{{grade.name}}</div>
+                    </el-checkbox>
+                  </div>
+                  <div v-show="grade.showClass" class="classes-container">
+                    <div v-for="(classItem, index1) in grade.classes" :key="index1" class="class-checkbox">
+                      <el-checkbox :label="classItem.id" v-model="classItem.isChecked">
+                        <div>{{classItem.name}}</div>
+                      </el-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>没有班级</div>
+          </div>
+        </el-col>

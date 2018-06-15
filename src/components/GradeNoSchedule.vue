@@ -4,7 +4,7 @@
   <el-button type="text" @click="dialogVisible = true">年级不排课设置</el-button>
   <el-dialog title="年级不排课设置" :visible.sync="dialogVisible" class="grade-setting">
     <span>请选择年级：</span>
-    <el-select v-model="selectedGrade" placeholder="一年级">
+    <el-select v-model="selectedGrade" placeholder="一年级" @change='gradesChange(selectedGrade)'>
       <el-option
         v-for="item in grades"
         :key="item.value"
@@ -57,6 +57,9 @@ export default {
   methods: {
     saveGradeSetting () {
       this.dialogVisible = false
+    },
+    gradesChange (val) {
+      console.log(val)
     }
   },
   components: {

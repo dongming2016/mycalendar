@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button class="year-setting el-icon-setting" type="text" @click="schoolYearVisible=true">学年设置</el-button>
-         <el-dialog title="学年设置" :visible.sync="schoolYearVisible">
+        <el-dialog title="学年设置" :visible.sync="schoolYearVisible">
         <div v-for="(term, index) in termSetting" :key="index">
           <div>
             <label>学期名称</label>

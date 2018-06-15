@@ -1,31 +1,59 @@
 <template>
   <div style="text-align:left;">
-    <router-link to="/viewCourseSelected"><el-button type="primary" class="el-icon-back" style="margin-bottom:16px;">返回</el-button></router-link>
+    <router-link style="margin-left:60px;" to="/"><el-button type="primary" class="el-icon-back" style="margin-bottom:16px;">返回</el-button></router-link>
+    <div>
+      <div style="margin-left:90px;">国画鉴赏</div>
+      <div style="text-align: center;margin-top:10px;">
+        <div class="search-condition">
+          <span>学生名称</span>
+          <el-input placeholder="请输入学生名称" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div class="search-condition">
+          <span>年级</span>
+          <el-input placeholder="请输入年级" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div class="search-condition">
+          <span>班级</span>
+          <el-input placeholder="请输入班级" style="width:60%;margin-left:8px;"/>
+        </div>
+        <div style="margin-left: 20px;display:inline-block;"><el-button type="primary">查询</el-button></div>
+      </div>
+    </div>
     <el-table
+    style="margin:auto;width:90%;"
     border
     :data="selectedStudents">
       <el-table-column
       prop="name"
+      sortable
       label="姓名"/>
       <el-table-column
       prop="gender"
       label="性别"/>
       <el-table-column
       prop="grade"
+      sortable
       label="年级"/>
       <el-table-column
       prop="class"
+      sortable
       label="班级"/>
-      <el-table-column
-      prop="slectedNumber"
-      label="已选次数（含推选）"/>
       <el-table-column
         label="操作">
         <template slot-scope="props">
-          <el-button type="primary" icon="el-icon-delete" @click="deleteStudent(props.row.id)">删除</el-button>
+          <el-button type="primary" icon="el-icon-delete" @click="deleteStudent(props.row.id)">移出课堂</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage4"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400">
+    </el-pagination>
   </div>
 </template>
 
@@ -33,12 +61,19 @@
 export default {
   data () {
     return {
-      selectedStudents: [ { name: '小明', gender: '男', grade: '一年级', class: '一班', slectedNumber: 1 } ]
+      selectedStudents: [ { name: '小明', gender: '男', grade: '一年级', class: '一班', slectedNumber: 1 } ],
+      currentPage4: 1
     }
   },
   methods: {
     deleteStudent (studentId) {
       console.log(studentId)
+    },
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
     }
   }
 }

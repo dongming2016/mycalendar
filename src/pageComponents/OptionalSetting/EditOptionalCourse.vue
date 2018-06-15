@@ -25,7 +25,7 @@
           :class="{'item-div': item.type === 'checkbox'}"
         >
 
-          <span class="base-info-label">{{item.label}}</span>
+         <span class="base-info-label"><span v-if="item.isNeeded" style="color:red;">*</span>{{item.label}}</span>
 
           <div
             v-if="item.type === 'text'"
@@ -186,19 +186,19 @@
 
                                 </div>
 
-                                <div>
+                                <div class="item-span">
 
-                                  <span>课程相关图片</span>
-
-                                  <img style="width:100px;height:100px;">
+                                  <span style="margin-right:10px;display: inline-block;
+    text-align: right;width:105px;">课程相关图片</span>
+                                  <input type="file" placeholder="上传图片">
 
                                 </div>
-                                 <div>课程简介（教学目标）</div>
+                                 <div class="item-span">课程简介（教学目标）</div>
 
                                 </el-tab-pane>
 
                                 <el-tab-pane
-                                  label="课程安排"
+                                  label="教学内容"
                                   name="second"
                                 >
 
@@ -268,7 +268,8 @@ export default {
 
         placeholder: '请输入课程编号',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
 
       {
@@ -278,35 +279,37 @@ export default {
 
         placeholder: '请输入课程名称',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
 
-        // {
+      {
 
-        //   label: '任课教师',
+        label: '任课教师',
 
-        //   type: 'select',
+        type: 'select',
 
-        //   placeholder: '请输入任课老师',
+        placeholder: '请输入任课老师',
 
-        //   value: '',
+        value: '',
 
-        //   options: [ { value: 1, label: '安平' } ]
+        options: [ { value: 1, label: '安平' } ]
 
-        // },
+      },
 
       {
-        label: '选择上课时间',
+        label: '上课时间',
 
         type: 'date',
 
-        placeholder: '选择上课时间',
+        placeholder: '请选择上课时间',
 
         value: '',
 
         calendarShow: false,
 
-        OKCallback: this.selectedTime
+        OKCallback: this.selectedTime,
+        isNeeded: true
       },
 
       {
@@ -338,7 +341,8 @@ export default {
 
         inputValue: '',
 
-        OKCallback: this.addItem('category')
+        OKCallback: this.addItem('category'),
+        isNeeded: true
       },
       {
         label: '所属学科',
@@ -367,7 +371,18 @@ export default {
 
         inputValue: '',
 
-        OKCallback: this.addItem('subject')
+        OKCallback: this.addItem('subject'),
+        isNeeded: true
+      },
+      {
+        label: '学分',
+
+        type: 'number',
+
+        placeholder: '',
+
+        value: 2,
+        isNeeded: true
       },
       {
         label: '学生选修条件',
@@ -393,7 +408,8 @@ export default {
 
         placeholder: '请输入课时',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
       {
         label: '上课周数',
@@ -402,17 +418,19 @@ export default {
 
         placeholder: '请输入上课周数',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
 
       {
-        label: '设备及场地',
+        label: '场地',
 
         type: 'text',
 
-        placeholder: '请输入设备及场地',
+        placeholder: '请输入场地',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
 
       {
@@ -422,7 +440,8 @@ export default {
 
         placeholder: '请输入考核要求',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
 
       {
@@ -432,13 +451,15 @@ export default {
 
         placeholder: '请输入科目限选',
 
-        value: ''
+        value: '',
+        isNeeded: true
       },
       {
         label: '每班限选人数',
         type: 'number',
         placeholder: '请输入每班限选',
-        value: ''
+        value: '',
+        isNeeded: true
       }
       ]
     }
@@ -499,7 +520,9 @@ export default {
 }
 
 .item-span {
-  margin-right: 18px;
+  margin-left: 40px;
+  width: 500px;
+  margin-bottom: 10px;
 }
 
 .item-div {

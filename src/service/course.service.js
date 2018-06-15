@@ -15,12 +15,16 @@ export const CourseService = {
     classes[0].showClass = true
     return classes
   },
+  getFullClasses () {
+    return [{id: 0, name: `一年级(1)班`}, {id: 1, name: `二年级(1)班`}, {id: 2, name: `三年级(1)班`}]
+  },
   getGrades () {
     return grades
   },
   getCourses () {
     // classes中存放选择的班级的id
-    return [{id: 0, name: '大扫除', day: 0, classTime: 2, classes: []}, {id: 1, name: '大扫除1', day: 1, classTime: 3, classes: []}]
+    return [{id: 0, name: '大扫除', courseDesc: 'yyyyyyy', day: 0, classTime: 2, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}]},
+      {id: 1, name: '大扫除1', courseDesc: 'yyyyyyy', day: 1, classTime: 3, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}, {id: '3', name: '一年级（3）班'}]}]
   },
   getGradeCourses () {
     return []
