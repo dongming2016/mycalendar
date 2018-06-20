@@ -29,7 +29,7 @@
           <button @click="showIndex = 1">按周</button>
           <button @click="showIndex = 2">按日</button>
         </div>
-        <div class="my-date">
+        <!-- <div class="my-date">
           <el-date-picker
             v-model="currentdate"
             @change="changeDate"
@@ -39,7 +39,7 @@
         </div>
         <div class="my-date">
           <span>第</span><input type="number" v-model="week" min="1" max="40" size="2" @change="getData"><span>周</span>
-        </div>
+        </div> -->
         <day-template :labels="options.labels" :header="fcHeader" :date="currentdate" :events="events" :isLabelShow="true" v-show="showIndex==2" ref="Day"/>
         <MonthTemplate :events="events" :options="options" :date="currdate" :currentMonth="currentMonth" :moveEventCallback="moveEvent"  v-show="showIndex==0" ref="Month"/>
         <WeekTemplate :events="events" :options="options" :currentWeek="currentWeek" v-show="showIndex==1" :notArranged="notArranged"  ref="Week"/>

@@ -19,7 +19,8 @@
         <div class="operation-buttons">
           <div v-if="term.isCurrent">
             <div>
-              <el-button type="text" @click="setGrades">年级班级设置</el-button>
+              <el-button type="text" @click="setGrades">年级计划</el-button>
+              <el-button type="text" @click="classManage">班级管理</el-button>
               <!-- <GradeCourseSetting class="term-setting-item"/> -->
               <!-- <ClassSetting class="term-setting-item"/> -->
               <!-- <OptionalCourse class="term-setting-item"/> -->
@@ -27,6 +28,7 @@
               <el-button type="text" @click="teacherGroup"  class="term-setting-item">教学组设置</el-button>
               <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item">选课基本设置</el-button>
               <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">课程设置</el-button>
+              <el-button type="text" @click="setTimetable"  class="term-setting-item">作息设置</el-button>
               <el-button type="text" @click="arrangeCourse">排课</el-button>
             </div>
           </div>
@@ -93,6 +95,12 @@ export default {
     },
     teacherGroup () {
       this.$emit('setOption', { termId: this.termId, componentName: 'TeacherGroup' })
+    },
+    classManage () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'ClassSetting' })
+    },
+    setTimetable () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'Timetable' })
     }
   },
   components: {

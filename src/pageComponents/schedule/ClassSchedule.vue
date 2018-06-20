@@ -3,7 +3,7 @@
     <div style="text-align:center">
       <el-tabs v-model="method" @tab-click="handleClick">
         <el-tab-pane label="按班级查看" name="1">
-          <span>请选择学段：</span>
+          <!-- <span>请选择学段：</span>
           <el-select v-model="selectedPhase" style="margin-right:18px;">
             <el-option
               v-for="item in phases"
@@ -11,7 +11,7 @@
               :label="item.name"
               :value="item.id">
             </el-option>
-          </el-select>
+          </el-select> -->
           <span>请选择班级：</span>
           <el-select v-model="selectedClass" @change="setSelectedClass" filterable multiple placeholder="请选择班级，可多选">
             <el-option
@@ -23,7 +23,7 @@
           </el-select>
         </el-tab-pane>
         <el-tab-pane label="按老师查看" name="2">
-          <span>请选择学段：</span>
+          <!-- <span>请选择学段：</span>
           <el-select v-model="selectedPhase" style="margin-right:18px;">
             <el-option
               v-for="item in phases"
@@ -31,7 +31,7 @@
               :label="item.name"
               :value="item.id">
             </el-option>
-          </el-select>
+          </el-select> -->
           <span>请选择老师：</span>
           <el-select v-model="selectedTeacher" @change="setSelectedTeacher" filterable multiple  placeholder="请选择老师，可多选">
             <el-option

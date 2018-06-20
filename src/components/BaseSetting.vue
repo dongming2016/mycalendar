@@ -13,7 +13,7 @@
           </el-option>
         </el-select>
       </div> -->
-      <div class="base-setting">
+      <!-- <div class="base-setting">
         <span>每天上</span>
         <el-select v-model="base.classNum" placeholder="请选择">
           <el-option
@@ -23,7 +23,7 @@
             :value="item">
           </el-option>
         </el-select><span>节课</span>
-      </div>
+      </div> -->
       <div class="base-setting">
         <span>允许最大连课节次：</span>
         <el-radio v-model="base.series" label="1">1</el-radio>

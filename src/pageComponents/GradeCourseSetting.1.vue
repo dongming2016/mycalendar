@@ -11,9 +11,9 @@
         </el-tag>
       </span>
     </div> -->
-    <div style="margin-bottom:18px;">
-      <span style="margin-right:18px;">选择年级</span>
-      <el-select v-model="currentGrade" placeholder="请选择年级">
+    <div>
+      <span>选择年级</span>
+      <el-select v-model="currentGrade" multiple placeholder="请选择年级">
         <el-option
           v-for="item in grades"
           :key="item.id"
@@ -21,22 +21,6 @@
           :value="item.id">
         </el-option>
       </el-select>
-    </div>
-    <div style="text-align:right;">
-      <span>课程类型：</span>
-      <el-select v-model="filter" placeholder="请选择课程类型">
-        <el-option v-for="(item, index) in category"
-        :key="index"
-        :label="item.name"
-        :value="item.id"/>
-      </el-select>
-    </div>
-    <div style="text-align:right;margin-top:16px;">
-      <el-radio-group v-model="courseType" style="margin-bottom: 20px;">
-        <el-radio-button label="0">通用</el-radio-button>
-        <el-radio-button label="1">文科</el-radio-button>
-        <el-radio-button label="2">理科</el-radio-button>
-      </el-radio-group>
     </div>
     <div>
       <el-table
@@ -49,11 +33,12 @@
       </el-table-column>
       <el-table-column
         label="课程名称"
-        sortable
-        prop="name">
+        prop="name"
+        width="120">
       </el-table-column>
       <el-table-column
-        label="课程类型">
+        label="课程类型"
+        width="120">
         <template slot-scope="scope">
           <span>
             {{scope.row.type}}
@@ -61,17 +46,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="文/理科"
-        prop="courseType">
-        <template slot-scope="scope">
-          <el-select v-model="scope.row.courseType">
-            <el-option v-for="(item, index) in courseTypes"
-            :key="index" :label="item.name" :value="item.id"/>
-          </el-select>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="周课时">
+        label="周课时"
+        width="120">
         <template slot-scope="scope">
            <el-select v-model="scope.row.weekHours" placeholder="请选择周课时">
             <el-option
@@ -89,13 +65,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      layout="total, prev, pager, next"
-      :total="50">
-    </el-pagination>
-    </div>
-    <div style="margin-top:18px;text-align:center;">
-      <el-button type="primary">确定</el-button>
     </div>
   </div>
 </template>
@@ -106,10 +75,6 @@ import ClassSetting from './ClassSetting'
 export default {
   data () {
     return {
-      filter: '全部',
-      category: [{id: 0, name: '全部'}, {id: 1, name: '国标'}, {id: 2, name: '校本'}],
-      courseType: 0,
-      courseTypes: [{id: 0, name: '通用'}, {id: 1, name: '文科'}, {id: 2, name: '理科'}],
       currentGrade: '一年级',
       grades: [{id: '1', name: '一年级'}, {id: '2', name: '二年级'}, {id: '3', name: '三年级'}]
     }
@@ -124,21 +89,18 @@ export default {
           name: '数学',
           type: '国标',
           weekHours: 10,
-          courseType: '通用',
           totalHours: 100
         },
         {
           id: 2,
           name: '语文',
           type: '国标',
-          courseType: '通用',
           weekHours: 10,
           totalHours: 100
         },
         {
           id: 3,
           name: '英语',
-          courseType: '通用',
           type: '国标',
           weekHours: 10,
           totalHours: 100
@@ -146,7 +108,6 @@ export default {
         {
           id: 4,
           name: '政治',
-          courseType: '文科',
           type: '国标',
           weekHours: 10,
           totalHours: 100
@@ -154,7 +115,6 @@ export default {
         {
           id: 5,
           name: '艺术',
-          courseType: '通用',
           type: '校本',
           weekHours: 10,
           totalHours: 100
@@ -162,15 +122,6 @@ export default {
         {
           id: 6,
           name: '音乐',
-          courseType: '通用',
-          type: '国标',
-          weekHours: 10,
-          totalHours: 100
-        },
-        {
-          id: 7,
-          name: '物理',
-          courseType: '理科',
           type: '国标',
           weekHours: 10,
           totalHours: 100

@@ -24,6 +24,8 @@ import ClassSchedule from '../pageComponents/schedule/ClassSchedule'
 import StandardSchool from '../pageComponents/classSetting/StandardSchool'
 import TeachPlan from '../pageComponents/schedule/TeachingPlan'
 import TeacherGroup from '../pageComponents/teacher/TeacherGroup'
+import ClassSetting from '../pageComponents/ClassSetting'
+import Timetable from '../pageComponents/Timetable'
 export default {
   data () {
     return {
@@ -51,7 +53,9 @@ export default {
     ClassSchedule,
     StandardSchool,
     TeachPlan,
-    TeacherGroup
+    TeacherGroup,
+    ClassSetting,
+    Timetable
   },
   mounted () {
     this.options = CourseService.getSchoolYear()

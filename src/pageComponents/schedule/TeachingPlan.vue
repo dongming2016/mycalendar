@@ -103,7 +103,7 @@ export default {
   computed: {
     getPlanOption () {
       const GRADES = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
-      const COURSES = [ '数学', '语文', '英语', '四年级', '五年级', '六年级' ]
+      const COURSES = [ '数学', '语文', '英语', '政治', '艺术', '音乐' ]
       const TEARCHERS = [ '安华', '李雷', '黄华', '四年级', '五年级', '六年级' ]
       const genPlanOption = (type) => {
         const planOption = []

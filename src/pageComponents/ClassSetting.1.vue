@@ -11,7 +11,7 @@
           </el-option>
         </el-select>
       </div>
-      <div style="text-align:right;margin-bottom:18px;">
+      <div>
         <el-button type="primary">创建班级</el-button>
       </div>
       <div :style="{'display:flex': showClassInfo}">
@@ -51,8 +51,8 @@
             fixed="right"
             width="250">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" class="el-icon-view" @click="viewClass(scope.row.id, scope.row.className)">查看</el-button>
-                <el-button type="primary" size="mini" class="el-icon-edit" @click="editClass(scope.row.id, scope.row.className)">编辑</el-button>
+                <el-button type="primary" size="mini" class="el-icon-view" @click="viewClass(scope.row.id)">查看</el-button>
+                <el-button type="primary" size="mini" class="el-icon-edit" @click="editClass(scope.row.id)">编辑</el-button>
                 <el-button type="primary" size="mini" class="el-icon-delete" @click="deleteClass(scope.row.id)">删除</el-button>
               </template>
             </el-table-column>
@@ -60,7 +60,7 @@
         </div>
         <!-- <div v-show="showClassInfo" :class="{'class-info': showClassInfo }"> -->
          <el-dialog title="班级信息" :visible.sync="showClassInfo">
-          <class-info :classId="classId" :className="className" :isVew="isVew"/>
+          <class-info :classId="classId" :isVew="isVew"/>
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" plain @click="showClassInfo = false">确定</el-button>
             <el-button plain @click="showClassInfo = false">取消</el-button>
@@ -89,8 +89,7 @@ export default {
       classSettings: [],
       showClassInfo: false,
       chosedGrade: '',
-      classOption: [{ className: '一年级（1）班', classMaster: '李天', type: '理科', site: '教学楼A一年级（1）班' },
-        { className: '一年级（2）班', classMaster: '王一', type: '理科', site: '教学楼A一年级（2）班' }],
+      classOption: [{ className: '1班', classMaster: '李天', math: '王一', chinese: '王芳', site: '教学楼A一年级（1）班' }],
       teachers: {
         masters: { placeholder: '请选择班主任',
           options: [
@@ -109,25 +108,20 @@ export default {
             { value: 3, label: '王芳' }] }
       },
       classId: '',
-      isVew: true,
-      className: ''
+      isVew: true
     }
   },
   methods: {
     saveClassSetting () {
       this.classSettingVisible = false
     },
-    viewClass (classId, className) {
-      this.isVew = true
+    viewClass (classId) {
       this.showClassInfo = true
       this.classId = classId
-      this.className = className
     },
-    editClass (classId, className) {
-      this.isVew = false
+    editClass (classId) {
       this.showClassInfo = true
       this.classId = classId
-      this.className = className
     },
     addClass () {
     },

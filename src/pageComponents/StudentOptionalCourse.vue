@@ -24,16 +24,17 @@
       sortable
       prop="className">
     </el-table-column>
+     <el-table-column
+      label="课程类别"
+      sortable
+      prop="category"/>
     <el-table-column
       label="任课教师"
       sortable
       prop="teacherName">
     </el-table-column>
-        <el-table-column
-      label="科目限选人数"
-      prop="number"/>
-        <el-table-column
-      label="班级限选人数"
+    <el-table-column
+      label="剩余可选人数"
       prop="studentsNum"/>
     <el-table-column
       label="操作" width="350">
