@@ -6,6 +6,9 @@ import ManageSelectedCourseInfo from '../pages/ManageCourseSelectedInfo.vue'
 import CourseStudentsInfo from '../pages/CourseStudentsInfo.vue'
 import StudentOptionalCourse from '../pageComponents/StudentOptionalCourse'
 import EditOptionalCourse from '../pageComponents/OptionalSetting/EditOptionalCourse'
+import StudentMyCourse from '../pageComponents/StudentMyCourse'
+import OpenCourse from '../pages/OpenCourse.vue'
+import OptionalCourse from '../pageComponents/OptionalSetting/OptionalCourse.vue'
 
 Vue.use(Router)
 
@@ -34,5 +37,24 @@ export default new Router({
     path: '/course-detail',
     name: 'course-detail',
     component: EditOptionalCourse
+  }, {
+    path: '/myCourse',
+    redirect: '/myCourse/1'
+  }, {
+    path: '/myCourse/:authorType',
+    name: 'myCourse',
+    component: StudentMyCourse
+  }, {
+    path: '/openCourse',
+    redirect: '/openCourse/1'
+  }, {
+    path: '/openCourse/:type',
+    name: 'openCourse',
+    component: OpenCourse
+  },
+  {
+    path: '/course-base-info',
+    name: 'course-base-info',
+    component: OptionalCourse
   }]
 })

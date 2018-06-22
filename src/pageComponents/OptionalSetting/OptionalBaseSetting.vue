@@ -25,6 +25,10 @@
       <el-input-number v-model="baseSetting.courseTime"/>
     </div>
     <div class="setting-item">
+      <div>每人可退选次数：</div>
+        <el-input-number v-model="baseSetting.withdrawTimes"/>
+    </div>
+    <div class="setting-item">
       <div>每人限选课程数量：</div>
         <el-input-number v-model="baseSetting.chooseNum"/>
     </div>
@@ -44,7 +48,8 @@ export default {
         startTime: '',
         endTime: '',
         courseTime: '',
-        chooseNum: ''
+        chooseNum: '',
+        withdrawTimes: ''
       }
     }
   },

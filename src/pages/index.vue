@@ -26,6 +26,10 @@ import TeachPlan from '../pageComponents/schedule/TeachingPlan'
 import TeacherGroup from '../pageComponents/teacher/TeacherGroup'
 import ClassSetting from '../pageComponents/ClassSetting'
 import Timetable from '../pageComponents/Timetable'
+import Category from '../pageComponents/Category'
+import DomainManage from '../pageComponents/DomainManage'
+import OpenCourse from '../pages/OpenCourse.vue'
+import TeacherMyCourse from '../pageComponents/TeacherMyCourse.vue'
 export default {
   data () {
     return {
@@ -55,7 +59,11 @@ export default {
     TeachPlan,
     TeacherGroup,
     ClassSetting,
-    Timetable
+    Timetable,
+    Category,
+    DomainManage,
+    OpenCourse,
+    TeacherMyCourse
   },
   mounted () {
     this.options = CourseService.getSchoolYear()

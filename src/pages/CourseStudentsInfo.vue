@@ -1,8 +1,10 @@
 <template>
   <div style="text-align:left;">
-    <router-link style="margin-left:60px;" to="/"><el-button type="primary" class="el-icon-back" style="margin-bottom:16px;">返回</el-button></router-link>
+    <!-- <router-link style="margin-left:60px;" to="/openCourse"> -->
+      <el-button type="primary" class="el-icon-back" style="margin-bottom:16px;" @click="BACK">返回</el-button>
+    <!-- </router-link> -->
     <div>
-      <div style="margin-left:90px;">国画鉴赏</div>
+      <div style="margin-left:90px;">国画鉴赏-张三</div>
       <div style="text-align: center;margin-top:10px;">
         <div class="search-condition">
           <span>学生名称</span>
@@ -26,7 +28,11 @@
       <el-table-column
       prop="name"
       sortable
-      label="姓名"/>
+      label="姓名">
+      <template slot-scope="scope">
+        <router-link to="/myCourse/0">{{scope.row.name}}</router-link>
+      </template>
+      </el-table-column>
       <el-table-column
       prop="gender"
       label="性别"/>
@@ -42,10 +48,11 @@
         label="操作">
         <template slot-scope="props">
           <el-button type="primary" icon="el-icon-delete" @click="deleteStudent(props.row.id)">移出课堂</el-button>
+          <router-link to="/myCourse/0" style="margin-left:18px;"><el-button type="primary" icon="el-icon-detail" @click="deleteStudent(props.row.id)">详情</el-button></router-link>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+    <el-pagination style="text-align:center;margin-top:20px;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage4"
@@ -74,6 +81,9 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+    },
+    BACK () {
+      history.back()
     }
   }
 }

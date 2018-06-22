@@ -1,0 +1,78 @@
+<!--<el-table-column
+      label="任课教师"
+      sortable
+      prop="teacherName">
+       <template slot-scope="scope">
+        <el-select v-model="scope.row.teacherName">
+          <el-option v-for="(item, index) in teachers"
+          :key="index"
+          :label="item.name"
+          :value="item.id"
+          />
+        </el-select>
+      </template>
+    </el-table-column>-->
+    <!-- <el-table-column
+      label="学生选修条件"
+      prop="selectCondition"
+      sortable> -->
+      <!-- <template slot-scope="scope">
+        <div>
+          <el-input v-model="scope.row.selectCondition" @focus="selectShow">
+          <div v-show="selectShow">
+            <el-checkbox
+              v-model="selectAllGrade"
+            >全选</el-checkbox>
+            <el-checkbox-group v-model="scope.row.selectCondition">
+                <el-checkbox
+                  v-for="(item1, index) in grades"
+                  :label="item1.value"
+                  :key="index"
+                >{{item1.label}}</el-checkbox>
+              </el-checkbox-group>
+          </div>
+        </div>
+
+      </template> -->
+    <!-- </el-table-column>
+    <el-table-column
+      label="课时安排"
+      prop="courseTimes"> -->
+      <!-- <template slot-scope="scope">
+        <el-input-number v-if="isEditable" v-model="scope.row.courseTimes"/>
+        <div v-else>{{scope.row.courseTimes}}</div>
+      </template> -->
+    <!-- </el-table-column>
+    <el-table-column
+    label="科目限选"
+    prop="number"> -->
+    <!-- <template slot-scope="scope">
+      <el-input-number v-if="isEditable" v-model="scope.row.number"/>
+      <div v-else>{{scope.row.number}}</div>
+    </template> -->
+    <!-- </el-table-column>
+    <el-table-column
+      label="各班限选"
+      prop="studentsNum"> -->
+      <!-- <template slot-scope="scope">
+        <el-input-number v-if="isEditable" v-model="scope.row.studentsNum"/>
+        <div v-else>{{scope.row.studentsNum}}</div>
+      </template> -->
+    <!-- </el-table-column>
+    <el-table-column
+      label="上课周数"
+      prop="weekNum"> -->
+      <!-- <template slot-scope="scope">
+        <el-input-number v-if="isEditable" v-model="scope.row.weekNum"/>
+        <div v-else>{{scope.row.weekNum}}</div>
+      </template> -->
+    <!-- </el-table-column>
+    <el-table-column
+      label="设备及场地"
+      prop="site"
+      sortable> -->
+      <!-- <template slot-scope="scope">
+        <el-input v-if="isEditable" v-model="scope.row.site"/>
+        <div v-else>{{scope.row.site}}</div>
+      </template> -->
+    <!-- </el-table-column> -->

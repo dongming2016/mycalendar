@@ -26,10 +26,14 @@
               <!-- <OptionalCourse class="term-setting-item"/> -->
               <el-button type="text" @click="standard"  class="term-setting-item">国标/校本课程设置</el-button>
               <el-button type="text" @click="teacherGroup"  class="term-setting-item">教学组设置</el-button>
-              <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item">选课基本设置</el-button>
-              <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">课程设置</el-button>
-              <el-button type="text" @click="setTimetable"  class="term-setting-item">作息设置</el-button>
-              <el-button type="text" @click="arrangeCourse">排课</el-button>
+              <el-button type="text" @click="optionalBaseSetting"  class="term-setting-item select-item">选课基础设置（加学年学期）</el-button>
+              <el-button type="text" @click="setOptionalCourse"  class="term-setting-item select-item">选修课课程设置</el-button>
+              <el-button type="text" @click="OpenCourse"  class="term-setting-item select-item">选修课开课管理</el-button>
+              <el-button type="text" @click="MyCourse"  class="term-setting-item select-item">我的选修课(仅老师)</el-button>
+              <el-button type="text" @click="setCategory"  class="term-setting-item select-item">选修课类别设置（加学年学期）</el-button>
+              <el-button type="text" @click="setDomain"  class="term-setting-item select-item">选修课课程所属领域</el-button>
+              <!-- <el-button type="text" @click="setTimetable"  class="term-setting-item">作息设置</el-button> -->
+              <el-button type="text" @click="arrangeCourse">排课管理</el-button>
             </div>
           </div>
           <div v-else>
@@ -101,6 +105,18 @@ export default {
     },
     setTimetable () {
       this.$emit('setOption', { termId: this.termId, componentName: 'Timetable' })
+    },
+    setCategory () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'Category' })
+    },
+    setDomain () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'DomainManage' })
+    },
+    OpenCourse () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'OpenCourse' })
+    },
+    MyCourse () {
+      this.$emit('setOption', { termId: this.termId, componentName: 'TeacherMyCourse' })
     }
   },
   components: {
@@ -144,5 +160,8 @@ export default {
 }
 .operation-buttons {
   text-align: right;
+}
+.select-item {
+  color:red;
 }
 </style>

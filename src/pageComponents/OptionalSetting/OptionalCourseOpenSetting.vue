@@ -1,8 +1,6 @@
 <template>
   <div>
-    <!-- <el-button type="text" @click="setOptionalCourse"  class="term-setting-item">选修课程管理</el-button> -->
-    <!-- <el-dialog title="选修课程管理" :visible.sync="optionalSettingVisible" class="optional-course"> -->
-    <!-- <div>学科/类别设置</div> -->
+    <div>2017-2018学年下学期</div>
     <div>
       <div style="text-align: center;">
         <div class="search-condition">
@@ -35,54 +33,17 @@
               :label="item1.label"
               :value="item1.value"
             >
+
               </el-option>
           </el-select>
         </div>
-        <div class="search-condition">
-          <span>课程所属领域</span>
-           <el-select placeholder="按课程所属领域查询" style="width:60%;margin-left:8px;"  v-model="courseDomains.value">
-            <el-option
-              v-for="item1 in courseDomains.options"
-              :key="item1.value"
-              :label="item1.label"
-              :value="item1.value"
-            >
-              </el-option>
-           </el-select>
-        </div>
-        <div class="search-condition">
-          <span>考核要求</span>
-           <el-select placeholder="按考核要求查询" style="width:60%;margin-left:8px;"  v-model="testMethod.value">
-            <el-option
-              v-for="item1 in testMethod.options"
-              :key="item1.value"
-              :label="item1.label"
-              :value="item1.value"
-            >
-              </el-option>
-           </el-select>
-        </div>
-        <div style="margin-left: 20px;">
-          <el-button type="primary">查询</el-button>
-          <el-button>重置</el-button>
-        </div>
+        <div style="margin-left: 20px;display:inline-block;"><el-button type="primary">查询</el-button></div>
       </div>
-      <div style="text-align:left;">
+      <div>
         <el-button  type="primary" @click="addCourse" class="add-button">增加课程</el-button>
-        <router-link to="/openCourse/0" style="margin-left:20px;"><el-button type="primary" icon="el-icon-edit" >开课设置</el-button></router-link>
+        <router-link to="/openCourse" style="margin-left:20px;"><el-button type="primary" icon="el-icon-edit" >开课设置</el-button></router-link>
       </div>
-      <!-- <el-dialog title="选课基本设置" :visible.sync="isSettingShow" style="text-align: center"> -->
-
-      <!-- </el-dialog> -->
-      <!-- <el-row :gutter="20">
-        <el-col :span="12" v-if="isEditShow">
-          <OptionalCourseTable :isEditable="true" :viewCallBack="showEditCourse"/>
-        </el-col> -->
-        <!-- <el-col :span="24" v-if="!isEditShow"> -->
-          <OptionalCourseTable :viewCallBack="showEditCourse" :editCallback="showEditCourse" v-on:viewCourse="viewCourse"/>
-        <!-- </el-col>
-        <el-col :span="12" v-show="isEditShow"> -->
-          <!-- 编辑或添加课程 -->
+        <OptionalCourseTable :viewCallBack="showEditCourse" :editCallback="showEditCourse" v-on:viewCourse="viewCourse"/>
         <el-dialog :title="editTitle" :visible.sync="isEditShow" style="text-align: center">
           <OptionalCourseBase :course="course"/>
            <div slot="footer" class="dialog-footer">
@@ -130,10 +91,6 @@ export default {
         value: '全选',
         options: [{value: 0, label: '全选'}, {value: 1, label: '学科拓展类'}, {value: 2, label: '实用技能类'}, {value: 3, label: '科学技术类'}, {value: 4, label: '艺术教育类'}, {value: 5, label: '外国语类'}]
       },
-      testMethod: {
-        value: '全选',
-        options: [{value: 0, label: '全选'}, {value: 1, label: '考试'}, {value: 2, label: '考察'}]
-      },
       course: {}
     }
   },
@@ -161,7 +118,6 @@ export default {
     addCourse () {
       this.isEditShow = true
       this.editTitle = '添加课程'
-      this.course = {}
     }
   },
   components: {
