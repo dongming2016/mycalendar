@@ -7,7 +7,6 @@
     <div>
       <div v-if="$route.params.type==='0'">选修课列表</div>
       <div v-else>
-        <div>选修课程管理</div>
         <div>
           <div style="text-align: center;">
           <div class="search-condition">
@@ -109,9 +108,9 @@
 
 <script>
 
-import OptionalCourseBase from './OptionalCourseBase'
-import OptionalBaseSetting from './OptionalBaseSetting'
-import OptionalCourseTable from './OptionalCourseTable'
+import OptionalCourseBase from '../OptionalSetting/OptionalCourseBase'
+import OptionalBaseSetting from '../OptionalSetting/OptionalBaseSetting'
+import OptionalCourseTable from '../OptionalSetting/OptionalCourseTable'
 export default {
   data () {
     return {

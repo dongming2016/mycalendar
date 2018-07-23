@@ -56,8 +56,12 @@
       <el-button type="primary" size="mini">打印课表</el-button>
     </div>
     <el-button style="margin-bottom:10px;" round v-for="(item, index) in selectedItem" :key="index">{{item.name}}</el-button>
+    <div style="margin:20px 0;font-size:28px;">单周</div>
     <WeekTemplate :events="events"
-    :options="options" :currentWeek="currentWeek" ref="Week"/>
+    :options="options" :currentWeek="currentWeek"/>
+    <div style="margin:20px 0;font-size:28px;">双周</div>
+    <WeekTemplate
+    :options="options" :currentWeek="currentWeek"/>
   </div>
 </template>
 

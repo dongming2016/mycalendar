@@ -48,7 +48,7 @@
         label="操作">
         <template slot-scope="props">
           <el-button type="primary" icon="el-icon-delete" @click="deleteStudent(props.row.id)">移出课堂</el-button>
-          <router-link to="/myCourse/0" style="margin-left:18px;"><el-button type="primary" icon="el-icon-detail" @click="deleteStudent(props.row.id)">详情</el-button></router-link>
+          <!-- <router-link to="/myCourse/0" style="margin-left:18px;"><el-button type="primary" icon="el-icon-detail" @click="deleteStudent(props.row.id)">详情</el-button></router-link> -->
         </template>
       </el-table-column>
     </el-table>

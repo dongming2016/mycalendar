@@ -23,8 +23,8 @@ export const CourseService = {
   },
   getCourses () {
     // classes中存放选择的班级的id
-    return [{id: 0, name: '大扫除', courseDesc: 'yyyyyyy', day: 0, classTime: 2, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}]},
-      {id: 1, name: '大扫除1', courseDesc: 'yyyyyyy', day: 1, classTime: 3, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}, {id: '3', name: '一年级（3）班'}]}]
+    return [{id: 0, name: '大扫除', courseDesc: '大扫除', day: 0, classTime: 2, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}], classStr: '一年级(1)班,一年级（3）班', time: '星期一第一节'},
+      {id: 1, name: '班会', courseDesc: '班会', day: 1, classTime: 3, classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}, {id: '3', name: '一年级（3）班'}], classStr: '一年级(1)班,一年级（3）班', time: '星期一第一节'}]
   },
   getGradeCourses () {
     return []

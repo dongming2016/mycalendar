@@ -9,40 +9,40 @@
         label="基本信息"
         name="first"
       >
-        <div
-          v-for="(item, index) in getCourseItem"
-          :key="index"
-          class="item-span"
-          :class="{'item-div': item.type === 'checkbox'}"
-        >
+      <div
+        v-for="(item, index) in getCourseItem"
+        :key="index"
+        class="item-span"
+        :class="{'item-div': item.type === 'checkbox'}"
+      >
 
-         <span class="base-info-label"><span v-if="item.isNeeded" style="color:red;">*</span>{{item.label}}</span>
-          <div
-            v-if="item.type === 'text'"
-            class="input-text"
-          >
-            <el-input
-              v-model="item.value"
-              :placeholder="item.placeholder"
-            />
-</div>
-<span v-if="item.type === 'span'">{{item.value}}</span>
-<div
-  v-if="item.type === 'number'"
-  class="input-text"
-  size="small"
->
-  <el-input-number
-    v-model="item.value"
-    :min="item.min"
-    :max="item.max"
-    label="描述文字"
-  ></el-input-number>
-    </div>
-    <div
-      v-else-if="item.type === 'select'"
-      class="input-text"
-    >
+      <span class="base-info-label" style="color:#99a9bf;"><span v-if="item.isNeeded" style="color:red;">*</span>{{item.label}}</span>
+      <div
+        v-if="item.type === 'text'"
+        class="input-text"
+      >
+      <el-input
+        v-model="item.value"
+        :placeholder="item.placeholder"
+      />
+      </div>
+      <span v-if="item.type === 'span'">{{item.value}}</span>
+      <div
+        v-if="item.type === 'number'"
+        class="input-text"
+        size="small"
+      >
+      <el-input-number
+        v-model="item.value"
+        :min="item.min"
+        :max="item.max"
+        label="描述文字"
+      ></el-input-number>
+        </div>
+        <div
+          v-else-if="item.type === 'select'"
+          class="input-text"
+        >
       <el-select
         v-model="item.value"
         :placeholder="item.placeholder"
@@ -82,84 +82,84 @@
                 v-else-if="item.type === 'date'"
                 class="input-text"
               >
-                <el-input
-                  :placeholder="item.placeholder"
-                  :value="item.value"
-                  @focus="showCalendar(item)"
+              <el-input
+                :placeholder="item.placeholder"
+                :value="item.value"
+                @focus="showCalendar(item)"
+              >
+              <i
+                slot="suffix"
+                class="el-input__icon el-icon-date"
+                @click="showCalendar(item)"
+              ></i>
+                </el-input>
+                </div>
+                <div
+                  v-else-if="item.type === 'select-group'"
+                  class="input-text"
                 >
-                  <i
-                    slot="suffix"
-                    class="el-input__icon el-icon-date"
-                    @click="showCalendar(item)"
-                  ></i>
-                    </el-input>
-                    </div>
-                    <div
-                      v-else-if="item.type === 'select-group'"
-                      class="input-text"
-                    >
-                      <el-select
-                        v-model="item.value"
-                        :placeholder="item.placeholder"
-                        v-show="!item.showInput"
-                      >
-                        <el-option
-                          v-for="item1 in item.options"
-                          :key="item1.value"
-                          :label="item1.label"
-                          :value="item1.value"
-                        >
-                          <span>{{item1.label}}</span>
-                          <el-button
-                            type="text"
-                            style="float: right;"
-                            class="el-icon-delete"
-                          ></el-button>
+                <el-select
+                  v-model="item.value"
+                  :placeholder="item.placeholder"
+                  v-show="!item.showInput"
+                >
+              <el-option
+                v-for="item1 in item.options"
+                :key="item1.value"
+                :label="item1.label"
+                :value="item1.value"
+              >
+                <span>{{item1.label}}</span>
+                <el-button
+                  type="text"
+                  style="float: right;"
+                  class="el-icon-delete"
+                ></el-button>
+                  <el-button
+                    type="text"
+                    style="float: right;"
+                    class="el-icon-edit"
+                  ></el-button>
+                    </el-option>
+                    </el-select>
+                    <el-button
+                      type="text"
+                      class="el-icon-plus"
+                      @click="item.showInput=true"
+                      v-show="!item.showInput"
+                    >{{item.buttonName}}</el-button>
+                                <!-- <el-dialog :title="item.buttonName" :visible.sync="item.showInput"> -->
+                          <div v-show="item.showInput">
+                            <el-input
+                              style="display:inline-block; width:87%;"
+                              :placeholder="item.placeholder1"
+                              v-model="item.inputValue"
+                            />
                             <el-button
                               type="text"
-                              style="float: right;"
-                              class="el-icon-edit"
-                            ></el-button>
-                              </el-option>
-                              </el-select>
-                              <el-button
-                                type="text"
-                                class="el-icon-plus"
-                                @click="item.showInput=true"
-                                v-show="!item.showInput"
-                              >{{item.buttonName}}</el-button>
-                                <!-- <el-dialog :title="item.buttonName" :visible.sync="item.showInput"> -->
-                                <div v-show="item.showInput">
-                                  <el-input
-                                    style="display:inline-block; width:87%;"
-                                    :placeholder="item.placeholder1"
-                                    v-model="item.inputValue"
-                                  />
-                                  <el-button
-                                    type="text"
-                                    style="display:inline-block;"
-                                    @click="item.OKCallback(item)"
-                                  >确定</el-button>
-                                </div>
-                                </div>
-                                </div>
-                                <div class="item-span">
-                                  <span style="margin-right:10px;display: inline-block;
-    text-align: right;width:105px;">课程相关图片</span>
-                                  <input type="file" placeholder="上传图片">
-                                </div>
-                                 <div class="item-span">课程简介（教学目标）</div>
-                                </el-tab-pane>
-                                <el-tab-pane
-                                  label="教学内容"
-                                  name="second"
-                                >
-                                  <OptionalCourseDetail/>
-                                  </el-tab-pane>
-                                  </el-tabs>
-                                  <div v-show="calendarShow">
-                                    <WeekTemplate/>
-                                  </div>
+                              style="display:inline-block;"
+                              @click="item.OKCallback(item)"
+                            >确定</el-button>
+                          </div>
+                          </div>
+                          </div>
+                          <div class="item-span">
+                            <span style="margin-right:10px;display: inline-block;
+text-align: right;width:105px;">课程相关图片</span>
+                            <input type="file" placeholder="上传图片">
+                          </div>
+                            <div class="item-span">课程简介（教学目标）</div>
+                          </el-tab-pane>
+      <el-tab-pane
+        label="教学内容"
+        name="second"
+      >
+      <OptionalCourseDetail :isClassroomEditable="isClassroomEditable"/>
+    </el-tab-pane>
+  </el-tabs>
+  <div v-show="calendarShow">
+    <WeekTemplate/>
+  </div>
 
                       <!-- <div
                         slot="footer"
@@ -466,7 +466,8 @@ export default {
         isNeeded: true
       }
       ]
-      !this.isTeacher && course.push(teacher)
+      Array.prototype.splice()
+      !this.isTeacher && course.splice(5, 0, teacher)
       return course
     },
     showEdit () {

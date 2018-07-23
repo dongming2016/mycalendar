@@ -69,7 +69,8 @@
   </el-pagination> -->
   </div>
   <el-dialog title="课程详情" :visible.sync="courseVisible">
-    <EditOptionalCourse :course="course"/>
+    <EditOptionalCourse :course="course" :isEditable="isEditable"
+    :isClassroomEditable="isClassroomEditable"/>
     <div style="text-align:center;margin-top:20px;">
       <el-button type="primary" @click="courseVisible=false">确定</el-button>
       <el-button type="primary" plain @click="courseVisible=false">取消</el-button>
@@ -126,6 +127,8 @@ export default {
       courseVisible: false,
       courseSelectVisible: false,
       course: {},
+      isEditable: false,
+      isClassroomEditable: false,
       selectedDetail: {},
       optionalCourseData: [
         {

@@ -57,8 +57,8 @@
       label="已选人数"
       prop="selectedNumber"
       v-if="!isEdit"/> -->
-    <el-table-column
-      label="操作" width="350">
+    <el-table-column v-if="!onlyRead"
+      label="操作" width="250">
       <template slot-scope="props">
         <!-- <el-button type="primary" icon="el-icon-view" size="mini" @click="viewCourse(props.row.id, props.row.className)">查看课程信息</el-button> -->
         <!-- <el-button type="primary" icon="el-icon-view" size="mini" @click="viewSelect(props.row.id, props.row.className)">查看选课详情</el-button> -->
@@ -88,6 +88,7 @@ export default {
         return true
       }
     },
+    onlyRead: Boolean,
     isEdit: {
       default () {
         return true

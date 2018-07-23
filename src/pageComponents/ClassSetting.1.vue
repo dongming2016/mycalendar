@@ -11,9 +11,9 @@
           </el-option>
         </el-select>
       </div>
-      <div>
+      <!-- <div>
         <el-button type="primary">创建班级</el-button>
-      </div>
+      </div> -->
       <div :style="{'display:flex': showClassInfo}">
         <div class="class-container" :class="{'class-list': showClassInfo }">
           <el-table

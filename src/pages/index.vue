@@ -30,6 +30,10 @@ import Category from '../pageComponents/Category'
 import DomainManage from '../pageComponents/DomainManage'
 import OpenCourse from '../pages/OpenCourse.vue'
 import TeacherMyCourse from '../pageComponents/TeacherMyCourse.vue'
+import ClassOptionalCourse from './ClassOptionalCourse'
+import CourseSetting from '../pageComponents/course/CourseSetting'
+import dailyClass from './dailyClasses'
+
 export default {
   data () {
     return {
@@ -63,7 +67,10 @@ export default {
     Category,
     DomainManage,
     OpenCourse,
-    TeacherMyCourse
+    TeacherMyCourse,
+    ClassOptionalCourse,
+    CourseSetting,
+    dailyClass
   },
   mounted () {
     this.options = CourseService.getSchoolYear()

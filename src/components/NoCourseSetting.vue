@@ -11,7 +11,11 @@
         inactive-text="排课">
       </el-switch>
     </div>
-    <NoCourseTable :options="getOptions"/>
+    <NoCourseTable :options="getOptions" style="display:inline-block;"/>
+    <div style="display:inline-block;  margin-left: 30px;
+    width: 250px;  vertical-align: top;" v-show="isClassOut">
+      <ClassOTT :classes="classes"/>
+    </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" plain  @click="OK">确定</el-button>
       <el-button plain @click="dialogVisible = false">取消</el-button>
@@ -23,13 +27,16 @@
 <script>
 import NoCourseTable from './NoCourseTable'
 import { NoScheduleService } from '../service/noSchedule.service'
+import ClassOTT from './ClassOTT'
 
 export default {
   data () {
     return {
       dialogVisible: false,
       notArrange: true,
-      arrange: true
+      arrange: true,
+      isClassOut: true,
+      classes: [{id: '1', name: '一年级（1）班'}, {id: '2', name: '二年级（1）班'}]
     }
   },
   methods: {
@@ -44,7 +51,8 @@ export default {
     }
   },
   components: {
-    NoCourseTable
+    NoCourseTable,
+    ClassOTT
   }
 }
 </script>

@@ -7,27 +7,27 @@
     </div>
     <div style="display: inline-block;
     text-align: left;
-    width: 60%;">
-    <div style="text-align:center; margin:20px 0;">
-      <div style="display:inline-block;margin-right:18px;">
+    width: 80%;">
+    <div style="margin:20px 0;">
+      <div style="width:23%;display:inline-block;margin-right:18px;">
         <span style="margin-right:10px;">开课时间</span>
-        <el-input v-model="courseCode" placeholder="请输入课程编号" style="width:180px;display:inline-block;"/>
+        <el-input v-model="courseCode" placeholder="请输入课程编号" style="width:70%;display:inline-block;"/>
       </div>
-      <div style="display:inline-block;margin-right:18px;">
+      <div style="width:23%;display:inline-block;margin-right:18px;">
         <span style="margin-right:10px;">课程编号</span>
-        <el-input v-model="courseCode" placeholder="请输入课程编号" style="width:180px;display:inline-block;"/>
+        <el-input v-model="courseCode" placeholder="请输入课程编号" style="width:70%;display:inline-block;"/>
       </div>
-      <div style="display:inline-block;margin-right:18px;">
+      <div style="width:23%;display:inline-block;margin-right:18px;">
         <span style="margin-right:10px;">课程名称</span>
-        <el-input v-model="courseName" placeholder="请输入课程名称" style="width:180px;display:inline-block;"/>
+        <el-input v-model="courseName" placeholder="请输入课程名称" style="width:70%;display:inline-block;"/>
       </div>
-      <div style="display:inline-block;margin-right:18px;">
+      <div style="width:23%;display:inline-block;margin-right:18px;">
         <span style="margin-right:10px;">课程类别</span>
-        <el-input v-model="category" placeholder="请输入课程类别" style="width:180px;display:inline-block;"/>
+        <el-input v-model="category" placeholder="请输入课程类别" style="width:70%;display:inline-block;"/>
       </div>
-      <div style="display:inline-block;margin-right:18px;">
+      <div style="width:24%;margin-top:18px;display:inline-block;margin-right:18px;">
         <span style="margin-right:10px;">任课教师</span>
-        <el-input v-model="teacherName" placeholder="请输入任课教师" style="width:180px;display:inline-block;"/>
+        <el-input v-model="teacherName" placeholder="请输入任课教师" style="width:70%;display:inline-block;"/>
       </div>
       <div style="margin-top:18px;text-align:center">
         <el-button type="primary">查询</el-button>
@@ -35,8 +35,8 @@
       </div>
     </div>
     </div>
+    <div style="margin: 8px 2%;">
      <el-table
-     style="display: inline-block;margin: 8px 2%;"
     border
     :data="optionalCourseData">
     <el-table-column
@@ -79,20 +79,20 @@
       label="班级限选"
       width="100"
       prop="classLimit"/>
-    <el-table-column
-      label="操作" width="350">
+    <el-table-column  v-if="$route.params.authorType==='1'"
+      label="操作" width="280">
       <template slot-scope="props">
         <el-button type="primary" size="mini"  @click="showCourseDetail(props.row)">
           查看课程信息
         </el-button>
         <el-button type="primary" size="mini"  @click="showCourseSelectDetail(props.row.id)">
-          查看课程选课信息
+          查看选课信息
         </el-button>
       </template>
     </el-table-column>
   </el-table>
   <el-pagination
-    style="display:inline-block;"
+    style="margin-top:20px;"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
     :current-page="currentPage"
@@ -101,8 +101,10 @@
     layout="total, sizes, prev, pager, next, jumper"
     :total="40">
   </el-pagination>
+  </div>
   <el-dialog title="课程详情" :visible.sync="courseVisible">
-    <EditOptionalCourse :course="course"/>
+    <EditOptionalCourse :course="course" :isEditable="isEditable"
+    :isClassroomEditable="isClassroomEditable"/>
     <div style="text-align:center;margin-top:20px;">
       <el-button type="primary" @click="courseVisible=false">确定</el-button>
       <el-button type="primary" plain @click="courseVisible=false">取消</el-button>
@@ -125,6 +127,8 @@ export default {
   data () {
     return {
       searchKey: '',
+      isEditable: false,
+      isClassroomEditable: false,
       currentTime: new Date().getMilliseconds(),
       startTime: new Date('2018-03-04').getMilliseconds(),
       endTime: new Date('2018-07-05').getMilliseconds(),

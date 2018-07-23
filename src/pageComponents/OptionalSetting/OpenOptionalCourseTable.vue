@@ -100,14 +100,12 @@
     </el-table-column>
     <el-table-column
     label="所属类别"
-    sortable
     prop="category"/>
     <el-table-column
     label="学科名称"
-    sortable
     prop="courseName"/>
     <el-table-column
-    label="学科拓展类"
+    label="学科所属领域"
     sortable
     prop="courseDomainStr"/>
     <el-table-column
@@ -120,20 +118,18 @@
     prop="weekNum"/>
     <el-table-column
     label="上课时间"
-    sortable
-    prop="courseTimes"/>
+    prop="timeStr"/>
     <el-table-column
     label="学生选修条件"
-    sortable
     prop="selectConditionStr"/>
     <el-table-column
-      label="操作" width="350">
+      label="操作" width="200">
       <template slot-scope="props">
         <!-- <el-button type="primary" @click="openCourseSetting(props.row)" size="mini">增加课堂</el-button> -->
+        <el-button type="text" size="mini" @click="viewClassroom(props.row)">详情</el-button>
+        <router-link style="margin-left:10px;margin-right:10px;"  to="/viewCourseStudents"><el-button type="text" size="mini">选课详情</el-button></router-link>
         <el-button type="text" size="mini" @click="editClassroom(props.row)">编辑</el-button>
         <el-button type="text" size="mini" @click="deleteClassroom(props.row.id)">删除</el-button>
-        <el-button type="text" size="mini" @click="viewClassroom(props.row)">详情</el-button>
-        <router-link style="margin-left:10px;"  to="/viewCourseStudents"><el-button type="text" size="mini">选课详情</el-button></router-link>
       </template>
     </el-table-column>
   </el-table>
@@ -289,12 +285,13 @@ export default {
           testMethod: '考核',
           number: 40,
           studentsNum: 2,
-          weekNum: 4,
+          weekNum: 18,
           currentPage4: 1,
           credit: 2,
           checkedGradeIds: [1, 2],
           time: [{dayid: 1, timeId: 1, name: '星期一第一节课'}, {dayid: 2, timeId: 2, name: '星期二第二节课'}],
           courseDomain: {id: 1, name: '学科拓展类'},
+          timeStr: '星期一第一节课,星期二第二节课',
           totalHours: 18,
           weeks: 18,
           selectConditionStr: '一年级,二年级',

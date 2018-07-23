@@ -41,7 +41,7 @@
             <div v-show="isWeekShow">
               <div>公共课程时间设置</div>
                 <WeekTemplate
-                :options="options" :currentWeek="currentWeek" ref="Week"/>\
+                :options="options" :currentWeek="currentWeek" ref="Week"/>
               <footer style="text-align: center;
                           margin-top: 20px;">
                 <el-button type="primary" @click="isWeekShow=false">确定</el-button>

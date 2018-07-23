@@ -11,32 +11,38 @@
         </el-tag>
       </span>
     </div> -->
+    <div>
     <div style="margin-bottom:18px;">
-      <span style="margin-right:18px;">选择年级</span>
-      <el-select v-model="currentGrade" placeholder="请选择年级">
-        <el-option
-          v-for="item in grades"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id">
-        </el-option>
-      </el-select>
-    </div>
-    <div style="text-align:right;">
-      <span>课程类型：</span>
-      <el-select v-model="filter" placeholder="请选择课程类型">
-        <el-option v-for="(item, index) in category"
-        :key="index"
-        :label="item.name"
-        :value="item.id"/>
-      </el-select>
-    </div>
-    <div style="text-align:right;margin-top:16px;">
-      <el-radio-group v-model="courseType" style="margin-bottom: 20px;">
-        <el-radio-button label="0">通用</el-radio-button>
-        <el-radio-button label="1">文科</el-radio-button>
-        <el-radio-button label="2">理科</el-radio-button>
+      <el-radio-group v-model="selectedGrade" style="margin-bottom: 20px;">
+        <el-radio-button v-for="(item, index) in grades"
+        :key="index" :label="item.name">{{item.name}}</el-radio-button>
       </el-radio-group>
+    </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <span style="margin-right:20px;">课程名称</span>
+      <el-select v-model="selectedCourseId">
+        <el-option v-for="(item, index) in getCourses"
+        :key="index" :label="item.courseName" :value="item.id"/>
+      </el-select>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <span style="margin-right:20px;">适用班级类型</span>
+      <el-radio-group v-model="courseType" style="margin-bottom: 20px;">
+        <el-radio label="通用">通用</el-radio>
+        <el-radio label="文科">文科</el-radio>
+        <el-radio label="理科">理科</el-radio>
+      </el-radio-group>
+    </div>
+    <div>
+      <el-button type="primary" @click="add">添加年级课程计划</el-button>
+      <el-dialog :visible.sync="dialogVisible" :title="title">
+        <GradeCoursePlan :isNew="isNew" :plan="plan"/>
+        <div style="text-align:center;">
+          <el-button type="primary" @click="dialogVisible=false">确定</el-button>
+          <el-button type="primary" plain @click="dialogVisible=false">取消</el-button>
+        </div>
+      </el-dialog>
     </div>
     <div>
       <el-table
@@ -44,35 +50,38 @@
       :data="getCourses"
       style="width: 100%">
       <el-table-column
-        type="selection"
-        width="55">
+        label="年级"
+        sortable
+        prop="grade">
       </el-table-column>
       <el-table-column
         label="课程名称"
         sortable
-        prop="name">
+        prop="courseName">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="课程类型">
         <template slot-scope="scope">
           <span>
             {{scope.row.type}}
           </span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
-        label="文/理科"
+        label="适用班级类型"
         prop="courseType">
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <el-select v-model="scope.row.courseType">
             <el-option v-for="(item, index) in courseTypes"
             :key="index" :label="item.name" :value="item.id"/>
           </el-select>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column
-        label="周课时">
-        <template slot-scope="scope">
+        label="周课时"
+        sortable
+        prop="weekHours">
+        <!-- <template slot-scope="scope">
            <el-select v-model="scope.row.weekHours" placeholder="请选择周课时">
             <el-option
               v-for="item in 40"
@@ -80,12 +89,21 @@
               :value="item">
             </el-option>
           </el-select>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column
-        label="总课时">
-        <template slot-scope="scope">
+        label="总课时"
+        sortable
+        prop="totalHours">
+        <!-- <template slot-scope="scope">
           <el-input v-model="scope.row.totalHours" type="number" placeholder="请输入总课时"></el-input>
+        </template> -->
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+          <el-button type="primary">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -94,24 +112,27 @@
       :total="50">
     </el-pagination>
     </div>
-    <div style="margin-top:18px;text-align:center;">
-      <el-button type="primary">确定</el-button>
-    </div>
   </div>
 </template>
 
 <script>
 import ClassSetting from './ClassSetting'
+import GradeCoursePlan from './gradeClassManage/GradeCoursePlan'
 // import { CourseService } from '../service/course.service'
 export default {
   data () {
     return {
+      dialogVisible: false,
+      isNew: false,
+      plan: {},
+      title: '',
       filter: '全部',
+      selectedCourseId: '',
       category: [{id: 0, name: '全部'}, {id: 1, name: '国标'}, {id: 2, name: '校本'}],
-      courseType: 0,
+      courseType: '通用',
       courseTypes: [{id: 0, name: '通用'}, {id: 1, name: '文科'}, {id: 2, name: '理科'}],
-      currentGrade: '一年级',
-      grades: [{id: '1', name: '一年级'}, {id: '2', name: '二年级'}, {id: '3', name: '三年级'}]
+      selectedGrade: '全部',
+      grades: [{id: '0', name: '全部'}, {id: '1', name: '一年级'}, {id: '2', name: '二年级'}, {id: '3', name: '三年级'}]
     }
   },
   computed: {
@@ -121,7 +142,8 @@ export default {
       return [
         {
           id: 1,
-          name: '数学',
+          grade: '一年级',
+          courseName: '数学',
           type: '国标',
           weekHours: 10,
           courseType: '通用',
@@ -129,7 +151,8 @@ export default {
         },
         {
           id: 2,
-          name: '语文',
+          grade: '一年级',
+          courseName: '语文',
           type: '国标',
           courseType: '通用',
           weekHours: 10,
@@ -137,7 +160,8 @@ export default {
         },
         {
           id: 3,
-          name: '英语',
+          grade: '一年级',
+          courseName: '英语',
           courseType: '通用',
           type: '国标',
           weekHours: 10,
@@ -145,7 +169,8 @@ export default {
         },
         {
           id: 4,
-          name: '政治',
+          grade: '一年级',
+          courseName: '政治',
           courseType: '文科',
           type: '国标',
           weekHours: 10,
@@ -153,7 +178,8 @@ export default {
         },
         {
           id: 5,
-          name: '艺术',
+          grade: '一年级',
+          courseName: '艺术',
           courseType: '通用',
           type: '校本',
           weekHours: 10,
@@ -161,7 +187,8 @@ export default {
         },
         {
           id: 6,
-          name: '音乐',
+          grade: '一年级',
+          courseName: '音乐',
           courseType: '通用',
           type: '国标',
           weekHours: 10,
@@ -169,7 +196,8 @@ export default {
         },
         {
           id: 7,
-          name: '物理',
+          grade: '一年级',
+          courseName: '物理',
           courseType: '理科',
           type: '国标',
           weekHours: 10,
@@ -193,10 +221,22 @@ export default {
     },
     expandRow (row) {
       this.classOption.push([ {} ])
+    },
+    edit (gradePlan) {
+      this.dialogVisible = true
+      this.isNew = false
+      this.plan = gradePlan
+    },
+    add () {
+      this.dialogVisible = true
+      this.isNew = true
+      this.title = '添加年级计划'
+      this.plan = {}
     }
   },
   components: {
-    ClassSetting
+    ClassSetting,
+    GradeCoursePlan
   },
   mounted () {
     // this.gradeOption = CourseService.getGradeCourses()

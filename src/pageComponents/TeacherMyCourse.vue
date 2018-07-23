@@ -12,17 +12,17 @@
     </div>
     <div>
       <el-table style="margin-top:18px;" :data="myCourse" border>
-        <el-table-column prop="term" label="学年学期"/>
-        <el-table-column prop="classCode" label="课程编号"/>
-        <el-table-column prop="className" label="课程名称"/>
+        <el-table-column prop="term" sortable label="学年学期"/>
+        <el-table-column prop="classCode" sortable label="课程编号"/>
+        <el-table-column prop="className" sortable label="课程名称"/>
         <el-table-column prop="category" label="所属类别"/>
         <el-table-column prop="courseName" label="学科名称"/>
-        <el-table-column prop="credit" label="学分"/>
-        <el-table-column prop="totalHours" label="课时安排"/>
-        <el-table-column prop="weekNum" label="上课周数"/>
+        <el-table-column prop="credit" sortable label="学分"/>
+        <el-table-column prop="totalHours" sortable label="课时安排"/>
+        <el-table-column prop="weekNum" sortable label="上课周数"/>
         <el-table-column prop="site" label="设备及场地"/>
         <el-table-column prop="courseTimeStr" label="上课时间"/>
-        <el-table-column label="操作" width="300">
+        <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <router-link to="/viewCourseStudents" style="margin-right:18px;">
               <el-button type="primary">选课详情</el-button>
@@ -31,6 +31,10 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination style="text-align:center;margin-top:18px;"
+        layout="total,prev, pager, next"
+        :total="50">
+      </el-pagination>
     </div>
     <div>
       <el-dialog :visible.sync="dialogVisible" title="开课设置">
@@ -52,19 +56,24 @@ export default {
     return {
       dialogVisible: false,
       isTeacher: true,
-      selectedTerm: '2018-2019学年第一学期',
-      terms: [{
-        name: '2018-2019学年第一学期',
-        id: 1
-      },
-      {
-        name: '2017-2018学年第二学期',
-        id: 2
-      },
-      {
-        name: '2017-2018学年第一学期',
-        id: 3
-      }],
+      selectedTerm: '全部',
+      terms: [
+        {
+          name: '全部',
+          id: 1
+        },
+        {
+          name: '2018-2019学年第一学期',
+          id: 1
+        },
+        {
+          name: '2017-2018学年第二学期',
+          id: 2
+        },
+        {
+          name: '2017-2018学年第一学期',
+          id: 3
+        }],
       course: {},
       isEditable: false,
       myCourse: [
@@ -83,7 +92,7 @@ export default {
           testMethod: '考核',
           number: 40,
           studentsNum: 2,
-          weekNum: 4,
+          weekNum: 18,
           currentPage4: 1,
           credit: 2,
           checkedGradeIds: [1, 2],

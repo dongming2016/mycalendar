@@ -11,23 +11,10 @@
           </el-option>
         </el-select>
       </div>
-      <div style="margin-bottom:18px;">
-        <span style="margin-right:18px;">选择班级</span>
-        <el-select v-model="selectedClasses" placeholder="请选择班级">
-          <el-option
-            v-for="item in classes"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </div>
-      <class-teacher-info/>
-      <div style="color:red;text-align:center;">请预留不排课周课时</div>
       <!-- <div style="text-align:right;margin-bottom:18px;">
         <el-button type="primary">创建班级</el-button>
       </div> -->
-      <!-- <div :style="{'display:flex': showClassInfo}">
+      <div :style="{'display:flex': showClassInfo}">
         <div class="class-container" :class="{'class-list': showClassInfo }">
           <el-table
           border
@@ -70,17 +57,17 @@
               </template>
             </el-table-column>
           </el-table>
-        </div> -->
+        </div>
         <!-- <div v-show="showClassInfo" :class="{'class-info': showClassInfo }"> -->
-         <!--<el-dialog title="班级信息" :visible.sync="showClassInfo">
+         <el-dialog title="班级信息" :visible.sync="showClassInfo">
           <class-info :classId="classId" :className="className" :isVew="isVew"/>
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" plain @click="showClassInfo = false">确定</el-button>
             <el-button plain @click="showClassInfo = false">取消</el-button>
           </div>
          </el-dialog>
-         </div>
-      </div>-->
+        <!-- </div> -->
+      </div>
       <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" plain @click="saveClassSetting">确定</el-button>
         <el-button plain @click="classSettingVisible = false">取消</el-button>
@@ -90,17 +77,14 @@
 </template>
 
 <script>
-// import { CourseService } from '../service/course.service'
+import { CourseService } from '../service/course.service'
 import ClassInfo from './ClassInfo'
-import ClassTeacherInfo from './ClassTeacherInfo'
 
 export default {
   data () {
     return {
       currentGrade: '一年级',
-      selectedClasses: '一年级（1）班',
       grades: [{id: '1', name: '一年级'}, {id: '2', name: '二年级'}, {id: '3', name: '三年级'}],
-      classes: [{id: '1', name: '一年级（1）班'}, {id: '2', name: '二年级（1）班'}, {id: '3', name: '三年级（1）班'}],
       classSettingVisible: false,
       classSettings: [],
       showClassInfo: false,
@@ -156,14 +140,13 @@ export default {
     }
   },
   components: {
-    ClassInfo,
-    ClassTeacherInfo
+    ClassInfo
   },
   mounted () {
-    // this.grades = CourseService.getGrades()
-    // if (this.grades.length > 0) {
-    //   this.chosedGrade = this.grades[0]
-    // }
+    this.grades = CourseService.getGrades()
+    if (this.grades.length > 0) {
+      this.chosedGrade = this.grades[0]
+    }
   }
   // render: function (createElement) {
   //   console.log(this.$slots)

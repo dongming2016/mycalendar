@@ -41,7 +41,7 @@
       </div>
       <div>
         <el-button  type="primary" @click="addCourse" class="add-button">增加课程</el-button>
-        <router-link to="/openCourse" style="margin-left:20px;"><el-button type="primary" icon="el-icon-edit" >开课设置</el-button></router-link>
+        <router-link to="/openCourse" style="margin-left:20px;"><el-button type="primary" icon="el-icon-edit" >开课管理</el-button></router-link>
       </div>
         <OptionalCourseTable :viewCallBack="showEditCourse" :editCallback="showEditCourse" v-on:viewCourse="viewCourse"/>
         <el-dialog :title="editTitle" :visible.sync="isEditShow" style="text-align: center">
