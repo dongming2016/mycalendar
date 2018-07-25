@@ -28,10 +28,21 @@
               </div>
             </div>
           </div>
-          <WeekTemplate style="display:inline-block;margin-left:20px;vertical-align: top;"
+          <WeekTemplate style="display:inline-block;vertical-align: top;"
           :events="events" :options="options" :currentWeek="currentWeek"
           :subCells="subCells"
-          :notArranged="notArranged"  ref="Week"/>
+          :notArranged="notArranged"  ref="Week">
+            <template slot-scope="scope">
+              <div class="label-container">
+                <div style="display:inline-block;">
+                  <div class="class-container">{{scope.data.className}}</div>
+                  <div class="daily-item">{{scope.data.courseName}}</div>
+                  <span>|</span>
+                  <div class="daily-item">{{scope.data.teacherName}}</div>
+                </div>
+              </div>
+            </template>
+          </WeekTemplate>
         </div>
       </el-col>
       <el-col :span="4">
@@ -49,9 +60,21 @@
           <EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list">
             <template>
               <div>
-                <div>班级</div>
-                <div>科目</div>
-                <div>老师</div>
+                <div class="header-item-container">
+                  <div class="header-item">班级</div>
+                </div>
+                <div class="header-item-container">
+                  <div class="header-item">科目</div>
+                </div>
+                <div class="header-item-container">
+                  <div>老师</div>
+                </div>
+                <div class="header-item-container" style="margin-left:10px;">
+                  <div class="header-item" style="width:60px">待排课</div>
+                </div>
+                <div class="header-item-container" style="width:60px">
+                  <div>已排课</div>
+                </div>
               </div>
             </template>
           </EventList>
@@ -139,13 +162,13 @@ export default {
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
       events: [
-        new Event(1, '2018-07-25', '第二节', '语文/张丽萍', '4852a1d4d1f740879dcde724ec8e11dd'),
-        new Event(0, '2018-07-26', '第一节', '语文/张丽萍', '595a33a814504fd5915efbdfd8309ddf'),
-        new Event(2, '2018-07-27', '第一节', '语文/张丽萍', '4852a1d4d1f740879dcde724ec8e11dd'),
-        new Event(3, '2018-07-24', '第一节', '语文/张丽萍', '595a33a814504fd5915efbdfd8309ddf'),
-        new Event(3, '2018-07-24', '第一节', '', '', false),
+        new Event(1, '2018-07-25', '第二节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        new Event(0, '2018-07-26', '第一节', {className: '二班', classId: '595a33a814504fd5915efbdfd8309ddf', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '595a33a814504fd5915efbdfd8309ddf'),
+        new Event(2, '2018-07-27', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        new Event(3, '2018-07-24', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '英语', teacherName: '李梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        new Event(4, '2018-07-24', '第一节', '', '', false),
         new Event(5, '2018-07-25', '第六节', '', '', false),
-        new Event(7, '2018-07-23', '第八节', '数学/abc', '', true)],
+        new Event(7, '2018-07-23', '第八节', {className: '一班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '数学', teacherName: '杨洋', teacherId: ''}, '4c5887fadaed4ad0970f56d862d79f39', '')],
       currdate: moment(),
       notArranged: [
         new NotArrangedEvent('数学/小李', 10, '4852a1d4d1f740879dcde724ec8e11dd'),
@@ -224,11 +247,6 @@ export default {
 </script>
 
 <style>
-.event-list {
-  position: relative;
-  right: 16px;
-  width: 100px;
-}
 .my-date {
   display: inline-block;
   margin-left: 8px;
@@ -287,5 +305,43 @@ export default {
   height: 40px;
   line-height: 40px;
   margin-bottom: 10px;
+}
+.header-item {
+  border-right: 1px solid;
+  height: 16px;
+  width: 50px;
+  line-height: 16px;
+}
+.header-item-container {
+  display: inline-block;
+  /* width: 50px; */
+}
+.label-container {
+  height: 30px;
+  line-height: 30px;
+}
+.class-container {
+  border-radius: 10px;
+  background: #BB28F2;
+  color: #fff;
+  width: 40px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  font-size: 12px;
+}
+.daily-item {
+  /* width: 55px; */
+  padding: 0 6px;
+  display: inline-block;
+  font-size: 12px;
+  /* overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap; */
+}
+.label-container:hover {
+  border-radius: 20px;
+  background: #F6F8FC;
+  border: 1px solid #8FADF0;
 }
 </style>

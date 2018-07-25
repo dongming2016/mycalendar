@@ -19,11 +19,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.event-list {
-  position: absolute;
-  right: 16px;
-  width: 100px;
-}
 .my-date {
   display: inline-block;
   margin-left: 8px;

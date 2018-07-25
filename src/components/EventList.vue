@@ -35,7 +35,8 @@ export default {
 
 <style>
  .fc-event-card {
-   text-align: left;
+  position: absolute;
+  text-align: left;
  }
  .fc-event-content {
    display: inline-block;
@@ -44,7 +45,7 @@ export default {
  .fc-drag-container{
    text-align: left;
    position: absolute;
-   top: 0;
+   /* top: 0; */
  }
  .fc-drag-card {
    position: relative;

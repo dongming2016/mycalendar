@@ -86,9 +86,9 @@
           label="自动排课"
           >
             <template slot-scope="scope">
-              <el-radio-group>
-                <el-radio v-model="scope.row.isAuto" label="true">是</el-radio>
-                <el-radio v-model="scope.row.isAuto" label="false">否</el-radio>
+              <el-radio-group v-model="scope.row.isAuto">
+                <el-radio label="true">是</el-radio>
+                <el-radio label="false">否</el-radio>
               </el-radio-group>
             </template>
           </el-table-column>

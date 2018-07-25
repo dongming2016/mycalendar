@@ -8,10 +8,10 @@ export default class Event {
    * @param {*事件内容} content
    * @param {子单元格的id} subcellId
    */
-  constructor (id, currDate, time, content = '', subcellId, isIdle = true) {
+  constructor (id, currDate, time, content = {}, subcellId, isIdle = true) {
     this.eventTime = new EventTime(currDate, time, isIdle)
     this.content = content
-    this.id = this.eventTime.currDate.calendar() + '_' + id
+    this.id = this.eventTime.currDate.calendar() + '_' + id + '_' + subcellId
     this.subcellId = subcellId
   }
 
@@ -21,6 +21,10 @@ export default class Event {
 
   getId () {
     return this.id
+  }
+
+  getSubcellId () {
+    return this.subcellId
   }
 
   getCurrDate () {

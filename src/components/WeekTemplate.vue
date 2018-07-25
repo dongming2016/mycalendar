@@ -17,16 +17,20 @@
       </div>
       <div class="fc-body">
         <div class="fc-week-cell">
-          <div v-for="(label, index) in options.labels" :key="index" class="fc-child-cell" :style="{height:subCells.length * 40+'px', lineHeight: subCells.length * 40+'px'}">
+          <div v-for="(label, index) in options.labels" :key="index" class="fc-child-cell" :style="{height:subCells.length * 35+'px', lineHeight: subCells.length * 35+'px'}">
               {{label.name}}
           </div>
         </div>
         <div v-for="(day, index) in getWeekOption" :key="index" class="fc-week-cell" >
           <div :key="item.id" v-for="item of day.events" class="fc-child-cell">
-            <div :key="index" v-for="(item2, index) in item.events"
-              :class="{'event-not-allowed': !item2.isAllowed()}" ref="fcCell" class="fc-event-container">
+            <div
+              :class="{'event-not-allowed': !item.events[0].isAllowed()}" ref="fcCell" class="fc-event-container">
               <div class="table-content" v-for="(item3, index) in subCells" :key="index">
-                <div v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId}}" class="fc-event-dragable" v-if="item2.subcellId===item3.id">{{item2.content}}</div>
+                <div v-for="(item2, index) in item.events" :key="index"
+                  v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId, content: item2.content}}"
+                class="fc-event-dragable" v-if="item2.subcellId===item3.id">
+                  <slot :data="item2.content"/>
+                </div>
               </div>
             </div>
           </div>
@@ -122,25 +126,25 @@ export default {
     }
   },
   methods: {
-    addEvent (rect, content) {
-      // 判断中间点是否在当前元素中
-      const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
-      const children = this.$refs.child
-      for (let i = 0; i < children.length; i++) {
-        if (positionUtil.isPointInRect(middlePoint, children[i].$el.getBoundingClientRect())) {
-          const grandChildren = children[i].$refs.fcCell
-          for (let j = 0; j < grandChildren.length; j++) {
-            if (positionUtil.isPointInRect(middlePoint, grandChildren[j].getBoundingClientRect())) {
-              this.events.push(new Event(j, children[i].date, children[i].labels[j], content))
-            }
-          }
-        }
-      }
-    },
-    moveEvent ([rect, content], option) {
+    // addEvent (rect, content) {
+    //   // 判断中间点是否在当前元素中
+    //   const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
+    //   const children = this.$refs.child
+    //   for (let i = 0; i < children.length; i++) {
+    //     if (positionUtil.isPointInRect(middlePoint, children[i].$el.getBoundingClientRect())) {
+    //       const grandChildren = children[i].$refs.fcCell
+    //       for (let j = 0; j < grandChildren.length; j++) {
+    //         if (positionUtil.isPointInRect(middlePoint, grandChildren[j].getBoundingClientRect())) {
+    //           this.events.push(new Event(j, children[i].date, children[i].labels[j], content))
+    //         }
+    //       }
+    //     }
+    //   }
+    // },
+    moveEvent ([rect], option) {
       const subcellId = option.subcellId
-      console.log(subcellId)
       const moveId = option.id
+      const content = option.content
       const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
       const children = this.$refs.fcCell
       let newEvent = null
@@ -158,6 +162,13 @@ export default {
           break
         }
       }
+      // 如果当前移动到的格子中已经有了标签便不能再移进去
+      const rs = this.events.find(element => {
+        return element.getId() === newEvent.getId()
+      })
+      if (rs) {
+        isAllowed = false
+      }
       const events = this.events
       let index = -1
       if (isAllowed) {
@@ -172,8 +183,6 @@ export default {
         }
         events.push(newEvent)
       }
-      console.log(events)
-      this.$emit('hello')
       return [ isAllowed ]
     },
     calcWeekOption () {
@@ -215,7 +224,7 @@ export default {
 .fc-week-cell {
   display: inline-block;
   position:relative;
-  width: 120px;
+  min-width: 155px;
   border-left: 1px solid #eee;
 }
 .fc-week-cell:last-child {
@@ -229,9 +238,9 @@ export default {
 }
 .fc-head-content {
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  min-width: 120px;
+  height: 30px;
+  line-height: 30px;
+  min-width: 155px;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
 }
@@ -240,7 +249,7 @@ export default {
 }
 .fc-child-cell{
  position:relative;
- min-height: 40px;
+ min-height: 30px;
  border-top: 1px solid #eee;
 }
 /* .fc-event-container {
@@ -262,7 +271,7 @@ export default {
   cursor: not-allowed;
 }
 .table-content {
-  height: 40px;
+  height: 35px;
   width: 100%;
 }
 /* .fc-head-content:first-child::before {

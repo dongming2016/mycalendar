@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="class-menu-title">学段/年级/班级</div>
-    <el-tree :data="classes" highlight-current :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree :data="classes" highlight-current
+    :props="defaultProps"
+    node-key="id"
+    :default-expanded-keys="[99999]"
+    :default-checked-keys="['1']"
+    :expand-on-click-node="false"
+    @node-click="handleNodeClick"></el-tree>
   </div>
 </template>
 
@@ -28,6 +34,7 @@ export default {
     classUtil.getTreeClasses()
       .then(data => {
         this.classes = data
+        console.log(data)
       })
   }
 }
