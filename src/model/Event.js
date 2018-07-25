@@ -6,11 +6,13 @@ export default class Event {
    * @param {*当前日期} currDate
    * @param {*当前事件发生在一天中的时间，如第一节} time
    * @param {*事件内容} content
+   * @param {子单元格的id} subcellId
    */
-  constructor (id, currDate, time, content = '', isIdle = true) {
+  constructor (id, currDate, time, content = '', subcellId, isIdle = true) {
     this.eventTime = new EventTime(currDate, time, isIdle)
     this.content = content
     this.id = this.eventTime.currDate.calendar() + '_' + id
+    this.subcellId = subcellId
   }
 
   isAllowed () {

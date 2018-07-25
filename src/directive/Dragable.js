@@ -47,11 +47,13 @@ export default {
         }
         const callback = value.callback
         const args = value.args
+        console.log(args)
         let result = [ element.getBoundingClientRect(), element.innerHTML ]
         if (isFunction(callback)) {
           callback.call({}, result, args)
         } else if (isArray(callback)) {
           for (let i = 0; i < callback.length; i++) {
+            console.log(args[i])
             result = callback[i].call({}, result, args[i])
           }
         }

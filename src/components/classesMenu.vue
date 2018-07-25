@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="class-menu-title">学段/年级/班级</div>
     <el-tree :data="classes" highlight-current :props="defaultProps" @node-click="handleNodeClick"></el-tree>
   </div>
 </template>
@@ -31,3 +32,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.class-menu-title {
+  background: #F6F8FC;
+  height: 40px;
+  line-height: 40px;
+}
+</style>

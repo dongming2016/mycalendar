@@ -1,57 +1,64 @@
 <template>
-<div>
-  <el-row :gutter="20">
+  <div>
+    <titleComponent :showTime="showTime" :menus="menus" :showMenu="showMenu"/>
+    <el-row type="flex"  class="title" justify="space-around">
       <el-col :span="4">
         <el-button @click="settingBoxShow=true">设置</el-button>
-        <classesMenu/>
-        <el-dialog :visible.sync="settingBoxShow" class="grade-setting">
-          <settingBox/>
-        </el-dialog>
+        <classesMenu class="class-menu" @clickNode="clickNode"/>
       </el-col>
+      <el-dialog :visible.sync="settingBoxShow" class="grade-setting">
+        <settingBox/>
+      </el-dialog>
       <el-col :span="16">
-        <div class="settings">
-          <div class="choose-phase" style="margin-bottom:16px;" >
-            <!-- <span class="arrange-label">选择学段</span> -->
-            <el-radio-group v-model="phase" >
-              <el-radio-button label="1">小学</el-radio-button>
-              <el-radio-button label="2">初中</el-radio-button>
-              <el-radio-button label="3">高中</el-radio-button>
-            </el-radio-group>
+        <div>
+          <div class="operation-container">
+            <el-button>导出课表</el-button>
+            <el-button>打印课表</el-button>
           </div>
+          <div class="schedule-table-title">
+            <div style="display:inline-block; float:left;background:#4876E7;">
+              {{selectedItem.label}}
+            </div>
+            <div style="display:inline-block;">
+              <div class="course-circle">
+                课
+              </div>
+              <div class="course-circle">
+                表
+              </div>
+            </div>
+          </div>
+          <WeekTemplate style="display:inline-block;margin-left:20px;vertical-align: top;"
+          :events="events" :options="options" :currentWeek="currentWeek"
+          :subCells="subCells"
+          :notArranged="notArranged"  ref="Week"/>
         </div>
-            <div style="margin-bottom:16px;">
-      <span class="arrange-label">选择年级</span>
-      <el-select v-model="selectedGrade" placeholder="请选择年级" @change='gradesChange()'>
-        <el-option
-          v-for="item in grades"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id">
-        </el-option>
-      </el-select>
-    </div>
-    <div style="margin-bottom:16px;">
-      <span class="arrange-label">选择班级</span>
-      <el-select v-model="selectedClasses" placeholder="请选择班级">
-        <el-option
-          v-for="item in classes"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id">
-        </el-option>
-      </el-select>
-    </div>
-    <div style="margin-bottom:10px;">
-      <el-button type="primary">预览课表</el-button>
-    </div>
-        <WeekTemplate style="display:inline-block;margin-left:20px;vertical-align: top;" :events="events" :options="options" :currentWeek="currentWeek" :notArranged="notArranged"  ref="Week"/>
       </el-col>
       <el-col :span="4">
-        <span>待添加课程</span>
-        <EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list"/>
+        <div class="radio-container">
+          <el-radio-group v-model="isSingleOrDouble" v-if="!isAll">
+            <el-radio label="single">单周</el-radio>
+            <el-radio label="double">单周</el-radio>
+          </el-radio-group>
+        </div>
+        <div class="course-list-container">
+          <div class="course-list-title">
+            <span class="el-icon-circle-plus-outline">{{courseTitle}}</span>
+          </div>
+          <div class="course-list-tips">·您可拖动待排课程到课表中·</div>
+          <EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list">
+            <template>
+              <div>
+                <div>班级</div>
+                <div>科目</div>
+                <div>老师</div>
+              </div>
+            </template>
+          </EventList>
+        </div>
       </el-col>
     </el-row>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -73,6 +80,7 @@ import ClassSetting from '../components/classSetting'
 import MergeClass from './MergeClass'
 import classesMenu from '../components/classesMenu'
 import settingBox from '../components/settingbox'
+import titleComponent from '../components/titleComponent'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -108,20 +116,41 @@ export default {
     ClassSetting,
     MergeClass,
     classesMenu,
-    settingBox
+    settingBox,
+    titleComponent
   },
   data () {
     return {
+      showTime: true,
+      showMenu: true,
+      menus: [
+        {name: '按班级查看', id: 0},
+        {name: '按教室查看', id: 1}
+      ],
+      isAll: false,
+      courseTitle: '班级课程列表',
+      subCells: [],
       settingBoxShow: false,
       showIndex: 1,
       selectedIndex: 0,
+      selectedItem: {},
+      isSingleOrDouble: 'single',
       selectedClasses: '',
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
-      events: [new Event(1, '2018-05-28', '第二节', '语文/张丽萍'), new Event(0, '2018-05-29', '第一节', '语文/张丽萍'), new Event(2, '2018-05-30', '第一节', '语文/张丽萍'), new Event(3, '2018-05-24', '第一节', '语文/张丽萍'),
-        new Event(3, '2018-05-29', '第一节', '', false), new Event(5, '2018-05-30', '第六节', '', false), new Event(7, '2018-05-30', '第八节', '数学/abc', true)],
+      events: [
+        new Event(1, '2018-07-25', '第二节', '语文/张丽萍', '4852a1d4d1f740879dcde724ec8e11dd'),
+        new Event(0, '2018-07-26', '第一节', '语文/张丽萍', '595a33a814504fd5915efbdfd8309ddf'),
+        new Event(2, '2018-07-27', '第一节', '语文/张丽萍', '4852a1d4d1f740879dcde724ec8e11dd'),
+        new Event(3, '2018-07-24', '第一节', '语文/张丽萍', '595a33a814504fd5915efbdfd8309ddf'),
+        new Event(3, '2018-07-24', '第一节', '', '', false),
+        new Event(5, '2018-07-25', '第六节', '', '', false),
+        new Event(7, '2018-07-23', '第八节', '数学/abc', '', true)],
       currdate: moment(),
-      notArranged: [ new NotArrangedEvent('数学/小李', 10), new NotArrangedEvent('数学/王梅梅', 7), new NotArrangedEvent('数学/李兰', 3) ],
+      notArranged: [
+        new NotArrangedEvent('数学/小李', 10, '4852a1d4d1f740879dcde724ec8e11dd'),
+        new NotArrangedEvent('数学/王梅梅', 7, '595a33a814504fd5915efbdfd8309ddf'),
+        new NotArrangedEvent('数学/李兰', 3, '595a33a814504fd5915efbdfd8309ddf') ],
       week: 1,
       dialogVisible: true,
       currentdate: moment(),
@@ -153,17 +182,23 @@ export default {
     }
   },
   methods: {
-    moveEvent ([rect, content], option) {
+    clickNode (data) {
+      this.selectedItem = data
+      this.subCells = this.selectedItem.children || [{id: -1}]
+      console.log(data)
+    },
+    moveEvent ([rect, content, subcellId], option) {
+      console.log(content)
       const showIndex = this.showIndex
       switch (showIndex) {
         case 0: {
-          return this.$refs.Month.moveEvent([rect, content], option)
+          return this.$refs.Month.moveEvent([rect, content, subcellId], option)
         }
         case 2: {
-          return this.$refs.Day.moveEvent([rect, content], option)
+          return this.$refs.Day.moveEvent([rect, content, subcellId], option)
         }
         default: {
-          return this.$refs.Week.moveEvent([rect, content], option)
+          return this.$refs.Week.moveEvent([rect, content, subcellId], option)
         }
       }
     },
@@ -190,7 +225,7 @@ export default {
 
 <style>
 .event-list {
-  position: absolute;
+  position: relative;
   right: 16px;
   width: 100px;
 }
@@ -208,5 +243,49 @@ export default {
 .arrange-label {
   margin-right:20px;
   color: #99a9bf;
+}
+.class-menu {
+  width: 60%;
+  margin: auto;
+  margin-top: 20px;
+  border: 1px solid #eee;
+  height: 600px;
+}
+.operation-container {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.schedule-table-title {
+  height: 50px;
+  line-height: 50px;
+  color:#fff;
+  background: #4876E7;
+}
+.course-circle {
+  display:inline-block;
+  background:#1D55D8;
+  width:30px;
+  height:30px;
+  line-height: 30px;
+  border-radius:50%;
+}
+.course-list-title {
+  background: #F6F8FC;
+  height: 40px;
+  line-height: 40px;
+}
+.course-list-container {
+  margin: 20px;
+  border: 1px solid #eee;
+}
+.course-list-tips {
+  text-align: center;
+  color: #BEBEBE;
+  margin: 20px 0;
+}
+.radio-container {
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
 }
 </style>

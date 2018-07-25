@@ -6,12 +6,12 @@
 </template>
 
 <script>
-const SMALL_CIRCLE_R = 12
+// const SMALL_CIRCLE_R = 12
 const DELTA = 10
 const BIG_CIRCLE_R = 100
 const BIG_CIRCLE_X = 100
 const BIG_CIRCLE_Y = 100
-const FONT_SIZE = 16
+// const FONT_SIZE = 16
 export default {
   props: {
     courseNum: {

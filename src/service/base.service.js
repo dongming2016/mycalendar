@@ -2,10 +2,19 @@ import axios from 'axios'
 import Label from '../model/Label'
 import {COURSE_LABELS} from '../const/course'
 const baseInfo = '/baseinfo/api'
+const schoolId = 3
 
 export default {
   getSchoolInfo () {
 
+  },
+  // GET请求
+  getSchoolYear () {
+    // return axios.get('/backend/schoolYear')
+    return axios.get(`${baseInfo}/schoolYear/selectRecordOrderByStartTime/${schoolId}`)
+  },
+  getTermBySchooYear (schoolYear) {
+    return axios.get(`${baseInfo}/term/getBySchoolYear/${schoolYear}`)
   },
   getGradeInfo (query) {
     return axios.post(`${baseInfo}/grade/selectListByCondition`, query)

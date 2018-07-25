@@ -17,12 +17,17 @@
       </div>
       <div class="fc-body">
         <div class="fc-week-cell">
-          <div v-for="(label, index) in options.labels" :key="index" class="fc-child-cell">{{label.name}}</div>
+          <div v-for="(label, index) in options.labels" :key="index" class="fc-child-cell" :style="{height:subCells.length * 40+'px', lineHeight: subCells.length * 40+'px'}">
+              {{label.name}}
+          </div>
         </div>
         <div v-for="(day, index) in getWeekOption" :key="index" class="fc-week-cell" >
           <div :key="item.id" v-for="item of day.events" class="fc-child-cell">
-            <div :key="index" v-for="(item2, index) in item.events" :class="{'event-not-allowed': !item2.isAllowed()}" ref="fcCell" class="fc-event-container">
-                <div v-dragable="{callback: moveEvent, args: {id: item2.id}}" class="fc-event-dragable">{{item2.content}}</div>
+            <div :key="index" v-for="(item2, index) in item.events"
+              :class="{'event-not-allowed': !item2.isAllowed()}" ref="fcCell" class="fc-event-container">
+              <div class="table-content" v-for="(item3, index) in subCells" :key="index">
+                <div v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId}}" class="fc-event-dragable" v-if="item2.subcellId===item3.id">{{item2.content}}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -96,6 +101,11 @@ export default {
       default () {
         return false
       }
+    },
+    subCells: {
+      default () {
+        return [{id: 0}]
+      }
     }
   },
   data () {
@@ -128,6 +138,8 @@ export default {
       }
     },
     moveEvent ([rect, content], option) {
+      const subcellId = option.subcellId
+      console.log(subcellId)
       const moveId = option.id
       const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
       const children = this.$refs.fcCell
@@ -140,7 +152,7 @@ export default {
           if (children[i].className.indexOf('event-not-allowed') < 0) {
             const j = i % labelNum
             const move2Day = this.weekDays[Math.floor(i / labelNum)]
-            newEvent = new Event(j, move2Day, labels[j].name, content)
+            newEvent = new Event(j, move2Day, labels[j].name, content, subcellId)
             isAllowed = true
           }
           break
@@ -160,6 +172,7 @@ export default {
         }
         events.push(newEvent)
       }
+      console.log(events)
       this.$emit('hello')
       return [ isAllowed ]
     },
@@ -216,6 +229,8 @@ export default {
 }
 .fc-head-content {
   display: inline-block;
+  height: 40px;
+  line-height: 40px;
   min-width: 120px;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
@@ -225,18 +240,18 @@ export default {
 }
 .fc-child-cell{
  position:relative;
+ min-height: 40px;
  border-top: 1px solid #eee;
- height: 23px;
 }
-.fc-event-container {
+/* .fc-event-container {
   display: inline-block;
-}
+} */
 .fc-event-dragable {
   position: relative;
   z-index: 2;
 }
 .fc-event-container {
-  height: 23px;
+  /* height: 23px; */
   width: 100%;
 }
 .fc-week-cell>.fc-child-cell:last-child {
@@ -246,4 +261,16 @@ export default {
   background: #eee;
   cursor: not-allowed;
 }
+.table-content {
+  height: 40px;
+  width: 100%;
+}
+/* .fc-head-content:first-child::before {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 40px;
+  border-top: 1px solid #eee;
+  transform: rotate(30deg);
+} */
 </style>

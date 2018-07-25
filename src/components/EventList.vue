@@ -1,5 +1,6 @@
 <template>
   <div>
+    <slot></slot>
     <div  class="fc-event-card">
       <div v-for="(event, index) in fcEvents" :key="index">
         <div class="fc-event-content">{{event.content}}</div>
@@ -9,7 +10,7 @@
     <div class="fc-drag-container">
       <!-- 如果event的数量为0时不能移动 -->
       <div v-for="(event, index2) in fcEvents" :key="index2" class="fc-drag-card"
-      v-dragable="{callback: [ dragArgs.callback, decrementNumber], args: [{id: index2}, {index2}]}" v-if="event.number">
+      v-dragable="{callback: [ dragArgs.callback, decrementNumber], args: [{id: index2, subcellId: event.subcellId}, {index2}]}" v-if="event.number">
         {{event.content}}
       </div>
     </div>
