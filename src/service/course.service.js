@@ -30,7 +30,14 @@ export const CourseService = {
     return []
   },
   getAllCourses () {
-    return []
+    return new Promise(resolve => {
+      resolve([
+        {id: 0, courseName: '语文'},
+        {id: 1, courseName: '数学'},
+        {id: 2, courseName: '物理'},
+        {id: 3, courseName: '英语'}
+      ])
+    })
   },
   getSchoolYear () {
     return [ { schoolYear: '2017-2018学年', isCurrentYear: true, terms: [ { name: '第二学期', isCurrent: true }, { name: '第一学期', isCurrent: false } ] } ]

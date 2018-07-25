@@ -1,4 +1,6 @@
 import Label from '../model/Label'
+import courseUtil from '../util/courseUtil'
+import Course from '../model/course'
 
 const labels = []
 const COURSE_DAY = 8
@@ -35,6 +37,29 @@ export const NoScheduleService = {
   // 需要穿学校，学段id
   getLabels () {
     return labels
+  },
+  getSchoolNoCourse () {
+    return new Promise((resolve) => {
+      const schedule = courseUtil.courseAdapter([
+        new Course(0, 1),
+        new Course(1, 2),
+        new Course(2, 3),
+        new Course(3, 4)
+      ], 5, 8)
+      resolve(schedule)
+    })
+  },
+  getGradeNoCourse () {
+    return new Promise((resolve) => {
+      const schedule = courseUtil.courseAdapter([
+        new Course(0, 1),
+        new Course(1, 5),
+        new Course(2, 4),
+        new Course(3, 2),
+        new Course(3, 3)
+      ], 5, 8)
+      resolve(schedule)
+    })
   },
   getNoSchedule () {
     // 暂时先用这个方法

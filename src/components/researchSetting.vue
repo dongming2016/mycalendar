@@ -1,121 +1,127 @@
 <template>
-  <!-- 教研活动 -->
+  <!-- 公共课设置 -->
   <div>
-    <el-button type="text" @click="dialogVisible = true">教研活动设置</el-button>
-    <el-dialog title="教研活动设置" :visible.sync="dialogVisible" class="research-setting">
-      <el-tabs type="border-card">
-      <el-tab-pane label="添加教研活动">
-        <div>
-          <div v-show="!isWeekShow" style="text-align:center;">
-            <div><span>教研活动名称：</span><el-input  style="margin-top:8px;margin-left:8px;width:200px;" v-model="researchName"/></div>
-            <div><span>教研活动描述：</span><el-input style="margin-top:8px;margin-left:8px;width:200px;" v-model="researchDesc"/></div>
-            <div style="display:inline-block;margin-top:10px;margin-left:-180px;"><span>选择老师：</span>
-            <div style="margin:20px;margin-left: 170px;">
-              <el-checkbox-group style="display:block;" v-model="checkedTeachers">
-                <el-checkbox v-for="item in teachers"
-                :key="item.id"
-                :label="item.name">
-                {{item.name}}
-                </el-checkbox>
-              </el-checkbox-group>
-            </div>
-            </div>
-            <div><span>选择时间：</span>
-            <el-input style="width:200px" @focus="isWeekShow=true" v-model="activityTime" placeholder="请选择活动时间">
-              <i slot="prefix" @click="isWeekShow=true" class="el-input__icon el-icon-date"></i>
-            </el-input></div>
-            <div style="text-align:center;margin-top:20px;">
-              <el-button type="primary" @click="OK">确定</el-button>
-              <el-button @click="dialogVisible=false">取消</el-button>
-            </div>
+    <div style="width:800px;">
+        <el-form :model="researchData" :rules="rules" ref="research">
+          <el-form-item label="教研活动名称:" prop="researchName">
+            <el-input v-model="researchData.researchName"/>
+          </el-form-item>
+          <el-form-item label="参与老师:" prop="teachers">
+            <el-select v-model="researchData.teachers" placeholder="请选择活动区域">
+              <el-option label="item.teacherName" value="item.id"
+                v-for="(item, index) in teachers" :key="index"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="活动时间:" prop="activityTimes">
+            <el-input style="width:300px;margin-top:20px;" @focus="showTimeTable"
+            placeholder="选择时间" v-model="researchData.activityTimesStr" clearable>
+            <!-- <el-tag
+              :key="index"
+              v-for="(activityTime, index) in researchData.activityTimes"
+              closable
+              :disable-transitions="false"
+              @close="handleClose(activityTime)">
+              {{activityTime.getCourseTimeStr()}}
+            </el-tag> -->
+              <i slot="suffix" @click="showTimeTable" class="el-input__icon el-icon-caret-bottom"></i>
+            </el-input>
+          </el-form-item>
+          <div class="down-box" style="text-align:center;" v-if="isTimeTableShow">
+            <CourseScheduleTable :options="options" :datas="datas">
+              <template slot="content" slot-scope="currentData">
+                <el-checkbox v-model="currentData.currentData.isSelected" @change="setTime(currentData.currentData)"/>
+                <!-- <span v-show="currentData.currentData && currentData.currentData.isSelected">不排课</span> -->
+              </template>
+            </CourseScheduleTable>
+            <el-button style="margin:10px 0;" type="primary" @click="isTimeTableShow=false">确定</el-button>
           </div>
-          <div v-show="isWeekShow">
-            <div>活动时间设置</div>
-            <WeekTemplate
-            :events="activityEvents"
-            :options="options" :currentWeek="currentWeek" ref="Week"/>
-            <footer style="text-align: center;
-                        margin-top: 20px;">
-              <el-button type="primary" @click="isWeekShow=false">确定</el-button>
-              <el-button @click="isWeekShow=false">取消</el-button>
-            </footer>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="教研活动列表">
-        <el-row :gutter="20">
-          <el-col :span="4">
-            <el-button type="primary" size="mini">批量删除</el-button>
-            <el-collapse v-model="activeNames">
-            <el-collapse-item v-for="(item, index) in activities" :key="index" :title="item.researchName" :name="item.id">
-              <div>{{item.researchDesc}}</div>
-              <div><el-tag
-                  v-for="tag in item.teachers"
-                  :key="tag.id"
-                  closable>
-                  {{tag.name}}
-                </el-tag></div>
-            </el-collapse-item>
-          </el-collapse>
-          </el-col>
-          <el-col :span="20">
-            <WeekTemplate
-            :events="activityEvents"
-            :options="options" :currentWeek="currentWeek" ref="Week"/>
-          </el-col>
-        </el-row>
-        <div style="text-align:center;margin-top:20px;">
-          <el-button type="primary" @click="OK">确定</el-button>
-          <el-button @click="dialogVisible=false">取消</el-button>
-        </div>
-        </el-tab-pane>
-    </el-tabs>
-    </el-dialog>
+          <el-form-item label="教研活动描述:">
+            <el-input style="margin-top:8px;margin-left:8px;width:200px;" v-model="researchData.courseDesc"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">新增</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table :data="researchDatas">
+          <el-table-column label="活动名称" prop="researchName"/>
+          <el-table-column label="参与老师" prop="teachers"/>
+          <el-table-column label="活动时间" prop="time"/>
+          <el-table-column label="活动描述" prop="researchDesc"/>
+        </el-table>
+    </div>
   </div>
 </template>
 
 <script>
-import WeekTemplate from './WeekTemplate'
-import moment from 'moment'
-import Event from '../model/Event'
-import { getLabels } from '../service/noSchedule.service.js'
-const activityEvents = [new Event(1, '2018-05-28', '第二节', '语文教研/张丽萍'), new Event(0, '2018-05-29', '第一节', '英语教研/张丽萍'), new Event(2, '2018-05-30', '第一节', '语文教研/张丽萍')]
+// import { CourseService } from '../service/course.service'
+import researchUtil from '../util/courseUtil.js'
+import baseService from '../service/base.service.js'
+import CourseScheduleTable from './CourseScheduleTable'
+
 export default {
+  components: {
+    CourseScheduleTable
+  },
   data () {
     return {
-      researchName: '',
-      researchDesc: '',
-      activeNames: 1,
-      activities: [{id: 1, researchName: '语文教研', teachers: [{id: 1, name: '张丽萍'}]},
-        {id: 2, researchName: '英语教研', teachers: [{id: 1, name: '张丽萍'}]}],
-      isWeekShow: false,
-      checkedTeachers: [],
-      dialogVisible: false,
-      activityEvents,
-      activityTime: '',
-      options: this.getOption,
-      currentWeek: moment('2018-05-29').startOf('week'),
-      teachers: [{id: '11', name: '张丽萍'}, {id: '12', name: '李希'}, {id: '13', name: '王灿'}]
+      researchData: {currentData: []},
+      researchDatas: [],
+      teachers: [],
+      rules: {
+        researchName: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
+        ],
+        teachers: [
+          { required: true, message: '请选择活动老师', trigger: 'change' }
+        ],
+        activityTimes: [
+          { required: true, message: '请选择活动时间', trigger: 'change' }
+        ]
+      },
+      isTimeTableShow: false,
+      datas: [],
+      options: {}
     }
   },
   methods: {
-    OK () {
-      this.dialogVisible = false
+    onSubmit () {
+
+    },
+    handleClose () {
+
+    },
+    showTimeTable () {
+      this.isTimeTableShow = true
+      this.datas = researchUtil.genEmptySchedule(5, 8)
+      console.log(this.datas)
+      baseService.getCourseBaseInfo()
+        .then(data => {
+          this.options = data
+        })
+    },
+    setTime (time) {
+      console.log(time)
+      if (!this.researchData.activityTimes) {
+        this.researchData.activityTimes = []
+      }
+      this.researchData.activityTimes.push(time)
+      const activityTimesStr = this.researchData.activityTimes.map(element => {
+        return element.getCourseTimeStr()
+      }).join(',')
+      console.log(activityTimesStr)
+      this.$set(this.researchData, 'activityTimesStr', activityTimesStr)
     }
   },
-  computed: {
-    getOption () {
-      return getLabels()
-    }
-  },
-  components: {
-    WeekTemplate
+  mounted () {
   }
 }
 </script>
 
-<style scoped>
-.el-checkbox+.el-checkbox {
-  margin: 0;
+<style>
+.down-box {
+  position: absolute;
+  z-index: 2;
+  background: #fff;
 }
 </style>

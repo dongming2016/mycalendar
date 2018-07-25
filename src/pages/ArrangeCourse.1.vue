@@ -2,11 +2,18 @@
 <div>
   <el-row :gutter="20">
       <el-col :span="4">
-        <el-button @click="settingBoxShow=true">设置</el-button>
-        <classesMenu/>
-        <el-dialog :visible.sync="settingBoxShow" class="grade-setting">
-          <settingBox/>
-        </el-dialog>
+        <div style="text-align:left;">
+          <el-button type="primary" @click="BACK">返回</el-button>
+        </div>
+        <classes/>
+        <!-- <BaseSetting/> -->
+        <!-- <NoCourseSetting/>
+        <GradeNoSchedule/>
+        <TeacherNoSchedule/>
+        <PublicCourse/>
+        <research-setting/>
+        <merge-class/> -->
+        <!-- <class-setting/> -->
       </el-col>
       <el-col :span="16">
         <div class="settings">
@@ -44,6 +51,39 @@
     <div style="margin-bottom:10px;">
       <el-button type="primary">预览课表</el-button>
     </div>
+        <!-- <div class="change-view">
+            <span>查看方式：</span>
+            <el-radio v-model="viewMethod" label="1">按班级查看</el-radio>
+            <el-radio v-model="viewMethod" label="2">按老师查看</el-radio>
+          </div> -->
+        <!-- <div class="click-option">
+          <button @click="showIndex = 0">按月</button>
+          <button @click="showIndex = 1">按周</button>
+          <button @click="showIndex = 2">按日</button>
+        </div> -->
+        <!-- <div class="my-date">
+          <el-date-picker
+            v-model="currentdate"
+            @change="changeDate"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
+        <div class="my-date">
+          <span>第</span><input type="number" v-model="week" min="1" max="40" size="2" @change="getData"><span>周</span>
+        </div> -->
+        <!-- <day-template :labels="options.labels" :header="fcHeader" :date="currentdate" :events="events" :isLabelShow="true" v-show="showIndex==2" ref="Day"/>
+        <MonthTemplate :events="events" :options="options" :date="currdate" :currentMonth="currentMonth" :moveEventCallback="moveEvent"  v-show="showIndex==0" ref="Month"/> -->
+        <!-- <div style="display:inline-block;">
+          <div v-for="(grade, index) in grades" style="text-align:left;" :key="index">
+            <div style="display:inline-block;margin-right:10px;" @click="selectedIndex=index">{{grade.name}}</div>
+            <div style="display:inline-block;vertical-align: top;" v-show="selectedIndex===index" >
+              <div v-for="(classItem, index) in grade.classes" :key="index">
+                {{classItem.name}}
+              </div>
+            </div>
+          </div>
+        </div> -->
         <WeekTemplate style="display:inline-block;margin-left:20px;vertical-align: top;" :events="events" :options="options" :currentWeek="currentWeek" :notArranged="notArranged"  ref="Week"/>
       </el-col>
       <el-col :span="4">
@@ -51,6 +91,15 @@
         <EventList :fcEvents="notArranged" :dragArgs="{callback: moveEvent}" class="event-list"/>
       </el-col>
     </el-row>
+    <!-- <el-dialog :visible.sync="dialogVisible" title="提示">
+      <div style="text-align:center;margin-bottom:30px;">
+        当前一年级（1）班班级计划尚未完成，<router-link to="/class-plan">去完成！</router-link>
+      </div>
+      <div style="text-align:center;">
+        <el-button type="primary" @click="dialogVisible=false">确定</el-button>
+        <el-button type="primary" @click="dialogVisible=false">取消</el-button>
+      </div>
+    </el-dialog> -->
     </div>
 </template>
 
@@ -67,12 +116,11 @@ import BaseSetting from '../components/BaseSetting'
 import NoCourseSetting from '../components/NoCourseSetting'
 import GradeNoSchedule from '../components/GradeNoSchedule'
 import TeacherNoSchedule from '../components/TeacherNoSchedule'
-import PublicCourse from '../components/publicActivitySetting'
+import PublicCourse from '../components/publicActivity'
 import ResearchSetting from '../components/researchSetting'
 import ClassSetting from '../components/classSetting'
 import MergeClass from './MergeClass'
-import classesMenu from '../components/classesMenu'
-import settingBox from '../components/settingbox'
+import classes from '../components/classes'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -107,12 +155,10 @@ export default {
     ResearchSetting,
     ClassSetting,
     MergeClass,
-    classesMenu,
-    settingBox
+    classes
   },
   data () {
     return {
-      settingBoxShow: false,
       showIndex: 1,
       selectedIndex: 0,
       selectedClasses: '',

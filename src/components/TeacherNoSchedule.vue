@@ -28,7 +28,7 @@
           </div>
         </el-col>
         <el-col :span="20">
-          <NoCourseTable :options="getOptions"/>
+          <CourseScheduleTable :options="getOptions"/>
         </el-col>
       </el-row>
       <div slot="footer" class="dialog-footer">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import NoCourseTable from './NoCourseTable'
+import CourseScheduleTable from './CourseScheduleTable'
 import { NoScheduleService } from '../service/noSchedule.service'
 import { TeacherService } from '../service/teacherService'
 
@@ -88,7 +88,7 @@ export default {
     this.getLabels()
   },
   components: {
-    NoCourseTable
+    CourseScheduleTable
   }
 }
 </script>

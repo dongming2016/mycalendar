@@ -1,41 +1,29 @@
 <template>
   <div>
-    <el-button type="text" @click="dialogVisible = true">基本设置</el-button>
-    <el-dialog title="基本设置" :visible.sync="dialogVisible">
-      <!-- <div class="base-setting">
-        <span>每周</span>
-        <el-select v-model="base.workdays" placeholder="请选择">
-          <el-option
-            v-for="item in 7"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
-      </div> -->
-      <!-- <div class="base-setting">
-        <span>每天上</span>
-        <el-select v-model="base.classNum" placeholder="请选择">
-          <el-option
-            v-for="item in 11"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select><span>节课</span>
-      </div> -->
-      <div class="base-setting">
-        <span>允许最大连课节次：</span>
-        <el-radio v-model="base.series" label="1">1</el-radio>
-        <el-radio v-model="base.series" label="2">2</el-radio>
-        <el-radio v-model="base.series" label="3">3</el-radio>
-        <el-radio v-model="base.series" label="4">4</el-radio>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="OK">确 定</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
+    <el-form :model="baseSetting">
+      <el-form-item label="每周上几天课">
+        <el-input type="number" v-model="baseSetting.workdays"/>
+      </el-form-item>
+      <el-form-item label="每天上几节课">
+        <el-input type="number" v-model="baseSetting.classNum" min="1" max="14"/>
+      </el-form-item>
+      <el-form-item class="series" label="最大连课数">
+        <el-radio v-for="(item, index) in 6" :key="index" type="number"
+        v-model="baseSetting.seriesNum" :label="index + 1"/>
+      </el-form-item>
+      <el-form-item class="not-series" label="不连课节次">
+        <el-checkbox-group v-model="baseSetting.notSeries">
+          <el-checkbox v-for="(item, index) in baseSetting.classNum" :label="index+1"
+          :key="index">
+            {{transformNotSeries(index+1)}}
+          </el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item class="single" label="是否开启单双周">
+        <el-radio  v-model="baseSetting.isSingle" label="false">否</el-radio>
+        <el-radio v-model="baseSetting.isSingle" label="true">是</el-radio>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -43,17 +31,18 @@
 export default {
   data () {
     return {
-      dialogVisible: false,
-      base: {
-        series: '2',
+      baseSetting: {
+        seriesNum: 4,
         workdays: 5,
-        classNum: 8
+        classNum: 8,
+        isSingle: 'false',
+        notSeries: []
       }
     }
   },
   methods: {
-    OK () {
-      this.dialogVisible = false
+    transformNotSeries (notSeriesId) {
+      return `${notSeriesId}-${notSeriesId + 1}`
     }
   }
 }
@@ -67,5 +56,14 @@ export default {
     width: 56px;
     height: 22px;
     padding-left: 12px;
+}
+
+.series .el-form-item__content,
+.not-series .el-form-item__content {
+  width: 70%;
+  text-align: left;
+}
+.single {
+  text-align: left;
 }
 </style>
