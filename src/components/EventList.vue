@@ -20,7 +20,8 @@
       <!-- 如果event的数量为0时不能移动 -->
       <div v-for="(event, index2) in fcEvents" :key="index2">
         <div class="fc-drag-card" v-if="event.content.notArranged>0"
-          v-dragable="{callback: [ dragArgs.callback, decrementNumber], args: [{id: index2, subcellId: event.subcellId, content: event.content}, {index2}]}">
+          v-dragable="{callback: [ dragArgs.callback, decrementNumber], args: [{id: index2, subcellId: event.subcellId,
+            content: event.content, isInTable: false}, {index2}]}">
           <div class="drag-card-item">
             <div class="class-container">{{event.content.className}}</div>
             <div class="daily-item">{{event.content.courseName}}</div>

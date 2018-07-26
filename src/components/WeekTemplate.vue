@@ -27,7 +27,8 @@
               :class="{'event-not-allowed': !item.events[0].isAllowed()}" ref="fcCell" class="fc-event-container">
               <div class="table-content" v-for="(item3, index) in subCells" :key="index">
                 <div v-for="(item2, index) in item.events" :key="index"
-                  v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId, content: item2.content}}"
+                  v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId,
+                    content: item2.content, isInTable: true}}"
                 class="fc-event-dragable" v-if="item2.subcellId===item3.id">
                   <slot :data="item2"/>
                 </div>
@@ -145,7 +146,8 @@ export default {
       const subcellId = option.subcellId
       const moveId = option.id
       const content = option.content
-      if (content.notArranged <= 0) {
+      const isInTable = option.isInTable
+      if (content.notArranged <= 0 && !isInTable) {
         return [ false ]
       }
       const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
