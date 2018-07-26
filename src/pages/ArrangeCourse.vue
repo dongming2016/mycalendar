@@ -61,19 +61,26 @@
             <template>
               <div>
                 <div class="header-item-container">
-                  <div class="header-item">班级</div>
+                  <!-- <div class="header-item">班级</div> -->
+                  班级
                 </div>
+                <span>|</span>
                 <div class="header-item-container">
-                  <div class="header-item">科目</div>
+                  <!-- <div class="header-item">科目</div> -->
+                  科目
                 </div>
+                <span>|</span>
                 <div class="header-item-container">
-                  <div>老师</div>
+                  <!-- <div>老师</div> -->
+                  老师
                 </div>
                 <div class="header-item-container" style="margin-left:10px;">
-                  <div class="header-item" style="width:60px">待排课</div>
+                  <!-- <div class="header-item" style="width:60px">待排课</div> -->
+                  待排课
                 </div>
-                <div class="header-item-container" style="width:60px">
-                  <div>已排课</div>
+                <span>|</span>
+                <div class="header-item-container">
+                  已排课
                 </div>
               </div>
             </template>
@@ -91,7 +98,7 @@ import Event from '../model/Event'
 import Label from '../model/Label'
 import WeekTemplate from '../components/WeekTemplate'
 import moment from 'moment'
-import NotArrangedEvent from '../model/NotArrangedEvent'
+// import NotArrangedEvent from '../model/NotArrangedEvent'
 import EventList from '../components/EventList'
 import BaseSetting from '../components/BaseSetting'
 import NoCourseSetting from '../components/NoCourseSetting'
@@ -171,9 +178,9 @@ export default {
         new Event(7, '2018-07-23', '第八节', {className: '一班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '数学', teacherName: '杨洋', teacherId: ''}, '4c5887fadaed4ad0970f56d862d79f39', '')],
       currdate: moment(),
       notArranged: [
-        new NotArrangedEvent('数学/小李', 10, '4852a1d4d1f740879dcde724ec8e11dd'),
-        new NotArrangedEvent('数学/王梅梅', 7, '595a33a814504fd5915efbdfd8309ddf'),
-        new NotArrangedEvent('数学/李兰', 3, '595a33a814504fd5915efbdfd8309ddf') ],
+        new Event(1, '', '', {className: '三班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '英语', teacherName: '李梅', teacherId: '', arranged: 8, notArranged: 2}, '4c5887fadaed4ad0970f56d862d79f39'),
+        new Event(2, '', '', {className: '四班', classId: '7014bd0f38614a549701bedf206d3239', courseName: '数学', teacherName: '杨洋', teacherId: '', arranged: 8, notArranged: 2}, '7014bd0f38614a549701bedf206d3239'),
+        new Event(3, '', '', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: '', arranged: 8, notArranged: 2}, '4852a1d4d1f740879dcde724ec8e11dd')],
       week: 1,
       dialogVisible: true,
       currentdate: moment(),
@@ -295,6 +302,8 @@ export default {
 .course-list-container {
   margin: 20px;
   border: 1px solid #eee;
+  height: 600px;
+  font-size: 14px;
 }
 .course-list-tips {
   text-align: center;
@@ -306,14 +315,14 @@ export default {
   line-height: 40px;
   margin-bottom: 10px;
 }
-.header-item {
+/* .header-item {
   border-right: 1px solid;
   height: 16px;
-  width: 50px;
   line-height: 16px;
-}
+} */
 .header-item-container {
   display: inline-block;
+  padding: 0 8px;
   /* width: 50px; */
 }
 .label-container {

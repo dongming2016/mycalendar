@@ -145,6 +145,9 @@ export default {
       const subcellId = option.subcellId
       const moveId = option.id
       const content = option.content
+      if (content.notArranged <= 0) {
+        return [ false ]
+      }
       const middlePoint = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
       const children = this.$refs.fcCell
       let newEvent = null
@@ -163,6 +166,9 @@ export default {
         }
       }
       // 如果当前移动到的格子中已经有了标签便不能再移进去
+      if (!newEvent) {
+        return [ isAllowed ]
+      }
       const rs = this.events.find(element => {
         return element.getId() === newEvent.getId()
       })
