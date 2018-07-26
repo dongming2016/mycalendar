@@ -38,7 +38,7 @@
                   <div class="class-container">{{scope.data.content.className}}</div>
                   <div class="daily-item">{{scope.data.content.courseName}}</div>
                   <span>|</span>
-                  <div class="daily-item">{{scope.data.content.teacherName}}</div>
+                  <div class="daily-item" style="width:36px;">{{scope.data.content.teacherName}}</div>
                   <span class="el-icon-circle-close-outline" @click="removeEvent(scope.data)"></span>
                 <!-- </div> -->
               </div>
