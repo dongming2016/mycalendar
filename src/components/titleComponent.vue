@@ -147,6 +147,7 @@ export default {
   margin-right:20px;
   height: 30px;
   line-height: 30px;
+  cursor: pointer;
 }
 .title-active-item {
   border-bottom: 4px solid #5D86EA;

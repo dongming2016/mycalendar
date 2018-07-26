@@ -7,9 +7,10 @@ export default class Event {
    * @param {*当前事件发生在一天中的时间，如第一节} time
    * @param {*事件内容} content
    * @param {子单元格的id} subcellId
+   * @param {星期几} weekDay 增加星期几，用于table不关注日期的情况
    */
-  constructor (id, currDate, time, content = {}, subcellId, isIdle = true) {
-    this.eventTime = new EventTime(currDate, time, isIdle)
+  constructor (id, currDate, time, content = {}, subcellId, weekDay, isIdle = true) {
+    this.eventTime = new EventTime(currDate, time, weekDay, isIdle)
     this.content = content
     this.id = this.eventTime.currDate.calendar() + '_' + id + '_' + subcellId
     this.subcellId = subcellId

@@ -34,12 +34,13 @@
           :notArranged="notArranged"  ref="Week">
             <template slot-scope="scope">
               <div class="label-container">
-                <div style="display:inline-block;">
-                  <div class="class-container">{{scope.data.className}}</div>
-                  <div class="daily-item">{{scope.data.courseName}}</div>
+                <!-- <div style="display:inline-block;"> -->
+                  <div class="class-container">{{scope.data.content.className}}</div>
+                  <div class="daily-item">{{scope.data.content.courseName}}</div>
                   <span>|</span>
-                  <div class="daily-item">{{scope.data.teacherName}}</div>
-                </div>
+                  <div class="daily-item">{{scope.data.content.teacherName}}</div>
+                  <span class="el-icon-circle-close-outline" @click="removeEvent(scope.data)"></span>
+                <!-- </div> -->
               </div>
             </template>
           </WeekTemplate>
@@ -94,7 +95,7 @@
 <script>
 import DayTemplate from '../components/DayTemplate.vue'
 import MonthTemplate from '../components/MonthTemplate.vue'
-import Event from '../model/Event'
+// import Event from '../model/Event'
 import Label from '../model/Label'
 import WeekTemplate from '../components/WeekTemplate'
 import moment from 'moment'
@@ -111,6 +112,7 @@ import MergeClass from './MergeClass'
 import classesMenu from '../components/classesMenu'
 import settingBox from '../components/settingbox'
 import titleComponent from '../components/titleComponent'
+import scheduleService from '../service/schedule.service.js'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -169,18 +171,20 @@ export default {
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
       events: [
-        new Event(1, '2018-07-25', '第二节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
-        new Event(0, '2018-07-26', '第一节', {className: '二班', classId: '595a33a814504fd5915efbdfd8309ddf', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '595a33a814504fd5915efbdfd8309ddf'),
-        new Event(2, '2018-07-27', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
-        new Event(3, '2018-07-24', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '英语', teacherName: '李梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
-        new Event(4, '2018-07-24', '第一节', '', '', false),
-        new Event(5, '2018-07-25', '第六节', '', '', false),
-        new Event(7, '2018-07-23', '第八节', {className: '一班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '数学', teacherName: '杨洋', teacherId: ''}, '4c5887fadaed4ad0970f56d862d79f39', '')],
+        // new Event(1, '2018-07-25', '第二节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        // new Event(0, '2018-07-26', '第一节', {className: '二班', classId: '595a33a814504fd5915efbdfd8309ddf', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '595a33a814504fd5915efbdfd8309ddf'),
+        // new Event(2, '2018-07-27', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '数学', teacherName: '张丽萍', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        // new Event(3, '2018-07-24', '第一节', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '英语', teacherName: '李梅', teacherId: ''}, '4852a1d4d1f740879dcde724ec8e11dd'),
+        // new Event(4, '2018-07-24', '第一节', '', '', false),
+        // new Event(5, '2018-07-25', '第六节', '', '', false),
+        // new Event(7, '2018-07-23', '第八节', {className: '三班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '数学', teacherName: '杨洋', teacherId: ''}, '4c5887fadaed4ad0970f56d862d79f39')
+      ],
       currdate: moment(),
       notArranged: [
-        new Event(1, '', '', {className: '三班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '英语', teacherName: '李梅', teacherId: '', arranged: 8, notArranged: 2}, '4c5887fadaed4ad0970f56d862d79f39'),
-        new Event(2, '', '', {className: '四班', classId: '7014bd0f38614a549701bedf206d3239', courseName: '数学', teacherName: '杨洋', teacherId: '', arranged: 8, notArranged: 2}, '7014bd0f38614a549701bedf206d3239'),
-        new Event(3, '', '', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: '', arranged: 8, notArranged: 2}, '4852a1d4d1f740879dcde724ec8e11dd')],
+        // new Event(1, '', '', {className: '三班', classId: '4c5887fadaed4ad0970f56d862d79f39', courseName: '英语', teacherName: '李梅', teacherId: '', arranged: 8, notArranged: 2}, '4c5887fadaed4ad0970f56d862d79f39'),
+        // new Event(2, '', '', {className: '四班', classId: '7014bd0f38614a549701bedf206d3239', courseName: '数学', teacherName: '杨洋', teacherId: '', arranged: 8, notArranged: 2}, '7014bd0f38614a549701bedf206d3239'),
+        // new Event(3, '', '', {className: '一班', classId: '4852a1d4d1f740879dcde724ec8e11dd', courseName: '语文', teacherName: '韩梅梅', teacherId: '', arranged: 8, notArranged: 2}, '4852a1d4d1f740879dcde724ec8e11dd')
+      ],
       week: 1,
       dialogVisible: true,
       currentdate: moment(),
@@ -203,6 +207,13 @@ export default {
       ]
     }
   },
+  mounted () {
+    scheduleService.getGradeSchedule()
+      .then(data => {
+        this.events = data.arranged
+        this.notArranged = data.notArranged
+      })
+  },
   computed: {
     getStartWeek () {
       return this.currentdate.endOf('week').add(1, 'day').subtract(this.getCurrentWeek, 'week').add(1, 'day')
@@ -214,11 +225,33 @@ export default {
   methods: {
     clickNode (data) {
       this.selectedItem = data
-      this.subCells = this.selectedItem.children || [{id: -1}]
-      console.log(data)
+      this.subCells = this.selectedItem.children || [ this.selectedItem ]
+      if (data.type === 'phase' || data.type === 'grade') {
+        scheduleService.getGradeSchedule()
+          .then(data => {
+            this.events = data.arranged
+            this.notArranged = data.notArranged
+          })
+      } else {
+        scheduleService.getClassSchedule(data.id)
+          .then(data => {
+            this.events = data.arranged
+            this.notArranged = data.notArranged
+          })
+      }
+    },
+    // 删除当前事件
+    removeEvent (event) {
+      this.events = this.events.filter(element => {
+        if (element.getId() === event.getId()) {
+          element.content.notArranged++
+          element.content.arranged--
+        } else {
+          return true
+        }
+      })
     },
     moveEvent ([rect, content, subcellId], option) {
-      console.log(content)
       const showIndex = this.showIndex
       switch (showIndex) {
         case 0: {
@@ -352,5 +385,13 @@ export default {
   border-radius: 20px;
   background: #F6F8FC;
   border: 1px solid #8FADF0;
+  cursor: pointer;
+}
+.label-container .el-icon-circle-close-outline {
+  display: none;
+}
+.label-container:hover .el-icon-circle-close-outline {
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>

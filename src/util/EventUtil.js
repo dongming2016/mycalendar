@@ -24,7 +24,6 @@ export const EventUtil = {
         }
         isEventNotExist = true
       }
-      console.log(eventList)
       if (!isEventExist && isEventNotExist) {
         eventList.push(new Event(element.id, currDate, name, {}))
       }

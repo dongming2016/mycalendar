@@ -29,7 +29,7 @@
                 <div v-for="(item2, index) in item.events" :key="index"
                   v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId, content: item2.content}}"
                 class="fc-event-dragable" v-if="item2.subcellId===item3.id">
-                  <slot :data="item2.content"/>
+                  <slot :data="item2"/>
                 </div>
               </div>
             </div>
@@ -165,6 +165,7 @@ export default {
           break
         }
       }
+      console.log(newEvent)
       // 如果当前移动到的格子中已经有了标签便不能再移进去
       if (!newEvent) {
         return [ isAllowed ]
@@ -172,6 +173,7 @@ export default {
       const rs = this.events.find(element => {
         return element.getId() === newEvent.getId()
       })
+      console.log(rs)
       if (rs) {
         isAllowed = false
       }
@@ -200,7 +202,14 @@ export default {
         const dailyEvent = new DailyEvent(this.currentMonth, startDay)
         const currDayEvent = []
         this.events.forEach(element => {
-          if (element.getCurrDate().isSame(dailyEvent.getDate())) {
+          // console.log(element.getCurrDate().format('YYYY-MM-DD'))
+          // console.log(dailyEvent.getDate().format('YYYY-MM-DD'))
+          // console.log(element.getCurrDate().format('YYYY-MM-DD') === dailyEvent.getDate().format('YYYY-MM-DD'))
+          // if (element.getCurrDate().isSame(dailyEvent.getDate())) {
+          //   currDayEvent.push(element)
+          // }
+          // 不知道什么原因导致isSame不可用
+          if (element.getCurrDate().format('YYYY-MM-DD') === dailyEvent.getDate().format('YYYY-MM-DD')) {
             currDayEvent.push(element)
           }
         })
@@ -208,7 +217,6 @@ export default {
         startDay.add(1, 'day')
         weekOption.push(dailyEvent)
       }
-
       return weekOption
     }
   },
