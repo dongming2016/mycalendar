@@ -157,7 +157,7 @@ export default {
       showMenu: true,
       menus: [
         {name: '按班级查看', id: 0},
-        {name: '按教室查看', id: 1}
+        {name: '按老师查看', id: 1}
       ],
       isAll: false,
       courseTitle: '班级课程列表',
