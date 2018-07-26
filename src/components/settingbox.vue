@@ -5,7 +5,7 @@
         <classesMenu @clickNode="clickNode"/>
       </el-aside>
       <el-main>
-        <settings :name="itemName" :type="type"/>
+        <settings :name="itemName" :type="type" :phaseType="id"/>
       </el-main>
     </el-container>
   </div>
@@ -35,6 +35,9 @@ export default {
   },
   mounted () {
     this.itemName = '小学'
+    const classTree = JSON.parse(sessionStorage.getItem('classes-tree'))
+    this.id = classTree[0].id
+    this.itemName = classTree[0].label
   }
 }
 </script>

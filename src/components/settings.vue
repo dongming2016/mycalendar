@@ -11,7 +11,7 @@
       <div class="location">
         您正在设置{{name}}——{{buttonGroup[type].activeName}}
       </div>
-      <component class="setting-container" :is="buttonGroup[type].currentTabComponent"></component>
+      <component class="setting-container" :phaseType="phaseType" :is="buttonGroup[type].currentTabComponent"></component>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
       this.buttonGroup[this.type].activeName = item.name
     }
   },
-  props: ['name', 'type'],
+  props: ['name', 'type', 'phaseType'],
   data () {
     return {
       buttonGroup: {

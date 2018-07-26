@@ -37,5 +37,10 @@ export default {
       const dayNum = 5
       resolve({classNum, labels, dayNum})
     })
+  },
+  getTeachers (query) {
+    const data = {pageNum: 1, pageSize: 10}
+    Object.assign(data, query)
+    return axios.post(`${baseInfo}/teacherInfo/selectListByPage`, data)
   }
 }

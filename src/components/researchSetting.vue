@@ -7,9 +7,14 @@
             <el-input v-model="researchData.researchName"/>
           </el-form-item>
           <el-form-item label="参与老师:" prop="teachers">
-            <el-select v-model="researchData.teachers" placeholder="请选择活动区域">
-              <el-option label="item.teacherName" value="item.id"
-                v-for="(item, index) in teachers" :key="index"></el-option>
+            <el-select v-model="researchData.teachers"
+            :value-key="teacherKey"
+            filterable
+            clearable
+            multiple
+            placeholder="请选择活动区域">
+              <el-option :label="item.ucName" :value="item"
+                v-for="item in teachers" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="活动时间:" prop="activityTimes">
@@ -29,7 +34,8 @@
           <div class="down-box" style="text-align:center;" v-if="isTimeTableShow">
             <CourseScheduleTable :options="options" :datas="datas">
               <template slot="content" slot-scope="currentData">
-                <el-checkbox v-model="currentData.currentData.isSelected" @change="setTime(currentData.currentData)"/>
+                <el-checkbox v-model="currentData.currentData.isSelected"
+                @change="setTime(currentData.currentData)"/>
                 <!-- <span v-show="currentData.currentData && currentData.currentData.isSelected">不排课</span> -->
               </template>
             </CourseScheduleTable>
@@ -44,11 +50,22 @@
         </el-form>
         <el-table :data="researchDatas">
           <el-table-column label="活动名称" prop="researchName"/>
-          <el-table-column label="参与老师" prop="teachers"/>
-          <el-table-column label="活动时间" prop="time"/>
+          <el-table-column label="参与老师" prop="teachers">
+            <template slot-scope="scope">
+              <span>{{transformTeachers(scope.row.teachers)}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="活动时间" prop="activityTimesStr"/>
           <el-table-column label="活动描述" prop="researchDesc"/>
+          <el-table-column label="操作" prop="researchDesc">
+            <template slot-scope="scope">
+              <span class="el-icon-edit" style="margin-right:10px;">编辑</span>
+              <span class="el-icon-close" @click="deleteRecord(scope.row)">删除</span>
+            </template>
+          </el-table-column>
         </el-table>
     </div>
+    <el-dialog :visible.sync="confirmBoxShow" append-to-body></el-dialog>
   </div>
 </template>
 
@@ -67,6 +84,8 @@ export default {
       researchData: {currentData: []},
       researchDatas: [],
       teachers: [],
+      teacherKey: 'id',
+      confirmBoxShow: false,
       rules: {
         researchName: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -86,10 +105,26 @@ export default {
   },
   methods: {
     onSubmit () {
-
+      this.$refs.research.validate((valid) => {
+        if (valid) {
+          this.researchDatas.push(this.researchData)
+          // this.researchData = {}
+          // this.researchData = []
+          // this.$refs.research.resetFields()
+          console.log('submit')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    handleClose () {
-
+    deleteRecord (record) {
+      this.confirmBoxShow = true
+    },
+    transformTeachers (teachers) {
+      return teachers.map(element => {
+        return element.ucName
+      }).join(',')
     },
     showTimeTable () {
       this.isTimeTableShow = true
@@ -114,6 +149,10 @@ export default {
     }
   },
   mounted () {
+    baseService.getTeachers()
+      .then(({data}) => {
+        this.teachers = data.data
+      })
   }
 }
 </script>
