@@ -8,6 +8,48 @@ export default {
   getSchoolInfo () {
 
   },
+  getStandardCourse () {
+    return new Promise(resolve => {
+      resolve([
+        {
+          id: 1,
+          courseName: '语文',
+          isChecked: true
+        },
+        {
+          id: 2,
+          courseName: '数学',
+          isChecked: true
+        },
+        {
+          id: 3,
+          courseName: '英语',
+          isChecked: true
+        }
+      ])
+    })
+  },
+  getSchoolCourse () {
+    return new Promise(resolve => {
+      resolve([
+        {
+          id: 1,
+          courseName: '音乐鉴赏',
+          isChecked: false
+        },
+        {
+          id: 2,
+          courseName: '插花',
+          isChecked: false
+        },
+        {
+          id: 3,
+          courseName: '影视鉴赏',
+          isChecked: false
+        }
+      ])
+    })
+  },
   // GET请求
   getSchoolYear () {
     // return axios.get('/backend/schoolYear')

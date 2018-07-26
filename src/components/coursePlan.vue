@@ -3,18 +3,16 @@
     <div>
       <div>
         <div class="course-plan-title">设置国标课程</div>
-        <div>
-          <el-checkbox-group v-model="checkedStandardCourses">
-            <el-checkbox v-for="(item, index) in standardCourses" :key="index" :label="item.courseName"></el-checkbox>
-          </el-checkbox-group>
+        <div class="course-container">
+          <!-- <el-checkbox-group v-model="checkedStandardCourses"> -->
+            <el-checkbox v-for="(item, index) in standardCourses" :key="index" :label="item.courseName" :checked="item.isChecked"></el-checkbox>
+          <!-- </el-checkbox-group> -->
         </div>
       </div>
       <div>
         <div class="course-plan-title">设置校本课程</div>
-        <div>
-          <el-checkbox-group v-model="checkedSchoolCourses">
-            <el-checkbox v-for="(item, index) in schoolCourses" :key="index" :label="item.courseName"></el-checkbox>
-          </el-checkbox-group>
+        <div class="course-container">
+            <el-checkbox v-for="(item, index) in schoolCourses" :key="index" :label="item.courseName" :checked="item.isChecked"></el-checkbox>
         </div>
       </div>
     </div>
@@ -22,6 +20,7 @@
 </template>
 
 <script>
+import baseService from '../service/base.service.js'
 export default {
   data () {
     return {
@@ -30,11 +29,24 @@ export default {
       schoolCourses: [],
       checkedSchoolCourses: []
     }
+  },
+  mounted () {
+    baseService.getStandardCourse()
+      .then(data => {
+        this.standardCourses = data
+      })
+    baseService.getSchoolCourse()
+      .then(data => {
+        this.schoolCourses = data
+      })
   }
 }
 </script>
 <style>
 .course-plan-title {
   color: #44A0FF;
+}
+.course-container {
+  padding: 20px 20px;
 }
 </style>
