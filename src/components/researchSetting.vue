@@ -65,7 +65,15 @@
           </el-table-column>
         </el-table>
     </div>
-    <el-dialog :visible.sync="confirmBoxShow" append-to-body></el-dialog>
+    <el-dialog :visible.sync="confirmBoxShow" append-to-body>
+      <div>
+        确认删除{{deletedRecord.researchName}}
+      </div>
+      <div style="text-align:center;margin:20px 0;">
+        <el-button type="primary" @click="deleteResearch">确定</el-button>
+        <el-button type="primary" plain @click="confirmBoxShow=false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -108,7 +116,8 @@ export default {
       },
       isTimeTableShow: false,
       datas: [],
-      options: {}
+      options: {},
+      deletedRecord: {}
     }
   },
   methods: {
@@ -130,8 +139,13 @@ export default {
       const researchSetting = this.researchSetting
       this.$store.commit('setArrangeSettings', {type: 'researchSetting', setting: researchSetting})
     },
+    deleteResearch () {
+      console.log(this.deleteRecord)
+      this.confirmBoxShow = false
+    },
     deleteRecord (record) {
       this.confirmBoxShow = true
+      this.deletedRecord = record
     },
     transformTeachers (teachers) {
       return teachers.map(element => {

@@ -53,12 +53,21 @@
         <el-table-column label="活动描述" prop="courseDesc"/>
         <el-table-column label="操作">
           <template slot-scope="scope">
-             <span class="el-icon-edit" style="margin-right:10px;">编辑</span>
+            <span class="el-icon-edit" style="margin-right:10px;">编辑</span>
             <span class="el-icon-close" @click="deleteRecord(scope.row)">删除</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <el-dialog :visible.sync="confirmBoxShow" append-to-body>
+      <div>
+        确认删除{{deletedRecord.publicName}}
+      </div>
+      <div style="text-align:center;margin:20px 0;">
+        <el-button type="primary" @click="deleteActivity">确定</el-button>
+        <el-button type="primary" plain @click="confirmBoxShow=false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -119,7 +128,8 @@ export default {
       inputVisible: false,
       inputValue: '',
       gradeClasses: [],
-      datas: []
+      datas: [],
+      confirmBoxShow: false
       // classes: [{id: 0, name: `一年级(1)班`}, {id: 1, name: `二年级(1)班`}, {id: 2, name: `三年级(1)班`}]
     }
   },
@@ -138,6 +148,14 @@ export default {
           return false
         }
       })
+    },
+    deleteRecord (record) {
+      this.confirmBoxShow = true
+      this.deletedRecord = record
+    },
+    deleteActivity () {
+      console.log(this.deleteRecord)
+      this.confirmBoxShow = false
     },
     showTimeTable () {
       this.isTimeTableShow = true

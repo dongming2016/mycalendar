@@ -48,7 +48,7 @@
         </div>
         <div style="text-align:center;margin:20px 0;">
           <el-button type="primary" @click="deletePlan">确定</el-button>
-          <el-button type="primary" plain>取消</el-button>
+          <el-button type="primary" plain  @click="confirmBoxShow=false">取消</el-button>
         </div>
       </el-dialog>
     </div>
@@ -142,7 +142,7 @@ export default {
       coursePlan.isEdit = false
     },
     deletePlan () {
-
+      this.confirmBoxShow = false
     }
   }
 }

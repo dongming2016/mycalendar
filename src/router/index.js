@@ -16,6 +16,7 @@ import DailyClass from '../pages/dailyClasses.vue'
 import ClassSetting from '../pageComponents/ClassSetting'
 import NewArrangeCourse from '../pages/NewArrangeCourse'
 import PreviewCourse from '../pages/PreviewCourse.vue'
+import CourseManage from '../pageComponents/classSetting/CourseManage'
 
 Vue.use(Router)
 
@@ -103,6 +104,11 @@ export default new Router({
     path: '/preview-classTable',
     name: 'preview-classTable',
     component: PreviewCourse
+  },
+  {
+    path: '/course-manage',
+    name: 'course-manage',
+    component: CourseManage
   }
   ]
 })

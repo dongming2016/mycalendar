@@ -5,8 +5,14 @@
         <span>国标课程</span>
         <el-button type="primary" size="mini" style="float:right;">添加</el-button>
       </div> -->
-      <el-button type="primary" size="mini" style="margin-bottom:18px;" @click="setStandard">设置国标课程</el-button>
-      <el-button type="primary" size="mini" style="margin-bottom:18px;" @click="addSchool">添加校本课程</el-button>
+      <div>
+
+        <el-button type="primary" size="mini" @mouseover="showMenu=true">增加课程</el-button>
+        <div ref="addCourseMenu">
+          <el-button type="primary" size="mini" style="margin-bottom:18px;" @click="addStandard">设置国标课程</el-button>
+          <el-button type="primary" size="mini" style="margin-bottom:18px;" @click="addSchool">添加校本课程</el-button>
+        </div>
+      </div>
       <div style="margin: 18px 0;">
 
       <!-- <el-select style="margin:10px;"
@@ -21,9 +27,8 @@
       />
         </el-select>-->
       <div style="border:1px solid #eee; text-align:center;">
-        <span style="margin:10px;">课程类型:</span>
-            <el-checkbox v-for="city in courseTypes" :checked="true" :label="city.id" :key="city.id">{{city.name}}</el-checkbox>
-        <el-button type="primary" size="mini" style="margin:18px;" @click="addSchool">过滤</el-button>
+        <span style="margin:10px;">筛选条件:</span>
+
       </div>
       </div>
       <div>
@@ -31,22 +36,22 @@
           :data="course"
           border>
           <el-table-column
-            prop="name"
+            prop="courseName"
             label="课程名称">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="courseSubject"
             label="所属学科">
           </el-table-column>
           <el-table-column
-            prop="type"
-            label="课程课类">
+            prop="courseType"
+            label="课程类型">
           </el-table-column>
           <el-table-column
             label="操作">
             <template slot-scope="props">
-              <el-button v-if="props.row.typeId!==0" type="primary" size="mini">编辑</el-button>
-              <el-button type="primary" size="mini">删除</el-button>
+              <!-- <el-button v-if="props.row.typeId!==0" type="primary" size="mini" @click="">编辑</el-button> -->
+              <!-- <el-button type="primary" size="mini">删除</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -56,18 +61,18 @@
           </el-pagination>
       </div>
     </div>
-    <el-dialog :visible.sync="courseVisible" :title="title">
+    <!-- <el-dialog :visible.sync="courseVisible" :title="title">
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
       <div style="margin: 15px 0;"></div>
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <el-checkbox v-for="city in cities" :label="city.id" :key="city">{{city}}</el-checkbox>
       </el-checkbox-group>
       <button-group :OKCallback="OK" :CancelCallback="Cancel"/>
-    </el-dialog>
-    <el-dialog :visible.sync="schoolCourseVisible" :title="title">
+    </el-dialog> -->
+    <el-dialog :visible.sync="editCourseVisible" :title="title">
       <span style="margin:0 10px;">课程名称:</span>
       <el-input style="width:60%;" v-model="shoolCourse"/>
-      <button-group :OKCallback="OK1" :CancelCallback="Cancel1"/>
+      <button-group :OKCallback="OK" :CancelCallback="Cancel"/>
     </el-dialog>
   </div>
 </template>
@@ -78,10 +83,10 @@ export default {
   data () {
     return {
       checkedcourseType: ['全选'],
+      showMenu: false,
       courseTypes: [ {name: '国标课程', id: 1}, {name: '校本课程', id: 2} ],
       shoolCourse: '',
-      courseVisible: false,
-      schoolCourseVisible: false,
+      editCourseVisible: false,
       course:
          [{typeId: 0, name: '语文', type: '必修', id: 1},
            {typeId: 0, name: '数学', type: '必修', id: 2},
@@ -106,26 +111,19 @@ export default {
       this.checkAll = checkedCount === this.cities.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
     },
-    setStandard () {
-      console.log('hello')
-      this.courseVisible = true
-      this.title = '设置国标课程'
+    addStandard () {
+      this.editCourseVisible = true
+      this.title = '添加国标课程'
     },
     addSchool () {
-      this.schoolCourseVisible = true
+      this.editCourseVisible = true
       this.title = '添加校本课程'
     },
     OK () {
-      this.courseVisible = false
+      this.editCourseVisible = false
     },
     Cancel () {
-      this.courseVisible = false
-    },
-    OK1 () {
-      this.schoolCourseVisible = false
-    },
-    Cancel1 () {
-      this.schoolCourseVisible = false
+      this.editCourseVisible = false
     }
   },
   components: {
