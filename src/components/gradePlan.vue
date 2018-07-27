@@ -4,9 +4,9 @@
       <div>课程名称</div>
       <div v-if="allCourses.length <= 0" class="course-item-container">暂无课程数据</div>
       <div v-else class="course-item-container">
-        <el-checkbox-group v-model="gradePlan">
-          <el-checkbox v-for="(item, index) in allCourses" :key="index"
-          :label="item">
+        <el-checkbox-group v-model="checkedCourse" @change="checkCourse">
+          <el-checkbox v-for="(item, index) in allCourses" :key="index" :disabled="isDisabled(item.id)"
+          :label="item.id">
             {{item.courseName}}
           </el-checkbox>
         </el-checkbox-group>
@@ -63,24 +63,67 @@ export default {
       gradePlan: [],
       allCourses: [],
       confirmBoxShow: false,
-      deleteItem: {}
+      deleteItem: {},
+      checkedCourse: []
     }
   },
   mounted () {
     this.getAllCourse()
     this.getGradePlan()
   },
+  computed: {
+
+  },
   methods: {
+    /**
+     * 选中之后的课程不能再被选
+     */
+    isDisabled (courseItem) {
+      const coursePlan = this.gradePlan.find(item => {
+        return item.courseId === courseItem
+      })
+      return this.checkedCourse.indexOf(courseItem) > -1 && !!coursePlan
+    },
+    checkCourse (data) {
+      data = data.filter(item => {
+        return !this.gradePlan.find(item1 => {
+          return item1.courseId === item
+        })
+      })
+
+      this.gradePlan = [...this.gradePlan, ...this.allCourses.filter(item => {
+        const result = data.find(item1 => {
+          return item.id === item1
+        })
+        if (result) {
+          item.isEdit = true
+          item.courseId = item.id
+        }
+        return result > -1
+      })]
+    },
     getAllCourse () {
-      baseService.getAllCourse()
+      return baseService.getAllCourse()
         .then(data => {
-          this.allCourses = data
+          this.allCourses = data.map(item => {
+            item.isEdit = false
+            return item
+          })
         })
     },
     getGradePlan () {
       baseService.getGradePlan()
         .then(data => {
           this.gradePlan = data
+          this.checkedCourse = this.gradePlan.map(item => {
+            // this.allCourses = this.allCourses.map(item1 => {
+            //   if (item1.id === item.courseId) {
+            //     item1.disabled = true
+            //   }
+            // })
+            return item.courseId
+          })
+          console.log(this.checkedCourse)
         })
     },
     save (coursePlan) {
