@@ -33,19 +33,88 @@ export default {
     return new Promise(resolve => {
       resolve([
         {
-          id: 1,
+          id: 4,
           courseName: '音乐鉴赏',
           isChecked: false
         },
         {
-          id: 2,
+          id: 5,
           courseName: '插花',
           isChecked: false
         },
         {
-          id: 3,
+          id: 6,
           courseName: '影视鉴赏',
           isChecked: false
+        }
+      ])
+    })
+  },
+  getAllCourse () {
+    return new Promise(resolve => {
+      resolve([
+        {
+          id: 1,
+          courseName: '语文',
+          type: 'standard'
+        },
+        {
+          id: 2,
+          courseName: '数学',
+          type: 'standard'
+        },
+        {
+          id: 3,
+          courseName: '英语',
+          type: 'standard'
+        },
+        {
+          id: 4,
+          courseName: '音乐鉴赏',
+          type: 'school'
+        },
+        {
+          id: 5,
+          courseName: '插花',
+          type: 'school'
+        },
+        {
+          id: 6,
+          courseName: '影视鉴赏',
+          type: 'school'
+        }
+      ])
+    })
+  },
+  getGradePlan () {
+    return new Promise(resolve => {
+      resolve([
+        {
+          id: 1,
+          courseName: '语文',
+          type: 'standard',
+          weekHours: 10,
+          totalHours: 100,
+          courseId: 1,
+          isEdit: false
+        },
+        {
+          id: 2,
+          courseName: '数学',
+          type: 'standard',
+          weekHours: 10,
+          totalHours: 100,
+          courseId: 2,
+          isEdit: false
+        },
+        {
+          id: 3,
+          courseName: '影视鉴赏',
+          type: 'school',
+          weekHours: 1,
+          totalHours: 4,
+          courseId: 6,
+          isEdit: false
         }
       ])
     })

@@ -59,8 +59,8 @@
           <el-table-column label="活动描述" prop="researchDesc"/>
           <el-table-column label="操作" prop="researchDesc">
             <template slot-scope="scope">
-              <span class="el-icon-edit" style="margin-right:10px;">编辑</span>
-              <span class="el-icon-close" @click="deleteRecord(scope.row)">删除</span>
+              <span class="el-icon-edit edit-button" style="margin-right:10px;">编辑</span>
+              <span class="el-icon-close delete-button" @click="deleteRecord(scope.row)">删除</span>
             </template>
           </el-table-column>
         </el-table>
