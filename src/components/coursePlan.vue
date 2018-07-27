@@ -40,10 +40,20 @@ export default {
         this.schoolCourses = data
       })
   },
+  methods: {
+    commitSettings () {
+      const standardCourses = this.standardCourses
+      const schoolCourses = this.schoolCourses
+      this.$store.commit('setArrangeSettings', {type: 'courseSetting', setting: {standardCourses, schoolCourses}})
+    }
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const standardCourses = this.standardCourses
-    const schoolCourses = this.schoolCourses
-    this.$store.commit('setArrangeSettings', {type: 'courseSetting', setting: {standardCourses, schoolCourses}})
+    this.commitSettings()
   }
 }
 </script>

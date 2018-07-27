@@ -47,9 +47,19 @@ export default {
         console.log(this.datas)
       })
   },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const phaseNoSchedule = this.datas
-    this.$store.commit('setArrangeSettings', {type: 'phaseNoSchedule', setting: phaseNoSchedule})
+    this.commitSettings()
+  },
+  methods: {
+    commitSettings () {
+      const phaseNoSchedule = this.datas
+      this.$store.commit('setArrangeSettings', {type: 'phaseNoSchedule', setting: phaseNoSchedule})
+    }
   },
   data () {
     return {

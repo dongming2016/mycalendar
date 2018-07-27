@@ -76,8 +76,12 @@ import baseService from '../service/base.service.js'
 export default {
   props: ['phaseType'],
   beforeDestroy () {
-    const publicActivity = this.publicActivityDatas
-    this.$store.commit('setArrangeSettings', {type: 'publicActivity', setting: publicActivity})
+    this.commitSettings()
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
   },
   data () {
     return {
@@ -120,6 +124,10 @@ export default {
     }
   },
   methods: {
+    commitSettings () {
+      const publicActivity = this.publicActivityDatas
+      this.$store.commit('setArrangeSettings', {type: 'publicActivity', setting: publicActivity})
+    },
     onSubmit () {
       this.$refs.publicActivity.validate((valid) => {
         if (valid) {

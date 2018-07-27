@@ -5,10 +5,10 @@
         <classesMenu @clickNode="clickNode"/>
       </el-aside>
       <el-main>
-        <settings :name="itemName" :type="type" :phaseType="id" :save="save"/>
+        <settings :name="itemName" :type="type" :phaseType="id"/>
         <div class="dialog-footer">
           <el-button class="save-button" @click="saveSetting">保存设置</el-button>
-          <el-button class="preview-button" @click="$emit('preview-schedule')">预览课表</el-button>
+          <el-button class="preview-button" @click="previewSchedule">预览课表</el-button>
         </div>
       </el-main>
     </el-container>
@@ -38,7 +38,13 @@ export default {
       this.itemName = data.label
     },
     saveSetting () {
+      this.$store.commit('switchSaveState')
       console.log(this.$store.getters.getArrangeSettings)
+    },
+    previewSchedule () {
+      this.$store.commit('switchSaveState')
+      console.log(this.$store.getters.getArrangeSettings)
+      this.$emit('preview-schedule')
     }
   },
   mounted () {

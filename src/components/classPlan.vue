@@ -158,12 +158,22 @@ export default {
       return getLabels()
     }
   },
+  methods: {
+    commitSettings () {
+      const classPlan = this.classPlan
+      this.$store.commit('setArrangeSettings', {type: 'classPlan', setting: classPlan})
+    }
+  },
   components: {
     WeekTemplate
   },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const classPlan = this.classPlan
-    this.$store.commit('setArrangeSettings', {type: 'classPlan', setting: classPlan})
+    this.commitSettings()
   }
 }
 </script>

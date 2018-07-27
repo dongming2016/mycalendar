@@ -80,8 +80,12 @@ export default {
     CourseScheduleTable
   },
   beforeDestroy () {
-    const researchSetting = this.researchSetting
-    this.$store.commit('setArrangeSettings', {type: 'researchSetting', setting: researchSetting})
+    this.commitSettings()
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
   },
   data () {
     return {
@@ -121,6 +125,10 @@ export default {
           return false
         }
       })
+    },
+    commitSettings () {
+      const researchSetting = this.researchSetting
+      this.$store.commit('setArrangeSettings', {type: 'researchSetting', setting: researchSetting})
     },
     deleteRecord (record) {
       this.confirmBoxShow = true

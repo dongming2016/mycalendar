@@ -36,18 +36,27 @@ export default {
         workdays: 5,
         classNum: 8,
         isSingle: 'false',
-        notSeries: []
+        notSeries: [],
+        saveState: this.$store.getters.switchSaveState
       }
     }
   },
   methods: {
     transformNotSeries (notSeriesId) {
       return `${notSeriesId}-${notSeriesId + 1}`
+    },
+    commitSettings () {
+      const baseSetting = this.baseSetting
+      this.$store.commit('setArrangeSettings', {type: 'baseSetting', setting: baseSetting})
+    }
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
     }
   },
   beforeDestroy () {
-    const baseSetting = this.baseSetting
-    this.$store.commit('setArrangeSettings', {type: 'baseSetting', setting: baseSetting})
+    this.commitSettings()
   }
 }
 </script>

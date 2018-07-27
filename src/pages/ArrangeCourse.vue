@@ -226,6 +226,7 @@ export default {
     // 预览课表
     previewSchdeule () {
       console.log('预览课表')
+      this.settingBoxShow = false
     },
     clickNode (data) {
       this.selectedItem = data

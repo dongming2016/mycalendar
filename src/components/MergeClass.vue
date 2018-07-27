@@ -110,13 +110,21 @@ export default {
     this.selectedCourse = this.courses[0]
   },
   beforeDestroy () {
-    const mergedClasses = this.mergedClasses
-    this.$store.commit('setArrangeSettings', {type: 'mergeClasses', setting: mergedClasses})
+    this.commitSettings()
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
   },
   methods: {
     clickCourse (course, index) {
       this.activeIndex = index
       this.selectedCourse = course
+    },
+    commitSettings () {
+      const mergedClasses = this.mergedClasses
+      this.$store.commit('setArrangeSettings', {type: 'mergeClasses', setting: mergedClasses})
     },
     mergeClass () {
       const classes = this.checkedClasses

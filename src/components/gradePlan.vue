@@ -71,9 +71,13 @@ export default {
     this.getAllCourse()
     this.getGradePlan()
   },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const gradePlan = this.gradePlan
-    this.$store.commit('setArrangeSettings', {type: 'gradePlan', setting: gradePlan})
+    this.commitSettings()
   },
   computed: {
 
@@ -87,6 +91,10 @@ export default {
         return item.courseId === courseItem
       })
       return this.checkedCourse.indexOf(courseItem) > -1 && !!coursePlan
+    },
+    commitSettings () {
+      const gradePlan = this.gradePlan
+      this.$store.commit('setArrangeSettings', {type: 'gradePlan', setting: gradePlan})
     },
     checkCourse (data) {
       data = data.filter(item => {

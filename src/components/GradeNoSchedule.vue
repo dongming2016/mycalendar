@@ -26,9 +26,13 @@ export default {
         console.log(this.datas)
       })
   },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const gradeNoSchedule = this.datas
-    this.$store.commit('setArrangeSettings', {type: 'gradeNoSchedule', setting: gradeNoSchedule})
+    this.commitSettings()
   },
   data () {
     return {
@@ -38,6 +42,12 @@ export default {
   },
   components: {
     CourseScheduleTable
+  },
+  methods: {
+    commitSettings () {
+      const gradeNoSchedule = this.datas
+      this.$store.commit('setArrangeSettings', {type: 'gradeNoSchedule', setting: gradeNoSchedule})
+    }
   }
 }
 </script>

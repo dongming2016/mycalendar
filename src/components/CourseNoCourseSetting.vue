@@ -30,6 +30,10 @@ export default {
   methods: {
     clickCourse (course, index) {
       this.activeIndex = index
+    },
+    commitSettings () {
+      const courseNoScheduleSetting = this.datas
+      this.$store.commit('setArrangeSettings', {type: 'courseNoScheduleSetting', setting: courseNoScheduleSetting})
     }
   },
   mounted () {
@@ -46,9 +50,13 @@ export default {
         this.courses = data
       })
   },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
+  },
   beforeDestroy () {
-    const courseNoScheduleSetting = this.datas
-    this.$store.commit('setArrangeSettings', {type: 'courseNoScheduleSetting', setting: courseNoScheduleSetting})
+    this.commitSettings()
   },
   data () {
     return {

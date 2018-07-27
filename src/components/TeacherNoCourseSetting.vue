@@ -35,6 +35,10 @@ export default {
     alphabet
   },
   methods: {
+    commitSettings () {
+      const teacherNoSchedule = this.datas
+      this.$store.commit('setArrangeSettings', {type: 'teacherNoSchedule', setting: teacherNoSchedule})
+    },
     clickTeacher (teacher, index) {
       this.activeIndex = index
     },
@@ -43,8 +47,12 @@ export default {
     }
   },
   beforeDestroy () {
-    const teacherNoSchedule = this.datas
-    this.$store.commit('setArrangeSettings', {type: 'teacherNoSchedule', setting: teacherNoSchedule})
+    this.commitSettings()
+  },
+  watch: {
+    '$store.getters.getSaveState' () {
+      this.commitSettings()
+    }
   },
   mounted () {
     baseService.getCourseBaseInfo()
