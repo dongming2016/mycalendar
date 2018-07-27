@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <el-steps simple class="setting-step" style="margin-bottom: 20px;margin-top:-20px;">
+        <el-step :status="getState[0]" title="学段设置" ></el-step>
+        <el-step :status="getState[1]" title="年级设置" ></el-step>
+        <el-step :status="getState[2]" title="班级设置" ></el-step>
+      </el-steps>
       <div class="tab-container">
         <div class="tab-item" v-for="(item, index) in buttonGroup[type].buttons" :key="index"
         @click="clickTab(index, item)"
@@ -42,12 +47,27 @@ export default {
     GradeNoSchedule,
     classPlan
   },
+  computed: {
+    getState () {
+      switch (this.type) {
+        case 'phase':
+          return ['finish', 'wait', 'wait']
+        case 'grade':
+          return ['wait', 'finish', 'wait']
+        case 'class':
+          return ['wait', 'wait', 'finish']
+        default:
+          return ['finish', 'wait', 'wait']
+      }
+    }
+  },
   methods: {
     clickTab (index, item) {
       this.buttonGroup[this.type].activeIndex = index
       this.buttonGroup[this.type].currentTabComponent = item.componentName
       this.buttonGroup[this.type].activeName = item.name
     }
+
   },
   props: ['name', 'type', 'phaseType'],
   data () {
@@ -128,6 +148,14 @@ export default {
 .tab-container {
   text-align: right;
   border-bottom: 2px solid #F5811E;
+}
+.setting-step .el-step.is-simple .el-step__arrow {
+  border-top: 2px solid #c0c4cc;
+  margin: 10px 20px 0 20px;
+}
+.setting-step .el-step.is-simple .el-step__arrow::after,
+.setting-step .el-step.is-simple .el-step__arrow::before {
+  content: initial;
 }
 .tab-item {
   display: inline-block;
