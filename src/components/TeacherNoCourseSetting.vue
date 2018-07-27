@@ -42,6 +42,10 @@ export default {
       this.teachers = this.indexedTeachers[index]
     }
   },
+  beforeDestroy () {
+    const teacherNoSchedule = this.datas
+    this.$store.commit('setArrangeSettings', {type: 'teacherNoSchedule', setting: teacherNoSchedule})
+  },
   mounted () {
     baseService.getCourseBaseInfo()
       .then(data => {

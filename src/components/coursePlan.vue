@@ -39,6 +39,11 @@ export default {
       .then(data => {
         this.schoolCourses = data
       })
+  },
+  beforeDestroy () {
+    const standardCourses = this.standardCourses
+    const schoolCourses = this.schoolCourses
+    this.$store.commit('setArrangeSettings', {type: 'courseSetting', setting: {standardCourses, schoolCourses}})
   }
 }
 </script>

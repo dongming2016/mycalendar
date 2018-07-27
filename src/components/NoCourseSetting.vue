@@ -47,28 +47,16 @@ export default {
         console.log(this.datas)
       })
   },
+  beforeDestroy () {
+    const phaseNoSchedule = this.datas
+    this.$store.commit('setArrangeSettings', {type: 'phaseNoSchedule', setting: phaseNoSchedule})
+  },
   data () {
     return {
       options: {},
       datas: []
-      // dialogVisible: false,
-      // notArrange: true,
-      // arrange: true,
-      // isClassOut: true,
-      // classes: [{id: '1', name: '一年级（1）班'}, {id: '2', name: '二年级（1）班'}]
     }
   },
-  // methods: {
-  //   OK () {
-  //     // @todo 保存设置信息
-  //     this.dialogVisible = false
-  //   }
-  // },
-  // computed: {
-  //   getOptions () {
-  //     return { labels: NoScheduleService.getLabels(), courses: NoScheduleService.getNoSchedule() }
-  //   }
-  // },
   components: {
     CourseScheduleTable
   }

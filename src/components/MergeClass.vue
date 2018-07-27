@@ -108,7 +108,10 @@ export default {
   },
   created () {
     this.selectedCourse = this.courses[0]
-    console.log(this.selectedCourse)
+  },
+  beforeDestroy () {
+    const mergedClasses = this.mergedClasses
+    this.$store.commit('setArrangeSettings', {type: 'mergeClasses', setting: mergedClasses})
   },
   methods: {
     clickCourse (course, index) {

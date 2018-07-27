@@ -79,6 +79,10 @@ export default {
   components: {
     CourseScheduleTable
   },
+  beforeDestroy () {
+    const researchSetting = this.researchSetting
+    this.$store.commit('setArrangeSettings', {type: 'researchSetting', setting: researchSetting})
+  },
   data () {
     return {
       researchData: {currentData: []},

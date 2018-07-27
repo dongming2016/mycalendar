@@ -46,6 +46,10 @@ export default {
         this.courses = data
       })
   },
+  beforeDestroy () {
+    const courseNoScheduleSetting = this.datas
+    this.$store.commit('setArrangeSettings', {type: 'courseNoScheduleSetting', setting: courseNoScheduleSetting})
+  },
   data () {
     return {
       options: {},

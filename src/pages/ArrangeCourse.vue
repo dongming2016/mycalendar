@@ -7,7 +7,7 @@
         <classesMenu class="class-menu" @clickNode="clickNode"/>
       </el-col>
       <el-dialog :visible.sync="settingBoxShow" class="grade-setting">
-        <settingBox/>
+        <settingBox @preview-schedule="previewSchdeule"/>
       </el-dialog>
       <el-col :span="16">
         <div>
@@ -223,6 +223,10 @@ export default {
     }
   },
   methods: {
+    // 预览课表
+    previewSchdeule () {
+      console.log('预览课表')
+    },
     clickNode (data) {
       this.selectedItem = data
       this.subCells = this.selectedItem.children || [ this.selectedItem ]

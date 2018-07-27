@@ -71,6 +71,10 @@ export default {
     this.getAllCourse()
     this.getGradePlan()
   },
+  beforeDestroy () {
+    const gradePlan = this.gradePlan
+    this.$store.commit('setArrangeSettings', {type: 'gradePlan', setting: gradePlan})
+  },
   computed: {
 
   },

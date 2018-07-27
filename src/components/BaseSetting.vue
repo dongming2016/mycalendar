@@ -44,6 +44,10 @@ export default {
     transformNotSeries (notSeriesId) {
       return `${notSeriesId}-${notSeriesId + 1}`
     }
+  },
+  beforeDestroy () {
+    const baseSetting = this.baseSetting
+    this.$store.commit('setArrangeSettings', {type: 'baseSetting', setting: baseSetting})
   }
 }
 </script>

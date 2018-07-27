@@ -135,6 +135,7 @@ export default {
       isWeekShow: false,
       selectedClass: '1',
       classNumber: 8,
+      classPlan: [],
       currentWeek: moment('2018-05-29').startOf('week'),
       classes: [{id: '1', name: '一年级(1)班'}, {id: '2', name: '一年级（2）班'}, {id: '3', name: '一年级（3）班'}]
     }
@@ -159,6 +160,10 @@ export default {
   },
   components: {
     WeekTemplate
+  },
+  beforeDestroy () {
+    const classPlan = this.classPlan
+    this.$store.commit('setArrangeSettings', {type: 'classPlan', setting: classPlan})
   }
 }
 </script>

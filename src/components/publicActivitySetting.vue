@@ -75,6 +75,10 @@ import baseService from '../service/base.service.js'
 
 export default {
   props: ['phaseType'],
+  beforeDestroy () {
+    const publicActivity = this.publicActivityDatas
+    this.$store.commit('setArrangeSettings', {type: 'publicActivity', setting: publicActivity})
+  },
   data () {
     return {
       rules: {

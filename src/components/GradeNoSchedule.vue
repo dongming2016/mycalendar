@@ -26,6 +26,10 @@ export default {
         console.log(this.datas)
       })
   },
+  beforeDestroy () {
+    const gradeNoSchedule = this.datas
+    this.$store.commit('setArrangeSettings', {type: 'gradeNoSchedule', setting: gradeNoSchedule})
+  },
   data () {
     return {
       options: {},
