@@ -288,8 +288,9 @@ export default {
   cursor: not-allowed;
 }
 .table-content {
-  height: 35px;
+  height: 31px;
   width: 100%;
+  padding: 2px 0;
 }
 /* .fc-head-content:first-child::before {
   content: '';

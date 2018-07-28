@@ -409,7 +409,7 @@ export default {
 }
 .daily-item {
   /* width: 55px; */
-  padding: 0 6px;
+  padding: 0 4px;
   display: inline-block;
   font-size: 12px;
   /* overflow:hidden;
