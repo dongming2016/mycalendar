@@ -43,20 +43,22 @@
             label="操作">
             <template slot-scope="props">
               <span class="operation-btn-item"  @click="editRecord(props.row)">
-                <i class="el-icon-edit"></i>
+                <i class="el-icon-edit icon-container"></i>
                 <span style="margin:0 10px 0 3px;">编辑</span>
               </span>
               <span class="operation-btn-item" @click="deleteRecord(props.row)">
-                <i class="el-icon-close"></i>
+                <i class="el-icon-close icon-container"></i>
                 <span style="margin:0 10px 0 3px;">删除</span>
               </span>
             </template>
           </el-table-column>
         </el-table>
+        <div style="margin-top:10px;">
          <el-pagination
             layout="total, sizes, prev, pager, next, jumper"
             :total="50">
           </el-pagination>
+        </div>
       </div>
     </div>
     <el-dialog :visible.sync="editCourseVisible" :title="title">
@@ -206,6 +208,14 @@ export default {
 }
 .operation-btn-item {
   cursor: pointer;
+}
+.icon-container {
+  width:24px;
+  height:24px;
+  border:1px solid #B6BBCD;
+  border-radius:50%;
+  line-height: 24px;
+  text-align: center;
 }
 /* .btn-item:first-child {
   border-bottom: 1px solid#E4E4E5;

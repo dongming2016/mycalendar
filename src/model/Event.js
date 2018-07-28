@@ -11,7 +11,9 @@ export default class Event {
    */
   constructor (id, currDate, time, content = {}, subcellId, weekDay, isIdle = true) {
     this.eventTime = new EventTime(currDate, time, weekDay, isIdle)
+    this.weekDay = weekDay
     this.content = content
+    this.originId = id
     this.id = this.eventTime.currDate.calendar() + '_' + id + '_' + subcellId
     this.subcellId = subcellId
   }
@@ -26,6 +28,11 @@ export default class Event {
 
   getSubcellId () {
     return this.subcellId
+  }
+
+  setSubcellId (subcellId) {
+    this.subcellId = subcellId
+    this.id = this.eventTime.currDate.calendar() + '_' + this.originId + '_' + subcellId
   }
 
   getCurrDate () {
@@ -50,5 +57,10 @@ export default class Event {
 
   isSame (event) {
     return this.eventTime.isSame(event.eventTime)
+  }
+
+  clone () {
+    return new Event(this.originId, this.currDate,
+      this.getTime(), this.getContent(), this.subcellId, this.weekDay)
   }
 }

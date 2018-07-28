@@ -22,3 +22,7 @@ export const isEmpty = obj => {
 export const isFunction = obj => {
   return Object.prototype.toString.call(obj) === FUNCTION_TYPE
 }
+
+export const cloneObject = obj => {
+  return JSON.parse(JSON.stringify(obj))
+}

@@ -30,6 +30,7 @@
                   v-dragable="{callback: moveEvent, args: {id: item2.id, subcellId: item2.subcellId,
                     content: item2.content, isInTable: true}}"
                 class="fc-event-dragable" v-if="item2.subcellId===item3.id">
+
                   <slot :data="item2"/>
                 </div>
               </div>

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <titleComponent :showTime="showTime" :menus="menus" :showMenu="showMenu"/>
+    <titleComponent :showTime="showTime" :menus="menus" :showMenu="showMenu" @clickMenu="clickMenu"/>
     <el-row type="flex"  class="title" justify="space-around">
       <el-col :span="4">
         <el-button @click="settingBoxShow=true">设置</el-button>
-        <classesMenu class="class-menu" @clickNode="clickNode"/>
+        <classesMenu v-if="currentTab==='classes'" class="class-menu" @clickNode="clickNode"/>
+        <teacherListMenu v-else @click-teacher="clickTeacher"/>
       </el-col>
       <el-dialog :visible.sync="settingBoxShow" class="grade-setting">
         <settingBox @preview-schedule="previewSchdeule"/>
@@ -33,10 +34,19 @@
           :subCells="subCells"
           :notArranged="notArranged"  ref="Week">
             <template slot-scope="scope">
-              <div class="label-container">
+              <div class="label-container" v-if="currentTab==='classes'">
                 <!-- <div style="display:inline-block;"> -->
                   <div class="class-container">{{scope.data.content.className}}</div>
                   <div class="daily-item">{{scope.data.content.courseName}}</div>
+                  <span>|</span>
+                  <div class="daily-item" style="width:36px;">{{scope.data.content.teacherName}}</div>
+                  <span class="el-icon-circle-close-outline" @click="removeEvent(scope.data)"></span>
+                <!-- </div> -->
+              </div>
+              <div class="label-container" v-if="currentTab==='teachers'">
+                <!-- <div style="display:inline-block;"> -->
+                  <div class="class-container">{{scope.data.content.expandName}}</div>
+                  <!-- <div class="daily-item">{{scope.data.content.courseName}}</div> -->
                   <span>|</span>
                   <div class="daily-item" style="width:36px;">{{scope.data.content.teacherName}}</div>
                   <span class="el-icon-circle-close-outline" @click="removeEvent(scope.data)"></span>
@@ -53,7 +63,7 @@
             <el-radio label="double">单周</el-radio>
           </el-radio-group>
         </div>
-        <div class="course-list-container">
+        <div class="course-list-container" v-if="currentTab==='classes'">
           <div class="course-list-title">
             <span class="el-icon-circle-plus-outline">{{courseTitle}}</span>
           </div>
@@ -113,6 +123,7 @@ import classesMenu from '../components/classesMenu'
 import settingBox from '../components/settingbox'
 import titleComponent from '../components/titleComponent'
 import scheduleService from '../service/schedule.service.js'
+import teacherListMenu from '../components/teacherList'
 
 const isLabelShow = (index) => {
   if (index === 0) {
@@ -149,7 +160,8 @@ export default {
     MergeClass,
     classesMenu,
     settingBox,
-    titleComponent
+    titleComponent,
+    teacherListMenu
   },
   data () {
     return {
@@ -168,6 +180,7 @@ export default {
       selectedItem: {},
       isSingleOrDouble: 'single',
       selectedClasses: '',
+      currentTab: 'teachers',
       fcHeader: [{id: 1, name: '节次', className: 'fc-my-header'}, {id: 2, name: '日程'}],
       options: { labels },
       events: [
@@ -228,6 +241,20 @@ export default {
       console.log('预览课表')
       this.settingBoxShow = false
     },
+    clickTeacher (teacher) {
+      this.subCells = [{id: teacher.id}]
+      this.getTeacherCourse(teacher.id)
+    },
+    getTeacherCourse (teacherId) {
+      scheduleService.getTeacherSchedule(teacherId)
+        .then(data => {
+          this.events = data
+          console.log(this.events)
+        })
+    },
+    clickMenu (menu) {
+      menu.id === 0 ? this.currentTab = 'classes' : this.currentTab = 'teachers'
+    },
     clickNode (data) {
       this.selectedItem = data
       this.subCells = this.selectedItem.children || [ this.selectedItem ]
@@ -236,6 +263,7 @@ export default {
           .then(data => {
             this.events = data.arranged
             this.notArranged = data.notArranged
+            console.log(this.events)
           })
       } else {
         scheduleService.getClassSchedule(data.id)
@@ -371,7 +399,9 @@ export default {
   border-radius: 10px;
   background: #BB28F2;
   color: #fff;
-  width: 40px;
+  /* width: 40px; */
+  padding: 0 12px;
+  margin-right: 6px;
   height: 20px;
   line-height: 20px;
   display: inline-block;

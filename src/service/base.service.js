@@ -150,7 +150,7 @@ export default {
     })
   },
   getTeachers (query) {
-    const data = {pageNum: 1, pageSize: 10}
+    const data = {pageNum: 1, pageSize: 50}
     Object.assign(data, query)
     return axios.post(`${baseInfo}/teacherInfo/selectListByPage`, data)
   }
